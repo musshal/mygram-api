@@ -18,10 +18,10 @@ type Photo struct {
 }
 
 type PhotoUseCase interface {
-	AddPhotoUseCase(context.Context, *User) error
-	GetPhotosUseCase(ctx context.Context) ([]Photo, error)
-	UpdatePhotoUseCase(ctx context.Context, photo *Photo) error
-	DeletePhotoUseCase(ctx context.Context, id string) error
+	AddPhoto(context.Context, *User) error
+	GetPhotos(ctx context.Context) ([]Photo, error)
+	UpdatePhoto(ctx context.Context, photo *Photo) error
+	DeletePhoto(ctx context.Context, id string) error
 }
 
 type PhotoRepository interface {

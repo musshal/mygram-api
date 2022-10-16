@@ -16,10 +16,10 @@ type SocialMedia struct {
 }
 
 type SocialMediaUseCase interface {
-	AddSocialMediaUseCase(context.Context, *SocialMedia) error
-	GetSocialMediasUseCase(ctx context.Context) ([]SocialMedia, error)
-	UpdateSocialMediaUseCase(ctx context.Context, socialMedia *SocialMedia) error
-	DeleteSocialMediaUseCase(ctx context.Context, id string) error
+	AddSocialMedia(context.Context, *SocialMedia) error
+	GetSocialMedias(ctx context.Context) ([]SocialMedia, error)
+	UpdateSocialMedia(ctx context.Context, socialMedia *SocialMedia) error
+	DeleteSocialMedia(ctx context.Context, id string) error
 }
 
 type SocialMediaRepository interface {

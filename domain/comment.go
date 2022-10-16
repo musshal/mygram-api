@@ -17,10 +17,10 @@ type Comment struct {
 }
 
 type CommentUseCase interface {
-	AddCommentUseCase(context.Context, *Comment) error
-	GetCommentsUseCase(ctx context.Context) ([]Comment, error)
-	UpdateCommentUseCase(ctx context.Context, comment *Comment) error
-	DeleteCommentUseCase(ctx context.Context, id string) error
+	AddComment(context.Context, *Comment) error
+	GetComments(ctx context.Context) ([]Comment, error)
+	UpdateComment(ctx context.Context, comment *Comment) error
+	DeleteComment(ctx context.Context, id string) error
 }
 
 type CommentRepository interface {

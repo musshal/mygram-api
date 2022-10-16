@@ -18,9 +18,9 @@ type User struct {
 }
 
 type UserUseCase interface {
-	AddUserUseCase(context.Context, *User) error
-	GetUsersUseCase(ctx context.Context) ([]User, error)
-	DeleteUserUseCase(ctx context.Context, id string) error
+	AddUser(context.Context, *User) error
+	GetUsers(ctx context.Context, cursor string, num uint) ([]User, string, error)
+	DeleteUser(ctx context.Context, id string) error
 }
 
 type UserRepository interface {
