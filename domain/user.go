@@ -19,7 +19,7 @@ type User struct {
 
 type UserUseCase interface {
 	AddUser(context.Context, *User) error
-	GetUsers(ctx context.Context, cursor string, num uint) ([]User, string, error)
+	GetUsers(ctx context.Context) ([]User, error)
 	DeleteUser(ctx context.Context, id string) error
 }
 
