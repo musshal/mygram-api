@@ -1,17 +1,20 @@
 package domain
 
-import "context"
+import (
+	"context"
+	"time"
+)
 
 type Photo struct {
-	ID        string    `gorm:"primaryKey;type:VARCHAR(50)" json:"id"`
-	Title     string    `gorm:"type:VARCHAR(50);not null" valid:"required" form:"title" json:"title"`
-	Caption   string    `form:"caption" json:"caption"`
-	PhotoUrl  string    `gorm:"not null" valid:"required" form:"photoUrl" json:"photoUrl"`
-	UserID    string    `gorm:"type:VARCHAR(50);not null" json:"userId"`
-	User      User      `gorm:"foreignKey:UserID;constraint:onUpdate:CASCADE,onDelete:CASCADE"`
-	CreatedAt string    `gorm:"type:timestamp;not null" json:"createdAt"`
-	UpdatedAt string    `gorm:"type:timestamp;not null" json:"updatedAt"`
-	Comments  []Comment `json:"comments"`
+	ID        string     `gorm:"primaryKey;type:VARCHAR(50)" json:"id"`
+	Title     string     `gorm:"type:VARCHAR(50);not null" valid:"required" form:"title" json:"title" binding:"required"`
+	Caption   string     `form:"caption" json:"caption"`
+	PhotoUrl  string     `gorm:"not null" valid:"required" form:"photoUrl" json:"photoUrl" binding:"required"`
+	UserID    string     `gorm:"type:VARCHAR(50);not null" json:"userId"`
+	User      User       `gorm:"foreignKey:UserID;constraint:onUpdate:CASCADE,onDelete:CASCADE"`
+	CreatedAt *time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
+	UpdatedAt *time.Time `gorm:"not null;autoCreateTime" json:"updatedAt"`
+	Comments  []Comment  `json:"comments"`
 }
 
 type PhotoUseCase interface {

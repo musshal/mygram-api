@@ -1,15 +1,18 @@
 package domain
 
-import "context"
+import (
+	"context"
+	"time"
+)
 
 type User struct {
 	ID           string        `gorm:"primaryKey;type:VARCHAR(50)" json:"id"`
-	Username     string        `gorm:"type:VARCHAR(50);unique;not null" valid:"required" form:"username" json:"username"`
-	Email        string        `gorm:"type:VARCHAR(50);unique;not null" valid:"email,required" form:"email" json:"email"`
-	Password     string        `gorm:"not null" valid:"required,minstringlength(6)" form:"password" json:"password"`
-	Age          uint          `gorm:"not null" valid:"required" validate:"min=8" form:"age" json:"age"`
-	CreatedAt    string        `gorm:"type:timestamp;not null" json:"createdAt"`
-	UpdatedAt    string        `gorm:"type:timestamp;not null" json:"updatedAt"`
+	Username     string        `gorm:"type:VARCHAR(50);unique;not null" valid:"required" form:"username" json:"username" binding:"required"`
+	Email        string        `gorm:"type:VARCHAR(50);unique;not null" valid:"email,required" form:"email" json:"email" binding:"required"`
+	Password     string        `gorm:"not null" valid:"required,minstringlength(6)" form:"password" json:"password" binding:"required"`
+	Age          uint          `gorm:"not null" valid:"required" validate:"min=8" form:"age" json:"age" binding:"required"`
+	CreatedAt    *time.Time    `gorm:"not null;autoCreateTime" json:"createdAt"`
+	UpdatedAt    *time.Time    `gorm:"not null;autocreateTime" json:"updatedAt"`
 	Photos       []Photo       `json:"photos"`
 	SocialMedias []SocialMedia `json:"socialMedias"`
 }
