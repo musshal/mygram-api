@@ -28,6 +28,48 @@ func (_m *UserRepository) AddUser(ctx context.Context, user *domain.User) error 
 	return r0
 }
 
+// CheckEmail provides a mock function with given fields: ctx, email
+func (_m *UserRepository) CheckEmail(ctx context.Context, email string) error {
+	ret := _m.Called(ctx, email)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
+		r0 = rf(ctx, email)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// CheckUser provides a mock function with given fields: ctx, id
+func (_m *UserRepository) CheckUser(ctx context.Context, id string) error {
+	ret := _m.Called(ctx, id)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
+		r0 = rf(ctx, id)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// CheckUsername provides a mock function with given fields: ctx, username
+func (_m *UserRepository) CheckUsername(ctx context.Context, username string) error {
+	ret := _m.Called(ctx, username)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
+		r0 = rf(ctx, username)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // DeleteUser provides a mock function with given fields: ctx, id
 func (_m *UserRepository) DeleteUser(ctx context.Context, id string) error {
 	ret := _m.Called(ctx, id)
