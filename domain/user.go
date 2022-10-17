@@ -25,6 +25,8 @@ type UserUseCase interface {
 
 type UserRepository interface {
 	AddUser(ctx context.Context, user *User) error
+	GetUsername(ctx context.Context, username string) (string, error)
+	GetEmail(ctx context.Context, email string) (string, error)
 	GetUsers(ctx context.Context) (users []User, err error)
 	DeleteUser(ctx context.Context, id string) error
 }

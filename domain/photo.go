@@ -6,7 +6,7 @@ import (
 )
 
 type Photo struct {
-	ID        string     `gorm:"primaryKey;type:VARCHAR(50)" json:"id"`
+	ID        string     `gorm:"primaryKey;type:VARCHAR(50)" json:"id" binding:"required"`
 	Title     string     `gorm:"type:VARCHAR(50);not null" valid:"required" form:"title" json:"title" binding:"required"`
 	Caption   string     `form:"caption" json:"caption"`
 	PhotoUrl  string     `gorm:"not null" valid:"required" form:"photoUrl" json:"photoUrl" binding:"required"`
