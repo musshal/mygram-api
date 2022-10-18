@@ -116,7 +116,7 @@ func (route *userRoutes) Update(c *gin.Context) {
 	)
 
 	userData := c.MustGet("userData").(jwt.MapClaims)
-	userID := uint(userData["id"].(float64))
+	userID := string(userData["id"].(string))
 
 	err = c.ShouldBindJSON(&user)
 	if err != nil {
@@ -152,7 +152,7 @@ func (route *userRoutes) Update(c *gin.Context) {
 
 func (route *userRoutes) Delete(c *gin.Context) {
 	userData := c.MustGet("userData").(jwt.MapClaims)
-	userID := uint(userData["id"].(float64))
+	userID := string(userData["id"].(string))
 
 	err := route.uuc.Delete(c, userID)
 	if err != nil {

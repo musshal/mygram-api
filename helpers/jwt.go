@@ -11,7 +11,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func GenerateToken(id uint, email string) (string, error) {
+func GenerateToken(id string, email string) (string, error) {
 	claims := jwt.MapClaims{
 		"id":    id,
 		"email": email,

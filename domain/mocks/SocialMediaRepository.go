@@ -15,11 +15,11 @@ type SocialMediaRepository struct {
 }
 
 // Delete provides a mock function with given fields: _a0, _a1
-func (_m *SocialMediaRepository) Delete(_a0 context.Context, _a1 uint) error {
+func (_m *SocialMediaRepository) Delete(_a0 context.Context, _a1 string) error {
 	ret := _m.Called(_a0, _a1)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, uint) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
 		r0 = rf(_a0, _a1)
 	} else {
 		r0 = ret.Error(0)
@@ -29,11 +29,11 @@ func (_m *SocialMediaRepository) Delete(_a0 context.Context, _a1 uint) error {
 }
 
 // Fetch provides a mock function with given fields: _a0, _a1, _a2
-func (_m *SocialMediaRepository) Fetch(_a0 context.Context, _a1 *[]domain.SocialMedia, _a2 uint) error {
+func (_m *SocialMediaRepository) Fetch(_a0 context.Context, _a1 *[]domain.SocialMedia, _a2 string) error {
 	ret := _m.Called(_a0, _a1, _a2)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, *[]domain.SocialMedia, uint) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *[]domain.SocialMedia, string) error); ok {
 		r0 = rf(_a0, _a1, _a2)
 	} else {
 		r0 = ret.Error(0)
@@ -43,11 +43,11 @@ func (_m *SocialMediaRepository) Fetch(_a0 context.Context, _a1 *[]domain.Social
 }
 
 // GetByUserID provides a mock function with given fields: _a0, _a1, _a2
-func (_m *SocialMediaRepository) GetByUserID(_a0 context.Context, _a1 *domain.SocialMedia, _a2 uint) error {
+func (_m *SocialMediaRepository) GetByUserID(_a0 context.Context, _a1 *domain.SocialMedia, _a2 string) error {
 	ret := _m.Called(_a0, _a1, _a2)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.SocialMedia, uint) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.SocialMedia, string) error); ok {
 		r0 = rf(_a0, _a1, _a2)
 	} else {
 		r0 = ret.Error(0)
@@ -71,18 +71,18 @@ func (_m *SocialMediaRepository) Store(_a0 context.Context, _a1 *domain.SocialMe
 }
 
 // Update provides a mock function with given fields: _a0, _a1, _a2
-func (_m *SocialMediaRepository) Update(_a0 context.Context, _a1 domain.SocialMedia, _a2 uint) (domain.SocialMedia, error) {
+func (_m *SocialMediaRepository) Update(_a0 context.Context, _a1 domain.SocialMedia, _a2 string) (domain.SocialMedia, error) {
 	ret := _m.Called(_a0, _a1, _a2)
 
 	var r0 domain.SocialMedia
-	if rf, ok := ret.Get(0).(func(context.Context, domain.SocialMedia, uint) domain.SocialMedia); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, domain.SocialMedia, string) domain.SocialMedia); ok {
 		r0 = rf(_a0, _a1, _a2)
 	} else {
 		r0 = ret.Get(0).(domain.SocialMedia)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, domain.SocialMedia, uint) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, domain.SocialMedia, string) error); ok {
 		r1 = rf(_a0, _a1, _a2)
 	} else {
 		r1 = ret.Error(1)

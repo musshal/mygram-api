@@ -9,10 +9,10 @@ import (
 )
 
 type Comment struct {
-	ID        uint       `gorm:"primaryKey" json:"id"`
-	UserID    uint       `gorm:"not null" json:"userId"`
+	ID        string     `gorm:"primaryKey;type:VARCHAR(50)" json:"id"`
+	UserID    string     `gorm:"type:VARCHAR(50);not null" json:"userId"`
 	User      User       `gorm:"foreignKey:UserID;constraint:opUpdate:CASCADE,onDelete:CASCADE"`
-	PhotoID   uint       `gorm:"not null" form:"photoId" json:"photoId"`
+	PhotoID   string     `gorm:"type:VARCHAR(50);not null" form:"photoId" json:"photoId"`
 	Photo     Photo      `gorm:"foreignKey:PhotoID;constraint:opUpdate:CASCADE,onDelete:CASCADE"`
 	Message   string     `gorm:"not null" valid:"required" form:"message" json:"message"`
 	CreatedAt *time.Time `gorm:"not null;autoCreateTime" json:"createdAt,omitempty"`
@@ -35,17 +35,17 @@ func (c *Comment) BeforeUpdate(db *gorm.DB) (err error) {
 }
 
 type CommentUseCase interface {
-	Fetch(context.Context, *[]Comment, uint) error
+	Fetch(context.Context, *[]Comment, string) error
 	Store(context.Context, *Comment) error
-	GetByUserID(context.Context, *Comment, uint) error
-	Update(context.Context, Comment, uint) (Comment, error)
-	Delete(context.Context, uint) error
+	GetByUserID(context.Context, *Comment, string) error
+	Update(context.Context, Comment, string) (Comment, error)
+	Delete(context.Context, string) error
 }
 
 type CommentRepository interface {
-	Fetch(context.Context, *[]Comment, uint) error
+	Fetch(context.Context, *[]Comment, string) error
 	Store(context.Context, *Comment) error
-	GetByUserID(context.Context, *Comment, uint) error
-	Update(context.Context, Comment, uint) (Comment, error)
-	Delete(context.Context, uint) error
+	GetByUserID(context.Context, *Comment, string) error
+	Update(context.Context, Comment, string) (Comment, error)
+	Delete(context.Context, string) error
 }

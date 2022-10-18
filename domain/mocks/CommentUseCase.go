@@ -15,11 +15,11 @@ type CommentUseCase struct {
 }
 
 // Delete provides a mock function with given fields: _a0, _a1
-func (_m *CommentUseCase) Delete(_a0 context.Context, _a1 uint) error {
+func (_m *CommentUseCase) Delete(_a0 context.Context, _a1 string) error {
 	ret := _m.Called(_a0, _a1)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, uint) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
 		r0 = rf(_a0, _a1)
 	} else {
 		r0 = ret.Error(0)
@@ -29,11 +29,11 @@ func (_m *CommentUseCase) Delete(_a0 context.Context, _a1 uint) error {
 }
 
 // Fetch provides a mock function with given fields: _a0, _a1, _a2
-func (_m *CommentUseCase) Fetch(_a0 context.Context, _a1 *[]domain.Comment, _a2 uint) error {
+func (_m *CommentUseCase) Fetch(_a0 context.Context, _a1 *[]domain.Comment, _a2 string) error {
 	ret := _m.Called(_a0, _a1, _a2)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, *[]domain.Comment, uint) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *[]domain.Comment, string) error); ok {
 		r0 = rf(_a0, _a1, _a2)
 	} else {
 		r0 = ret.Error(0)
@@ -43,11 +43,11 @@ func (_m *CommentUseCase) Fetch(_a0 context.Context, _a1 *[]domain.Comment, _a2 
 }
 
 // GetByUserID provides a mock function with given fields: _a0, _a1, _a2
-func (_m *CommentUseCase) GetByUserID(_a0 context.Context, _a1 *domain.Comment, _a2 uint) error {
+func (_m *CommentUseCase) GetByUserID(_a0 context.Context, _a1 *domain.Comment, _a2 string) error {
 	ret := _m.Called(_a0, _a1, _a2)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.Comment, uint) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.Comment, string) error); ok {
 		r0 = rf(_a0, _a1, _a2)
 	} else {
 		r0 = ret.Error(0)
@@ -71,18 +71,18 @@ func (_m *CommentUseCase) Store(_a0 context.Context, _a1 *domain.Comment) error 
 }
 
 // Update provides a mock function with given fields: _a0, _a1, _a2
-func (_m *CommentUseCase) Update(_a0 context.Context, _a1 domain.Comment, _a2 uint) (domain.Comment, error) {
+func (_m *CommentUseCase) Update(_a0 context.Context, _a1 domain.Comment, _a2 string) (domain.Comment, error) {
 	ret := _m.Called(_a0, _a1, _a2)
 
 	var r0 domain.Comment
-	if rf, ok := ret.Get(0).(func(context.Context, domain.Comment, uint) domain.Comment); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, domain.Comment, string) domain.Comment); ok {
 		r0 = rf(_a0, _a1, _a2)
 	} else {
 		r0 = ret.Get(0).(domain.Comment)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, domain.Comment, uint) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, domain.Comment, string) error); ok {
 		r1 = rf(_a0, _a1, _a2)
 	} else {
 		r1 = ret.Error(1)

@@ -29,7 +29,7 @@ func (userUseCase *userUseCase) Login(ctx context.Context, user *domain.User) (e
 	return
 }
 
-func (userUseCase *userUseCase) Update(ctx context.Context, user domain.User, id uint) (u domain.User, err error) {
+func (userUseCase *userUseCase) Update(ctx context.Context, user domain.User, id string) (u domain.User, err error) {
 	u, err = userUseCase.userRepository.Update(ctx, user, id)
 
 	if err != nil {
@@ -39,7 +39,7 @@ func (userUseCase *userUseCase) Update(ctx context.Context, user domain.User, id
 	return u, nil
 }
 
-func (userUseCase *userUseCase) Delete(ctx context.Context, id uint) (err error) {
+func (userUseCase *userUseCase) Delete(ctx context.Context, id string) (err error) {
 	if err = userUseCase.userRepository.Delete(ctx, id); err != nil {
 		return err
 	}

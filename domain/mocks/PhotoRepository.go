@@ -15,11 +15,11 @@ type PhotoRepository struct {
 }
 
 // Delete provides a mock function with given fields: _a0, _a1
-func (_m *PhotoRepository) Delete(_a0 context.Context, _a1 uint) error {
+func (_m *PhotoRepository) Delete(_a0 context.Context, _a1 string) error {
 	ret := _m.Called(_a0, _a1)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, uint) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
 		r0 = rf(_a0, _a1)
 	} else {
 		r0 = ret.Error(0)
@@ -43,11 +43,11 @@ func (_m *PhotoRepository) Fetch(_a0 context.Context, _a1 *[]domain.Photo) error
 }
 
 // GetByID provides a mock function with given fields: _a0, _a1, _a2
-func (_m *PhotoRepository) GetByID(_a0 context.Context, _a1 *domain.Photo, _a2 uint) error {
+func (_m *PhotoRepository) GetByID(_a0 context.Context, _a1 *domain.Photo, _a2 string) error {
 	ret := _m.Called(_a0, _a1, _a2)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.Photo, uint) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.Photo, string) error); ok {
 		r0 = rf(_a0, _a1, _a2)
 	} else {
 		r0 = ret.Error(0)
@@ -57,11 +57,11 @@ func (_m *PhotoRepository) GetByID(_a0 context.Context, _a1 *domain.Photo, _a2 u
 }
 
 // GetByUserID provides a mock function with given fields: _a0, _a1, _a2
-func (_m *PhotoRepository) GetByUserID(_a0 context.Context, _a1 *domain.Photo, _a2 uint) error {
+func (_m *PhotoRepository) GetByUserID(_a0 context.Context, _a1 *domain.Photo, _a2 string) error {
 	ret := _m.Called(_a0, _a1, _a2)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.Photo, uint) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.Photo, string) error); ok {
 		r0 = rf(_a0, _a1, _a2)
 	} else {
 		r0 = ret.Error(0)
@@ -85,18 +85,18 @@ func (_m *PhotoRepository) Store(_a0 context.Context, _a1 *domain.Photo) error {
 }
 
 // Update provides a mock function with given fields: _a0, _a1, _a2
-func (_m *PhotoRepository) Update(_a0 context.Context, _a1 domain.Photo, _a2 uint) (domain.Photo, error) {
+func (_m *PhotoRepository) Update(_a0 context.Context, _a1 domain.Photo, _a2 string) (domain.Photo, error) {
 	ret := _m.Called(_a0, _a1, _a2)
 
 	var r0 domain.Photo
-	if rf, ok := ret.Get(0).(func(context.Context, domain.Photo, uint) domain.Photo); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, domain.Photo, string) domain.Photo); ok {
 		r0 = rf(_a0, _a1, _a2)
 	} else {
 		r0 = ret.Get(0).(domain.Photo)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, domain.Photo, uint) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, domain.Photo, string) error); ok {
 		r1 = rf(_a0, _a1, _a2)
 	} else {
 		r1 = ret.Error(1)

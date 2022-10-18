@@ -3,10 +3,12 @@ package repository
 import (
 	"context"
 	"errors"
+	"fmt"
 	"mygram-api/domain"
 	"mygram-api/helpers"
 	"time"
 
+	gonanoid "github.com/matoous/go-nanoid/v2"
 	"gorm.io/gorm"
 )
 
@@ -22,6 +24,10 @@ func (userRepository *userRepository) Register(ctx context.Context, user *domain
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 
 	defer cancel()
+
+	ID, _ := gonanoid.New(16)
+
+	user.ID = fmt.Sprintf("user-%s", ID)
 
 	err = userRepository.db.Debug().WithContext(ctx).Create(&user).Error
 
@@ -50,7 +56,7 @@ func (userRepository *userRepository) Login(ctx context.Context, user *domain.Us
 	return
 }
 
-func (userRepository *userRepository) Update(ctx context.Context, user domain.User, id uint) (u domain.User, err error) {
+func (userRepository *userRepository) Update(ctx context.Context, user domain.User, id string) (u domain.User, err error) {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 
 	defer cancel()
@@ -68,7 +74,7 @@ func (userRepository *userRepository) Update(ctx context.Context, user domain.Us
 	return u, nil
 }
 
-func (userRepository *userRepository) Delete(ctx context.Context, id uint) (err error) {
+func (userRepository *userRepository) Delete(ctx context.Context, id string) (err error) {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 
 	defer cancel()
