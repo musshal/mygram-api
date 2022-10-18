@@ -10,7 +10,7 @@ import (
 
 type SocialMedia struct {
 	ID             string     `gorm:"primaryKey;type:VARCHAR(50)" json:"id"`
-	Name           string     `gorm:"type:VARCHAR(50);not null" valid:"required" form:"name" json:"name" example:"Facebook"`
+	Name           string     `gorm:"type:VARCHAR(50);not null" valid:"required" form:"name" json:"name" example:"Social Media"`
 	SocialMediaURL string     `gorm:"not null" valid:"required" form:"socialMediaUrl" json:"socialMediaUrl" example:"https://www.example.com/social-media"`
 	UserID         string     `gorm:"type:VARCHAR(50);not null" json:"userId"`
 	User           User       `gorm:"foreignKey:UserID;constraint:opUpdate:CASCADE,onDelete:CASCADE"`

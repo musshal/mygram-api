@@ -11,11 +11,11 @@ import (
 )
 
 type userRoutes struct {
-	uuc domain.UserUseCase
+	userUseCase domain.UserUseCase
 }
 
-func NewUserRoute(handlers *gin.Engine, uuc domain.UserUseCase) {
-	route := &userRoutes{uuc}
+func NewUserRoute(handlers *gin.Engine, userUseCase domain.UserUseCase) {
+	route := &userRoutes{userUseCase}
 
 	handler := handlers.Group("/users")
 	{
@@ -26,38 +26,49 @@ func NewUserRoute(handlers *gin.Engine, uuc domain.UserUseCase) {
 	}
 }
 
-func (route *userRoutes) Register(c *gin.Context) {
+func (route *userRoutes) Register(ctx *gin.Context) {
 	var (
 		user domain.User
 		err  error
 	)
 
-	err = c.ShouldBindJSON(&user)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+	if err = ctx.ShouldBindJSON(&user); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
 		})
+
 		return
 	}
 
-	err = route.uuc.Register(c.Request.Context(), &user)
-	if err != nil {
-		if strings.Contains(err.Error(), "duplicate") {
-			c.AbortWithStatusJSON(http.StatusConflict, gin.H{
+	if err = route.userUseCase.Register(ctx.Request.Context(), &user); err != nil {
+		if strings.Contains(err.Error(), "idx_users_username") {
+			ctx.AbortWithStatusJSON(http.StatusConflict, gin.H{
 				"error":   "Conflict",
-				"message": "You can't use invalid or duplicate emails and/or username",
+				"message": "The username you entered has been used",
 			})
+
 			return
 		}
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+
+		if strings.Contains(err.Error(), "idx_users_email") {
+			ctx.AbortWithStatusJSON(http.StatusConflict, gin.H{
+				"error":   "Conflict",
+				"message": "The Email you entered has been used",
+			})
+
+			return
+		}
+
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
 		})
+
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{
+	ctx.JSON(http.StatusCreated, gin.H{
 		"id":       user.ID,
 		"email":    user.Email,
 		"username": user.Username,
@@ -65,48 +76,45 @@ func (route *userRoutes) Register(c *gin.Context) {
 	})
 }
 
-func (route *userRoutes) Login(c *gin.Context) {
+func (route *userRoutes) Login(ctx *gin.Context) {
 	var (
 		user  domain.User
 		err   error
 		token string
 	)
 
-	err = c.ShouldBindJSON(&user)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+	if err = ctx.ShouldBindJSON(&user); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
 		})
 		return
 	}
 
-	err = route.uuc.Login(c.Request.Context(), &user)
-	if err != nil {
+	if err = route.userUseCase.Login(ctx.Request.Context(), &user); err != nil {
 		if strings.Contains(err.Error(), "invalid password") {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"error":   "Unauthorized",
 				"message": err.Error(),
 			})
 			return
 		}
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
 		})
 		return
 	}
 
-	token, err = helpers.GenerateToken(user.ID, user.Email)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+	if token, err = helpers.GenerateToken(user.ID, user.Email); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"token": token})
+	ctx.JSON(http.StatusOK, gin.H{"token": token})
 }
 
 func (route *userRoutes) Update(c *gin.Context) {
@@ -132,7 +140,7 @@ func (route *userRoutes) Update(c *gin.Context) {
 		Email:    user.Email,
 	}
 
-	user, err = route.uuc.Update(c.Request.Context(), updatedUser, userID)
+	user, err = route.userUseCase.Update(c.Request.Context(), updatedUser, userID)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
@@ -154,7 +162,7 @@ func (route *userRoutes) Delete(c *gin.Context) {
 	userData := c.MustGet("userData").(jwt.MapClaims)
 	userID := string(userData["id"].(string))
 
-	err := route.uuc.Delete(c, userID)
+	err := route.userUseCase.Delete(c, userID)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",

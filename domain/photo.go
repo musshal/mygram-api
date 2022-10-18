@@ -10,7 +10,7 @@ import (
 
 type Photo struct {
 	ID        string     `gorm:"primaryKey;type:VARCHAR(50)" json:"id"`
-	Title     string     `gorm:"type:VARCHAR(50);not null" valid:"required" form:"title" json:"title" example:"Title"`
+	Title     string     `gorm:"type:VARCHAR(50);not null" valid:"required" form:"title" json:"title" example:"A Photo Title"`
 	Caption   string     `form:"caption" json:"caption"`
 	PhotoUrl  string     `gorm:"not null" valid:"required" form:"photoUrl" json:"photoUrl" example:"https://www.example.com/image.jpg"`
 	UserID    string     `gorm:"type:VARCHAR(50);not null" json:"userId"`

@@ -29,9 +29,7 @@ func (userRepository *userRepository) Register(ctx context.Context, user *domain
 
 	user.ID = fmt.Sprintf("user-%s", ID)
 
-	err = userRepository.db.Debug().WithContext(ctx).Create(&user).Error
-
-	if err != nil {
+	if err = userRepository.db.Debug().WithContext(ctx).Create(&user).Error; err != nil {
 		return err
 	}
 
