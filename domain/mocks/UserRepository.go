@@ -28,6 +28,20 @@ func (_m *UserRepository) Delete(_a0 context.Context, _a1 uint) error {
 	return r0
 }
 
+// Login provides a mock function with given fields: _a0, _a1
+func (_m *UserRepository) Login(_a0 context.Context, _a1 *domain.User) error {
+	ret := _m.Called(_a0, _a1)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.User) error); ok {
+		r0 = rf(_a0, _a1)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // Register provides a mock function with given fields: _a0, _a1
 func (_m *UserRepository) Register(_a0 context.Context, _a1 *domain.User) error {
 	ret := _m.Called(_a0, _a1)
@@ -61,20 +75,6 @@ func (_m *UserRepository) Update(_a0 context.Context, _a1 domain.User, _a2 uint)
 	}
 
 	return r0, r1
-}
-
-// User provides a mock function with given fields: _a0, _a1
-func (_m *UserRepository) User(_a0 context.Context, _a1 *domain.User) error {
-	ret := _m.Called(_a0, _a1)
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.User) error); ok {
-		r0 = rf(_a0, _a1)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
 }
 
 type mockConstructorTestingTNewUserRepository interface {

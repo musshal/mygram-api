@@ -18,7 +18,7 @@ func NewUserRepository(db *gorm.DB) *userRepository {
 	return &userRepository{db}
 }
 
-func (userRepository *userRepository) UserRegister(ctx context.Context, user *domain.User) (err error) {
+func (userRepository *userRepository) Register(ctx context.Context, user *domain.User) (err error) {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 
 	defer cancel()
@@ -32,7 +32,7 @@ func (userRepository *userRepository) UserRegister(ctx context.Context, user *do
 	return
 }
 
-func (userRepository *userRepository) UserLogin(ctx context.Context, user *domain.User) (err error) {
+func (userRepository *userRepository) Login(ctx context.Context, user *domain.User) (err error) {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 
 	defer cancel()
@@ -50,7 +50,7 @@ func (userRepository *userRepository) UserLogin(ctx context.Context, user *domai
 	return
 }
 
-func (userRepository *userRepository) UpdateUser(ctx context.Context, user domain.User, id string) (u domain.User, err error) {
+func (userRepository *userRepository) Update(ctx context.Context, user domain.User, id uint) (u domain.User, err error) {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 
 	defer cancel()
@@ -68,7 +68,7 @@ func (userRepository *userRepository) UpdateUser(ctx context.Context, user domai
 	return u, nil
 }
 
-func (userRepository *userRepository) DeleteUser(ctx context.Context, id string) (err error) {
+func (userRepository *userRepository) Delete(ctx context.Context, id uint) (err error) {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 
 	defer cancel()

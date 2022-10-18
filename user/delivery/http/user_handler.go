@@ -17,14 +17,14 @@ func NewUserRoute(handlers *gin.Engine, userUseCase domain.UserUseCase) {
 
 	handler := handlers.Group("/users")
 	{
-		handler.POST("/register", route.UserRegister)
+		handler.POST("/register", route.Register)
 		// handler.POST("/login", route.UserLogin)
 		// handler.PUT("/", middleware.Authentication(), route.UpdateUser)
 		// handler.DELETE("/", middleware.Authentication(), route.DeleteUser)
 	}
 }
 
-func (route *userRoute) UserRegister(ctx *gin.Context) {
+func (route *userRoute) Register(ctx *gin.Context) {
 	var (
 		user domain.User
 		err  error
@@ -41,7 +41,7 @@ func (route *userRoute) UserRegister(ctx *gin.Context) {
 		return
 	}
 
-	err = route.userUseCase.UserRegister(ctx.Request.Context(), &user)
+	err = route.userUseCase.Register(ctx.Request.Context(), &user)
 
 	if err != nil {
 		if strings.Contains(err.Error(), "duplicate") {
@@ -69,14 +69,14 @@ func (route *userRoute) UserRegister(ctx *gin.Context) {
 	})
 }
 
-func (route *userRoute) UserLogin(ctx *gin.Context) {
+func (route *userRoute) Login(ctx *gin.Context) {
 	return
 }
 
-func (route *userRoute) UpdateUser(ctx *gin.Context) {
+func (route *userRoute) Update(ctx *gin.Context) {
 	return
 }
 
-func (route *userRoute) DeleteUser(ctx *gin.Context) {
+func (route *userRoute) Delete(ctx *gin.Context) {
 	return
 }

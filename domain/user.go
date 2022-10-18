@@ -48,7 +48,7 @@ type UserUseCase interface {
 
 type UserRepository interface {
 	Register(context.Context, *User) error
-	User(context.Context, *User) error
+	Login(context.Context, *User) error
 	Update(context.Context, User, uint) (User, error)
 	Delete(context.Context, uint) error
 }
