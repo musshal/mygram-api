@@ -14,13 +14,55 @@ type SocialMediaRepository struct {
 	mock.Mock
 }
 
-// AddSocialMedia provides a mock function with given fields: ctx, socialMedia
-func (_m *SocialMediaRepository) AddSocialMedia(ctx context.Context, socialMedia *domain.SocialMedia) error {
-	ret := _m.Called(ctx, socialMedia)
+// Delete provides a mock function with given fields: _a0, _a1
+func (_m *SocialMediaRepository) Delete(_a0 context.Context, _a1 uint) error {
+	ret := _m.Called(_a0, _a1)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, uint) error); ok {
+		r0 = rf(_a0, _a1)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// Fetch provides a mock function with given fields: _a0, _a1, _a2
+func (_m *SocialMediaRepository) Fetch(_a0 context.Context, _a1 *[]domain.SocialMedia, _a2 uint) error {
+	ret := _m.Called(_a0, _a1, _a2)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, *[]domain.SocialMedia, uint) error); ok {
+		r0 = rf(_a0, _a1, _a2)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// GetByUserID provides a mock function with given fields: _a0, _a1, _a2
+func (_m *SocialMediaRepository) GetByUserID(_a0 context.Context, _a1 *domain.SocialMedia, _a2 uint) error {
+	ret := _m.Called(_a0, _a1, _a2)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.SocialMedia, uint) error); ok {
+		r0 = rf(_a0, _a1, _a2)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// Store provides a mock function with given fields: _a0, _a1
+func (_m *SocialMediaRepository) Store(_a0 context.Context, _a1 *domain.SocialMedia) error {
+	ret := _m.Called(_a0, _a1)
 
 	var r0 error
 	if rf, ok := ret.Get(0).(func(context.Context, *domain.SocialMedia) error); ok {
-		r0 = rf(ctx, socialMedia)
+		r0 = rf(_a0, _a1)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -28,55 +70,25 @@ func (_m *SocialMediaRepository) AddSocialMedia(ctx context.Context, socialMedia
 	return r0
 }
 
-// DeleteSocialMedia provides a mock function with given fields: ctx, id
-func (_m *SocialMediaRepository) DeleteSocialMedia(ctx context.Context, id string) error {
-	ret := _m.Called(ctx, id)
+// Update provides a mock function with given fields: _a0, _a1, _a2
+func (_m *SocialMediaRepository) Update(_a0 context.Context, _a1 domain.SocialMedia, _a2 uint) (domain.SocialMedia, error) {
+	ret := _m.Called(_a0, _a1, _a2)
 
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
-		r0 = rf(ctx, id)
+	var r0 domain.SocialMedia
+	if rf, ok := ret.Get(0).(func(context.Context, domain.SocialMedia, uint) domain.SocialMedia); ok {
+		r0 = rf(_a0, _a1, _a2)
 	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
-// GetSocialMedias provides a mock function with given fields: ctx
-func (_m *SocialMediaRepository) GetSocialMedias(ctx context.Context) ([]domain.SocialMedia, error) {
-	ret := _m.Called(ctx)
-
-	var r0 []domain.SocialMedia
-	if rf, ok := ret.Get(0).(func(context.Context) []domain.SocialMedia); ok {
-		r0 = rf(ctx)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]domain.SocialMedia)
-		}
+		r0 = ret.Get(0).(domain.SocialMedia)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
-		r1 = rf(ctx)
+	if rf, ok := ret.Get(1).(func(context.Context, domain.SocialMedia, uint) error); ok {
+		r1 = rf(_a0, _a1, _a2)
 	} else {
 		r1 = ret.Error(1)
 	}
 
 	return r0, r1
-}
-
-// UpdateSocialMedia provides a mock function with given fields: ctx, socialMedia
-func (_m *SocialMediaRepository) UpdateSocialMedia(ctx context.Context, socialMedia *domain.SocialMedia) error {
-	ret := _m.Called(ctx, socialMedia)
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.SocialMedia) error); ok {
-		r0 = rf(ctx, socialMedia)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
 }
 
 type mockConstructorTestingTNewSocialMediaRepository interface {

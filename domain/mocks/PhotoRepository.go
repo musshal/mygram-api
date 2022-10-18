@@ -14,13 +14,69 @@ type PhotoRepository struct {
 	mock.Mock
 }
 
-// AddPhoto provides a mock function with given fields: ctx, photo
-func (_m *PhotoRepository) AddPhoto(ctx context.Context, photo *domain.Photo) error {
-	ret := _m.Called(ctx, photo)
+// Delete provides a mock function with given fields: _a0, _a1
+func (_m *PhotoRepository) Delete(_a0 context.Context, _a1 uint) error {
+	ret := _m.Called(_a0, _a1)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, uint) error); ok {
+		r0 = rf(_a0, _a1)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// Fetch provides a mock function with given fields: _a0, _a1
+func (_m *PhotoRepository) Fetch(_a0 context.Context, _a1 *[]domain.Photo) error {
+	ret := _m.Called(_a0, _a1)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, *[]domain.Photo) error); ok {
+		r0 = rf(_a0, _a1)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// GetByID provides a mock function with given fields: _a0, _a1, _a2
+func (_m *PhotoRepository) GetByID(_a0 context.Context, _a1 *domain.Photo, _a2 uint) error {
+	ret := _m.Called(_a0, _a1, _a2)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.Photo, uint) error); ok {
+		r0 = rf(_a0, _a1, _a2)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// GetByUserID provides a mock function with given fields: _a0, _a1, _a2
+func (_m *PhotoRepository) GetByUserID(_a0 context.Context, _a1 *domain.Photo, _a2 uint) error {
+	ret := _m.Called(_a0, _a1, _a2)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.Photo, uint) error); ok {
+		r0 = rf(_a0, _a1, _a2)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// Store provides a mock function with given fields: _a0, _a1
+func (_m *PhotoRepository) Store(_a0 context.Context, _a1 *domain.Photo) error {
+	ret := _m.Called(_a0, _a1)
 
 	var r0 error
 	if rf, ok := ret.Get(0).(func(context.Context, *domain.Photo) error); ok {
-		r0 = rf(ctx, photo)
+		r0 = rf(_a0, _a1)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -28,55 +84,25 @@ func (_m *PhotoRepository) AddPhoto(ctx context.Context, photo *domain.Photo) er
 	return r0
 }
 
-// DeletePhoto provides a mock function with given fields: ctx, id
-func (_m *PhotoRepository) DeletePhoto(ctx context.Context, id string) error {
-	ret := _m.Called(ctx, id)
+// Update provides a mock function with given fields: _a0, _a1, _a2
+func (_m *PhotoRepository) Update(_a0 context.Context, _a1 domain.Photo, _a2 uint) (domain.Photo, error) {
+	ret := _m.Called(_a0, _a1, _a2)
 
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
-		r0 = rf(ctx, id)
+	var r0 domain.Photo
+	if rf, ok := ret.Get(0).(func(context.Context, domain.Photo, uint) domain.Photo); ok {
+		r0 = rf(_a0, _a1, _a2)
 	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
-// GetPhotos provides a mock function with given fields: ctx
-func (_m *PhotoRepository) GetPhotos(ctx context.Context) ([]domain.Photo, error) {
-	ret := _m.Called(ctx)
-
-	var r0 []domain.Photo
-	if rf, ok := ret.Get(0).(func(context.Context) []domain.Photo); ok {
-		r0 = rf(ctx)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]domain.Photo)
-		}
+		r0 = ret.Get(0).(domain.Photo)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
-		r1 = rf(ctx)
+	if rf, ok := ret.Get(1).(func(context.Context, domain.Photo, uint) error); ok {
+		r1 = rf(_a0, _a1, _a2)
 	} else {
 		r1 = ret.Error(1)
 	}
 
 	return r0, r1
-}
-
-// UpdatePhoto provides a mock function with given fields: ctx, photo
-func (_m *PhotoRepository) UpdatePhoto(ctx context.Context, photo *domain.Photo) error {
-	ret := _m.Called(ctx, photo)
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.Photo) error); ok {
-		r0 = rf(ctx, photo)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
 }
 
 type mockConstructorTestingTNewPhotoRepository interface {

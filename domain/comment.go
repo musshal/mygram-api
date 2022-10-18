@@ -3,6 +3,9 @@ package domain
 import (
 	"context"
 	"time"
+
+	"github.com/asaskevich/govalidator"
+	"gorm.io/gorm"
 )
 
 type Comment struct {
@@ -12,20 +15,37 @@ type Comment struct {
 	PhotoID   uint       `gorm:"not null" form:"photoId" json:"photoId"`
 	Photo     Photo      `gorm:"foreignKey:PhotoID;constraint:opUpdate:CASCADE,onDelete:CASCADE"`
 	Message   string     `gorm:"not null" valid:"required" form:"message" json:"message"`
-	CreatedAt *time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
-	UpdatedAt *time.Time `gorm:"not null;autoCreateTime" json:"updatedAt"`
+	CreatedAt *time.Time `gorm:"not null;autoCreateTime" json:"createdAt,omitempty"`
+	UpdatedAt *time.Time `gorm:"not null;autoCreateTime" json:"updatedAt,omitempty"`
+}
+
+func (c *Comment) BeforeCreate(db *gorm.DB) (err error) {
+	if _, err := govalidator.ValidateStruct(c); err != nil {
+		return err
+	}
+
+	return
+}
+
+func (c *Comment) BeforeUpdate(db *gorm.DB) (err error) {
+	if _, err := govalidator.ValidateStruct(c); err != nil {
+		return err
+	}
+	return
 }
 
 type CommentUseCase interface {
-	AddComment(context.Context, *Comment) error
-	GetComments(ctx context.Context) ([]Comment, error)
-	UpdateComment(ctx context.Context, comment *Comment) error
-	DeleteComment(ctx context.Context, id string) error
+	Fetch(context.Context, *[]Comment, uint) error
+	Store(context.Context, *Comment) error
+	GetByUserID(context.Context, *Comment, uint) error
+	Update(context.Context, Comment, uint) (Comment, error)
+	Delete(context.Context, uint) error
 }
 
 type CommentRepository interface {
-	AddComment(ctx context.Context, comment *Comment) error
-	GetComments(ctx context.Context) (comments []Comment, err error)
-	UpdateComment(ctx context.Context, comment *Comment) error
-	DeleteComment(ctx context.Context, id string) error
+	Fetch(context.Context, *[]Comment, uint) error
+	Store(context.Context, *Comment) error
+	GetByUserID(context.Context, *Comment, uint) error
+	Update(context.Context, Comment, uint) (Comment, error)
+	Delete(context.Context, uint) error
 }

@@ -3,6 +3,9 @@ package domain
 import (
 	"context"
 	"time"
+
+	"github.com/asaskevich/govalidator"
+	"gorm.io/gorm"
 )
 
 type SocialMedia struct {
@@ -11,20 +14,37 @@ type SocialMedia struct {
 	SocialMediaURL string     `gorm:"not null" valid:"required" form:"socialMediaUrl" json:"socialMediaUrl" example:"https://www.example.com/social-media"`
 	UserID         uint       `gorm:"not null" json:"userId"`
 	User           User       `gorm:"foreignKey:UserID;constraint:opUpdate:CASCADE,onDelete:CASCADE"`
-	CreatedAt      *time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
-	UpdatedAt      *time.Time `gorm:"not null;autoCreateTime" json:"updatedAt"`
+	CreatedAt      *time.Time `gorm:"not null;autoCreateTime" json:"createdAt,omitempty"`
+	UpdatedAt      *time.Time `gorm:"not null;autoCreateTime" json:"updatedAt,omitempty"`
+}
+
+func (s *SocialMedia) BeforeCreate(db *gorm.DB) (err error) {
+	if _, err := govalidator.ValidateStruct(s); err != nil {
+		return err
+	}
+
+	return
+}
+
+func (s *SocialMedia) BeforeUpdate(db *gorm.DB) (err error) {
+	if _, err := govalidator.ValidateStruct(s); err != nil {
+		return err
+	}
+	return
 }
 
 type SocialMediaUseCase interface {
-	AddSocialMedia(context.Context, *SocialMedia) error
-	GetSocialMedias(ctx context.Context) ([]SocialMedia, error)
-	UpdateSocialMedia(ctx context.Context, socialMedia *SocialMedia) error
-	DeleteSocialMedia(ctx context.Context, id string) error
+	Fetch(context.Context, *[]SocialMedia, uint) error
+	Store(context.Context, *SocialMedia) error
+	GetByUserID(context.Context, *SocialMedia, uint) error
+	Update(context.Context, SocialMedia, uint) (SocialMedia, error)
+	Delete(context.Context, uint) error
 }
 
 type SocialMediaRepository interface {
-	AddSocialMedia(ctx context.Context, socialMedia *SocialMedia) error
-	GetSocialMedias(ctx context.Context) (socialMedia []SocialMedia, err error)
-	UpdateSocialMedia(ctx context.Context, socialMedia *SocialMedia) error
-	DeleteSocialMedia(ctx context.Context, id string) error
+	Fetch(context.Context, *[]SocialMedia, uint) error
+	Store(context.Context, *SocialMedia) error
+	GetByUserID(context.Context, *SocialMedia, uint) error
+	Update(context.Context, SocialMedia, uint) (SocialMedia, error)
+	Delete(context.Context, uint) error
 }

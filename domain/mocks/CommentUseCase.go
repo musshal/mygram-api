@@ -14,8 +14,50 @@ type CommentUseCase struct {
 	mock.Mock
 }
 
-// AddComment provides a mock function with given fields: _a0, _a1
-func (_m *CommentUseCase) AddComment(_a0 context.Context, _a1 *domain.Comment) error {
+// Delete provides a mock function with given fields: _a0, _a1
+func (_m *CommentUseCase) Delete(_a0 context.Context, _a1 uint) error {
+	ret := _m.Called(_a0, _a1)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, uint) error); ok {
+		r0 = rf(_a0, _a1)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// Fetch provides a mock function with given fields: _a0, _a1, _a2
+func (_m *CommentUseCase) Fetch(_a0 context.Context, _a1 *[]domain.Comment, _a2 uint) error {
+	ret := _m.Called(_a0, _a1, _a2)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, *[]domain.Comment, uint) error); ok {
+		r0 = rf(_a0, _a1, _a2)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// GetByUserID provides a mock function with given fields: _a0, _a1, _a2
+func (_m *CommentUseCase) GetByUserID(_a0 context.Context, _a1 *domain.Comment, _a2 uint) error {
+	ret := _m.Called(_a0, _a1, _a2)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.Comment, uint) error); ok {
+		r0 = rf(_a0, _a1, _a2)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// Store provides a mock function with given fields: _a0, _a1
+func (_m *CommentUseCase) Store(_a0 context.Context, _a1 *domain.Comment) error {
 	ret := _m.Called(_a0, _a1)
 
 	var r0 error
@@ -28,55 +70,25 @@ func (_m *CommentUseCase) AddComment(_a0 context.Context, _a1 *domain.Comment) e
 	return r0
 }
 
-// DeleteComment provides a mock function with given fields: ctx, id
-func (_m *CommentUseCase) DeleteComment(ctx context.Context, id string) error {
-	ret := _m.Called(ctx, id)
+// Update provides a mock function with given fields: _a0, _a1, _a2
+func (_m *CommentUseCase) Update(_a0 context.Context, _a1 domain.Comment, _a2 uint) (domain.Comment, error) {
+	ret := _m.Called(_a0, _a1, _a2)
 
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
-		r0 = rf(ctx, id)
+	var r0 domain.Comment
+	if rf, ok := ret.Get(0).(func(context.Context, domain.Comment, uint) domain.Comment); ok {
+		r0 = rf(_a0, _a1, _a2)
 	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
-// GetComments provides a mock function with given fields: ctx
-func (_m *CommentUseCase) GetComments(ctx context.Context) ([]domain.Comment, error) {
-	ret := _m.Called(ctx)
-
-	var r0 []domain.Comment
-	if rf, ok := ret.Get(0).(func(context.Context) []domain.Comment); ok {
-		r0 = rf(ctx)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]domain.Comment)
-		}
+		r0 = ret.Get(0).(domain.Comment)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
-		r1 = rf(ctx)
+	if rf, ok := ret.Get(1).(func(context.Context, domain.Comment, uint) error); ok {
+		r1 = rf(_a0, _a1, _a2)
 	} else {
 		r1 = ret.Error(1)
 	}
 
 	return r0, r1
-}
-
-// UpdateComment provides a mock function with given fields: ctx, comment
-func (_m *CommentUseCase) UpdateComment(ctx context.Context, comment *domain.Comment) error {
-	ret := _m.Called(ctx, comment)
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.Comment) error); ok {
-		r0 = rf(ctx, comment)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
 }
 
 type mockConstructorTestingTNewCommentUseCase interface {

@@ -40,15 +40,15 @@ func (user *User) BeforeUpdate(db *gorm.DB) (err error) {
 }
 
 type UserUseCase interface {
-	UserRegister(context.Context, *User) error
-	UserLogin(context.Context, *User) error
-	UpdateUser(context.Context, User, string) (User, error)
-	DeleteUser(context.Context, string) error
+	Register(context.Context, *User) error
+	Login(context.Context, *User) error
+	Update(context.Context, User, uint) (User, error)
+	Delete(context.Context, uint) error
 }
 
 type UserRepository interface {
-	UserRegister(context.Context, *User) error
-	UserLogin(context.Context, *User) error
-	UpdateUser(context.Context, User, string) (User, error)
-	DeleteUser(context.Context, string) error
+	Register(context.Context, *User) error
+	User(context.Context, *User) error
+	Update(context.Context, User, uint) (User, error)
+	Delete(context.Context, uint) error
 }
