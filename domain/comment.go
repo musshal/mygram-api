@@ -6,12 +6,12 @@ import (
 )
 
 type Comment struct {
-	ID        string     `gorm:"primaryKey;type:VARCHAR(50)" json:"id" binding:"required"`
+	ID        uint       `gorm:"primaryKey" json:"id"`
 	UserID    uint       `gorm:"not null" json:"userId"`
 	User      User       `gorm:"foreignKey:UserID;constraint:opUpdate:CASCADE,onDelete:CASCADE"`
-	PhotoID   string     `gorm:"type:VARCHAR(50);not null" form:"photoId" json:"photoId"`
+	PhotoID   uint       `gorm:"not null" form:"photoId" json:"photoId"`
 	Photo     Photo      `gorm:"foreignKey:PhotoID;constraint:opUpdate:CASCADE,onDelete:CASCADE"`
-	Message   string     `gorm:"not null" valid:"required" form:"message" json:"message" binding:"required"`
+	Message   string     `gorm:"not null" valid:"required" form:"message" json:"message"`
 	CreatedAt *time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
 	UpdatedAt *time.Time `gorm:"not null;autoCreateTime" json:"updatedAt"`
 }

@@ -6,14 +6,14 @@ import (
 )
 
 type Photo struct {
-	ID        string     `gorm:"primaryKey;type:VARCHAR(50)" json:"id" binding:"required"`
-	Title     string     `gorm:"type:VARCHAR(50);not null" valid:"required" form:"title" json:"title" binding:"required"`
+	ID        uint       `gorm:"primaryKey" json:"id"`
+	Title     string     `gorm:"type:VARCHAR(50);not null" valid:"required" form:"title" json:"title" example:"Tittle"`
 	Caption   string     `form:"caption" json:"caption"`
-	PhotoUrl  string     `gorm:"not null" valid:"required" form:"photoUrl" json:"photoUrl" binding:"required"`
+	PhotoUrl  string     `gorm:"not null" valid:"required" form:"photoUrl" json:"photoUrl" example:"https://www.example.com/image.jpg"`
 	UserID    uint       `gorm:"not null" json:"userId"`
 	User      User       `gorm:"foreignKey:UserID;constraint:onUpdate:CASCADE,onDelete:CASCADE"`
-	CreatedAt *time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
-	UpdatedAt *time.Time `gorm:"not null;autoCreateTime" json:"updatedAt"`
+	CreatedAt *time.Time `gorm:"not null;autoCreateTime" json:"createdAt,omitempty"`
+	UpdatedAt *time.Time `gorm:"not null;autoCreateTime" json:"updatedAt,omitempty"`
 	Comments  []Comment  `json:"comments"`
 }
 
