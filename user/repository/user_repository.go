@@ -44,7 +44,7 @@ func (userRepository *userRepository) Login(ctx context.Context, user *domain.Us
 	password := user.Password
 
 	if err = userRepository.db.Debug().WithContext(ctx).Where("email = ?", user.Email).Take(&user).Error; err != nil {
-		return err
+		return errors.New("the email you entered are not found")
 	}
 
 	if isValid := helpers.Compare([]byte(user.Password), []byte(password)); !isValid {

@@ -45,7 +45,7 @@ func (route *userRoute) Register(ctx *gin.Context) {
 		if strings.Contains(err.Error(), "idx_users_username") {
 			ctx.AbortWithStatusJSON(http.StatusConflict, gin.H{
 				"error":   "Conflict",
-				"message": "The username you entered has been used",
+				"message": "the username you entered has been used",
 			})
 
 			return
@@ -54,7 +54,7 @@ func (route *userRoute) Register(ctx *gin.Context) {
 		if strings.Contains(err.Error(), "idx_users_email") {
 			ctx.AbortWithStatusJSON(http.StatusConflict, gin.H{
 				"error":   "Conflict",
-				"message": "The Email you entered has been used",
+				"message": "the Email you entered has been used",
 			})
 
 			return
@@ -93,7 +93,7 @@ func (route *userRoute) Login(ctx *gin.Context) {
 	}
 
 	if err = route.userUseCase.Login(ctx.Request.Context(), &user); err != nil {
-		if strings.Contains(err.Error(), "invalid password") {
+		if strings.Contains(err.Error(), "the credential you entered are wrong") {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"error":   "Unauthorized",
 				"message": err.Error(),
