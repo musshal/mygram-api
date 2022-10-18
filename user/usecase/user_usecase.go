@@ -23,7 +23,7 @@ func (userUseCase *userUseCase) Register(ctx context.Context, user *domain.User)
 
 func (userUseCase *userUseCase) Login(ctx context.Context, user *domain.User) (err error) {
 	if err = userUseCase.userRepository.Login(ctx, user); err != nil {
-		return nil
+		return err
 	}
 
 	return

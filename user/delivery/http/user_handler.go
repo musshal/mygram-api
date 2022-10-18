@@ -10,12 +10,12 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-type userRoutes struct {
+type userRoute struct {
 	userUseCase domain.UserUseCase
 }
 
 func NewUserRoute(handlers *gin.Engine, userUseCase domain.UserUseCase) {
-	route := &userRoutes{userUseCase}
+	route := &userRoute{userUseCase}
 
 	handler := handlers.Group("/users")
 	{
@@ -26,7 +26,7 @@ func NewUserRoute(handlers *gin.Engine, userUseCase domain.UserUseCase) {
 	}
 }
 
-func (route *userRoutes) Register(ctx *gin.Context) {
+func (route *userRoute) Register(ctx *gin.Context) {
 	var (
 		user domain.User
 		err  error
@@ -76,7 +76,7 @@ func (route *userRoutes) Register(ctx *gin.Context) {
 	})
 }
 
-func (route *userRoutes) Login(ctx *gin.Context) {
+func (route *userRoute) Login(ctx *gin.Context) {
 	var (
 		user  domain.User
 		err   error
@@ -88,6 +88,7 @@ func (route *userRoutes) Login(ctx *gin.Context) {
 			"error":   "Bad Request",
 			"message": err.Error(),
 		})
+
 		return
 	}
 
@@ -97,12 +98,15 @@ func (route *userRoutes) Login(ctx *gin.Context) {
 				"error":   "Unauthorized",
 				"message": err.Error(),
 			})
+
 			return
 		}
+
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
 		})
+
 		return
 	}
 
@@ -111,13 +115,14 @@ func (route *userRoutes) Login(ctx *gin.Context) {
 			"error":   "Bad Request",
 			"message": err.Error(),
 		})
+
 		return
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{"token": token})
 }
 
-func (route *userRoutes) Update(c *gin.Context) {
+func (route *userRoute) Update(c *gin.Context) {
 	var (
 		user domain.User
 		err  error
@@ -158,7 +163,7 @@ func (route *userRoutes) Update(c *gin.Context) {
 	})
 }
 
-func (route *userRoutes) Delete(c *gin.Context) {
+func (route *userRoute) Delete(c *gin.Context) {
 	userData := c.MustGet("userData").(jwt.MapClaims)
 	userID := string(userData["id"].(string))
 

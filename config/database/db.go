@@ -48,3 +48,7 @@ func StartDB() *gorm.DB {
 
 	return db
 }
+
+func GetDB() (db *gorm.DB) {
+	return db
+}
