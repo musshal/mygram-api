@@ -11,11 +11,10 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func GenerateToken(id string, username string, email string) string {
+func GenerateToken(id uint, email string) (string, error) {
 	claims := jwt.MapClaims{
-		"id":       id,
-		"username": username,
-		"email":    email,
+		"id":    id,
+		"email": email,
 	}
 
 	parseToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -26,7 +25,7 @@ func GenerateToken(id string, username string, email string) string {
 
 	signedToken, _ := parseToken.SignedString([]byte(os.Getenv("TOKEN_KEY")))
 
-	return signedToken
+	return signedToken, nil
 }
 
 func VerifyToken(ctx *gin.Context) (interface{}, error) {

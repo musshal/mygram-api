@@ -11,9 +11,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var db *gorm.DB
-
-func StartDB() {
+func StartDB() *gorm.DB {
 	if err := godotenv.Load(); err != nil {
 		log.Fatal("Error loading .env file: ", err)
 	}
@@ -47,8 +45,6 @@ func StartDB() {
 			log.Fatal("Error migrating database: ", err.Error())
 		}
 	}
-}
 
-func GetDB() *gorm.DB {
 	return db
 }

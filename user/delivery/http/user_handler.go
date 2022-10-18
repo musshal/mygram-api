@@ -2,81 +2,171 @@ package delivery
 
 import (
 	"mygram-api/domain"
+	"mygram-api/helpers"
 	"net/http"
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 )
 
-type userRoute struct {
-	userUseCase domain.UserUseCase
+type userRoutes struct {
+	uuc domain.UserUseCase
 }
 
-func NewUserRoute(handlers *gin.Engine, userUseCase domain.UserUseCase) {
-	route := &userRoute{userUseCase}
+func NewUserRoute(handlers *gin.Engine, uuc domain.UserUseCase) {
+	route := &userRoutes{uuc}
 
 	handler := handlers.Group("/users")
 	{
 		handler.POST("/register", route.Register)
-		// handler.POST("/login", route.UserLogin)
-		// handler.PUT("/", middleware.Authentication(), route.UpdateUser)
-		// handler.DELETE("/", middleware.Authentication(), route.DeleteUser)
+		handler.POST("/login", route.Login)
+		handler.PUT("/", route.Update)
+		handler.DELETE("/", route.Delete)
 	}
 }
 
-func (route *userRoute) Register(ctx *gin.Context) {
+func (route *userRoutes) Register(c *gin.Context) {
 	var (
 		user domain.User
 		err  error
 	)
 
-	err = ctx.ShouldBindJSON(&user)
-
+	err = c.ShouldBindJSON(&user)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
 		})
-
 		return
 	}
 
-	err = route.userUseCase.Register(ctx.Request.Context(), &user)
-
+	err = route.uuc.Register(c.Request.Context(), &user)
 	if err != nil {
 		if strings.Contains(err.Error(), "duplicate") {
-			ctx.AbortWithStatusJSON(http.StatusConflict, gin.H{
+			c.AbortWithStatusJSON(http.StatusConflict, gin.H{
 				"error":   "Conflict",
-				"message": err.Error(),
+				"message": "You can't use invalid or duplicate emails and/or username",
 			})
-
 			return
 		}
-
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
 		})
-
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, gin.H{
+	c.JSON(http.StatusCreated, gin.H{
 		"id":       user.ID,
 		"email":    user.Email,
-		"username": user.Email,
+		"username": user.Username,
 		"age":      user.Age,
 	})
 }
 
-func (route *userRoute) Login(ctx *gin.Context) {
-	return
+func (route *userRoutes) Login(c *gin.Context) {
+	var (
+		user  domain.User
+		err   error
+		token string
+	)
+
+	err = c.ShouldBindJSON(&user)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error":   "Bad Request",
+			"message": err.Error(),
+		})
+		return
+	}
+
+	err = route.uuc.Login(c.Request.Context(), &user)
+	if err != nil {
+		if strings.Contains(err.Error(), "invalid password") {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"error":   "Unauthorized",
+				"message": err.Error(),
+			})
+			return
+		}
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error":   "Bad Request",
+			"message": err.Error(),
+		})
+		return
+	}
+
+	token, err = helpers.GenerateToken(user.ID, user.Email)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error":   "Bad Request",
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"token": token})
 }
 
-func (route *userRoute) Update(ctx *gin.Context) {
-	return
+func (route *userRoutes) Update(c *gin.Context) {
+	var (
+		user domain.User
+		err  error
+	)
+
+	userData := c.MustGet("userData").(jwt.MapClaims)
+	userID := uint(userData["id"].(float64))
+
+	err = c.ShouldBindJSON(&user)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error":   "Bad Request",
+			"message": err.Error(),
+		})
+		return
+	}
+
+	updatedUser := domain.User{
+		Username: user.Username,
+		Email:    user.Email,
+	}
+
+	user, err = route.uuc.Update(c.Request.Context(), updatedUser, userID)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error":   "Bad Request",
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"id":         user.ID,
+		"email":      user.Email,
+		"username":   user.Username,
+		"age":        user.Age,
+		"updated_at": user.UpdatedAt,
+	})
 }
 
-func (route *userRoute) Delete(ctx *gin.Context) {
-	return
+func (route *userRoutes) Delete(c *gin.Context) {
+	userData := c.MustGet("userData").(jwt.MapClaims)
+	userID := uint(userData["id"].(float64))
+
+	err := route.uuc.Delete(c, userID)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error":   "Bad Request",
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(
+		http.StatusOK,
+		gin.H{
+			"message": "Your account has been successfully deleted",
+		},
+	)
 }

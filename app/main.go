@@ -10,9 +10,7 @@ import (
 )
 
 func main() {
-	database.StartDB()
-
-	db := database.GetDB()
+	db := database.StartDB()
 
 	routers := gin.Default()
 
