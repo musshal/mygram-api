@@ -9,7 +9,7 @@ type SocialMedia struct {
 	ID             string     `gorm:"primaryKey;type:VARCHAR(50)" json:"id" binding:"required"`
 	Name           string     `gorm:"type:VARCHAR(50);not null" valid:"required" form:"name" json:"name" binding:"required"`
 	SocialMediaURL string     `gorm:"not null" valid:"required" form:"socialMediaUrl" json:"socialMediaUrl" binding:"required"`
-	UserID         string     `gorm:"type:VARCHAR(50);not null" json:"userId"`
+	UserID         uint       `gorm:"not null" json:"userId"`
 	User           User       `gorm:"foreignKey:UserID;constraint:opUpdate:CASCADE,onDelete:CASCADE"`
 	CreatedAt      *time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
 	UpdatedAt      *time.Time `gorm:"not null;autoCreateTime" json:"updatedAt"`

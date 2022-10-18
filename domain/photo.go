@@ -10,7 +10,7 @@ type Photo struct {
 	Title     string     `gorm:"type:VARCHAR(50);not null" valid:"required" form:"title" json:"title" binding:"required"`
 	Caption   string     `form:"caption" json:"caption"`
 	PhotoUrl  string     `gorm:"not null" valid:"required" form:"photoUrl" json:"photoUrl" binding:"required"`
-	UserID    string     `gorm:"type:VARCHAR(50);not null" json:"userId"`
+	UserID    uint       `gorm:"not null" json:"userId"`
 	User      User       `gorm:"foreignKey:UserID;constraint:onUpdate:CASCADE,onDelete:CASCADE"`
 	CreatedAt *time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
 	UpdatedAt *time.Time `gorm:"not null;autoCreateTime" json:"updatedAt"`

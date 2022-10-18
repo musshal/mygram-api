@@ -14,8 +14,43 @@ type UserUseCase struct {
 	mock.Mock
 }
 
-// AddUser provides a mock function with given fields: _a0, _a1
-func (_m *UserUseCase) AddUser(_a0 context.Context, _a1 *domain.User) error {
+// DeleteUser provides a mock function with given fields: _a0, _a1
+func (_m *UserUseCase) DeleteUser(_a0 context.Context, _a1 string) error {
+	ret := _m.Called(_a0, _a1)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
+		r0 = rf(_a0, _a1)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// UpdateUser provides a mock function with given fields: _a0, _a1, _a2
+func (_m *UserUseCase) UpdateUser(_a0 context.Context, _a1 domain.User, _a2 string) (domain.User, error) {
+	ret := _m.Called(_a0, _a1, _a2)
+
+	var r0 domain.User
+	if rf, ok := ret.Get(0).(func(context.Context, domain.User, string) domain.User); ok {
+		r0 = rf(_a0, _a1, _a2)
+	} else {
+		r0 = ret.Get(0).(domain.User)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, domain.User, string) error); ok {
+		r1 = rf(_a0, _a1, _a2)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// UserLogin provides a mock function with given fields: _a0, _a1
+func (_m *UserUseCase) UserLogin(_a0 context.Context, _a1 *domain.User) error {
 	ret := _m.Called(_a0, _a1)
 
 	var r0 error
@@ -28,41 +63,18 @@ func (_m *UserUseCase) AddUser(_a0 context.Context, _a1 *domain.User) error {
 	return r0
 }
 
-// DeleteUser provides a mock function with given fields: ctx, id
-func (_m *UserUseCase) DeleteUser(ctx context.Context, id string) error {
-	ret := _m.Called(ctx, id)
+// UserRegister provides a mock function with given fields: _a0, _a1
+func (_m *UserUseCase) UserRegister(_a0 context.Context, _a1 *domain.User) error {
+	ret := _m.Called(_a0, _a1)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
-		r0 = rf(ctx, id)
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.User) error); ok {
+		r0 = rf(_a0, _a1)
 	} else {
 		r0 = ret.Error(0)
 	}
 
 	return r0
-}
-
-// GetUsers provides a mock function with given fields: ctx
-func (_m *UserUseCase) GetUsers(ctx context.Context) ([]domain.User, error) {
-	ret := _m.Called(ctx)
-
-	var r0 []domain.User
-	if rf, ok := ret.Get(0).(func(context.Context) []domain.User); ok {
-		r0 = rf(ctx)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]domain.User)
-		}
-	}
-
-	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
-		r1 = rf(ctx)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
 }
 
 type mockConstructorTestingTNewUserUseCase interface {

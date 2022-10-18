@@ -7,7 +7,7 @@ import (
 
 type Comment struct {
 	ID        string     `gorm:"primaryKey;type:VARCHAR(50)" json:"id" binding:"required"`
-	UserID    string     `gorm:"type:VARCHAR(50);not null" json:"userId"`
+	UserID    uint       `gorm:"not null" json:"userId"`
 	User      User       `gorm:"foreignKey:UserID;constraint:opUpdate:CASCADE,onDelete:CASCADE"`
 	PhotoID   string     `gorm:"type:VARCHAR(50);not null" form:"photoId" json:"photoId"`
 	Photo     Photo      `gorm:"foreignKey:PhotoID;constraint:opUpdate:CASCADE,onDelete:CASCADE"`
