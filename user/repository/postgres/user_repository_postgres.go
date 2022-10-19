@@ -61,7 +61,7 @@ func (userRepository *userRepository) Update(ctx context.Context, user domain.Us
 
 	u = domain.User{}
 
-	if err = userRepository.db.Debug().First(&u, id).Error; err != nil {
+	if err = userRepository.db.Debug().WithContext(ctx).First(&u).Where("id = ?", id).Error; err != nil {
 		return u, err
 	}
 
@@ -77,7 +77,7 @@ func (userRepository *userRepository) Delete(ctx context.Context, id string) (er
 
 	defer cancel()
 
-	if err = userRepository.db.Debug().WithContext(ctx).Delete(&domain.User{}, id).Error; err != nil {
+	if err = userRepository.db.Debug().WithContext(ctx).Where("id = ?", id).Delete(&domain.User{}).Error; err != nil {
 		return err
 	}
 

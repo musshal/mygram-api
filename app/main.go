@@ -1,12 +1,15 @@
 package main
 
 import (
+	"log"
 	"mygram-api/config/database"
 	delivery "mygram-api/user/delivery/http"
-	"mygram-api/user/repository"
+	repository "mygram-api/user/repository/postgres"
 	"mygram-api/user/usecase"
+	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -33,5 +36,27 @@ func main() {
 	userUseCase := usecase.NewUserUseCase(userRepository)
 	delivery.NewUserRoute(routers, userUseCase)
 
-	routers.Run(":8080")
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Error loading .env file: ", err)
+	}
+
+	port := os.Getenv("PORT")
+
+	if len(os.Args) > 1 {
+		reqPort := os.Args[1]
+
+		if reqPort != "" {
+			port = reqPort
+		}
+	}
+
+	if port == "" {
+		port = "8080"
+	}
+
+	type Job interface {
+		Run()
+	}
+
+	routers.Run(":" + port)
 }

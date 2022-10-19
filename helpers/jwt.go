@@ -11,7 +11,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func GenerateToken(id string, email string) (string, error) {
+func GenerateToken(id string, email string) string {
 	claims := jwt.MapClaims{
 		"id":    id,
 		"email": email,
@@ -25,11 +25,11 @@ func GenerateToken(id string, email string) (string, error) {
 
 	signedToken, _ := parseToken.SignedString([]byte(os.Getenv("TOKEN_KEY")))
 
-	return signedToken, nil
+	return signedToken
 }
 
 func VerifyToken(ctx *gin.Context) (interface{}, error) {
-	errResponse := errors.New("token has invalid")
+	errResponse := errors.New("sign in to proceed")
 	headerToken := ctx.Request.Header.Get("Authorization")
 	bearer := strings.HasPrefix(headerToken, "Bearer")
 

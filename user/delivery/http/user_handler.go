@@ -3,11 +3,12 @@ package delivery
 import (
 	"mygram-api/domain"
 	"mygram-api/helpers"
+	"mygram-api/user/delivery/http/middleware"
 	"net/http"
 	"strings"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt"
 )
 
 type userRoute struct {
@@ -21,8 +22,8 @@ func NewUserRoute(handlers *gin.Engine, userUseCase domain.UserUseCase) {
 	{
 		handler.POST("/register", route.Register)
 		handler.POST("/login", route.Login)
-		handler.PUT("/", route.Update)
-		handler.DELETE("/", route.Delete)
+		handler.PUT("", middleware.Authentication(), route.Update)
+		handler.DELETE("", middleware.Authentication(), route.Delete)
 	}
 }
 
@@ -110,7 +111,7 @@ func (route *userRoute) Login(ctx *gin.Context) {
 		return
 	}
 
-	if token, err = helpers.GenerateToken(user.ID, user.Email); err != nil {
+	if token = helpers.GenerateToken(user.ID, user.Email); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
@@ -122,21 +123,21 @@ func (route *userRoute) Login(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"token": token})
 }
 
-func (route *userRoute) Update(c *gin.Context) {
+func (route *userRoute) Update(ctx *gin.Context) {
 	var (
 		user domain.User
 		err  error
 	)
 
-	userData := c.MustGet("userData").(jwt.MapClaims)
+	userData := ctx.MustGet("userData").(jwt.MapClaims)
 	userID := string(userData["id"].(string))
 
-	err = c.ShouldBindJSON(&user)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+	if err = ctx.ShouldBindJSON(&user); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
 		})
+
 		return
 	}
 
@@ -145,41 +146,40 @@ func (route *userRoute) Update(c *gin.Context) {
 		Email:    user.Email,
 	}
 
-	user, err = route.userUseCase.Update(c.Request.Context(), updatedUser, userID)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+	if user, err = route.userUseCase.Update(ctx.Request.Context(), updatedUser, userID); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
 		})
+
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"id":         user.ID,
-		"email":      user.Email,
-		"username":   user.Username,
-		"age":        user.Age,
-		"updated_at": user.UpdatedAt,
+	ctx.JSON(http.StatusOK, gin.H{
+		"id":        user.ID,
+		"email":     user.Email,
+		"username":  user.Username,
+		"age":       user.Age,
+		"updatedAt": user.UpdatedAt,
 	})
 }
 
-func (route *userRoute) Delete(c *gin.Context) {
-	userData := c.MustGet("userData").(jwt.MapClaims)
+func (route *userRoute) Delete(ctx *gin.Context) {
+	userData := ctx.MustGet("userData").(jwt.MapClaims)
 	userID := string(userData["id"].(string))
 
-	err := route.userUseCase.Delete(c, userID)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+	if err := route.userUseCase.Delete(ctx, userID); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
 		})
 		return
 	}
 
-	c.JSON(
+	ctx.JSON(
 		http.StatusOK,
 		gin.H{
-			"message": "Your account has been successfully deleted",
+			"message": "your account has been successfully deleted",
 		},
 	)
 }

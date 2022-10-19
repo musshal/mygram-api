@@ -30,9 +30,7 @@ func (userUseCase *userUseCase) Login(ctx context.Context, user *domain.User) (e
 }
 
 func (userUseCase *userUseCase) Update(ctx context.Context, user domain.User, id string) (u domain.User, err error) {
-	u, err = userUseCase.userRepository.Update(ctx, user, id)
-
-	if err != nil {
+	if u, err = userUseCase.userRepository.Update(ctx, user, id); err != nil {
 		return u, err
 	}
 

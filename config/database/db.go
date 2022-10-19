@@ -36,19 +36,9 @@ func StartDB() *gorm.DB {
 		log.Fatal("Error connecting to database: ", err)
 	}
 
-	if env == "production" {
-		if err := db.AutoMigrate(&domain.User{}, &domain.Photo{}, &domain.Comment{}, &domain.SocialMedia{}); err != nil {
-			log.Fatal("Error migrating database: ", err.Error())
-		}
-	} else {
-		if err := db.Debug().AutoMigrate(&domain.User{}, &domain.Photo{}, &domain.Comment{}, &domain.SocialMedia{}); err != nil {
-			log.Fatal("Error migrating database: ", err.Error())
-		}
+	if err := db.AutoMigrate(&domain.User{}, &domain.Photo{}, &domain.Comment{}, &domain.SocialMedia{}); err != nil {
+		log.Fatal("Error migrating database: ", err.Error())
 	}
 
-	return db
-}
-
-func GetDB() (db *gorm.DB) {
 	return db
 }
