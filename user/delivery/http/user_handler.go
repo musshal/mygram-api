@@ -4,6 +4,7 @@ import (
 	"mygram-api/domain"
 	"mygram-api/helpers"
 	"mygram-api/user/delivery/http/middleware"
+	"mygram-api/user/utils"
 	"net/http"
 	"strings"
 
@@ -155,12 +156,12 @@ func (route *userRoute) Update(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"id":        user.ID,
-		"email":     user.Email,
-		"username":  user.Username,
-		"age":       user.Age,
-		"updatedAt": user.UpdatedAt,
+	ctx.JSON(http.StatusOK, utils.User{
+		ID:        user.ID,
+		Email:     user.Email,
+		Username:  user.Username,
+		Age:       user.Age,
+		UpdatedAt: user.UpdatedAt,
 	})
 }
 
