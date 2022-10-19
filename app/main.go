@@ -54,9 +54,5 @@ func main() {
 		port = "8080"
 	}
 
-	type Job interface {
-		Run()
-	}
-
 	routers.Run(":" + port)
 }
