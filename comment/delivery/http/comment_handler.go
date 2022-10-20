@@ -35,7 +35,6 @@ func (route *commentRoute) Fetch(ctx *gin.Context) {
 
 		err error
 	)
-	fetchedComments := []*utils.Comment{}
 
 	userData := ctx.MustGet("userData").(jwt.MapClaims)
 	userID := string(userData["id"].(string))
@@ -49,30 +48,7 @@ func (route *commentRoute) Fetch(ctx *gin.Context) {
 		return
 	}
 
-	for _, comment := range comments {
-		fetchedComments = append(fetchedComments, &utils.Comment{
-			ID:        comment.ID,
-			Message:   comment.Message,
-			PhotoID:   comment.PhotoID,
-			UserID:    comment.UserID,
-			UpdatedAt: comment.UpdatedAt,
-			CreatedAt: comment.CreatedAt,
-			User: utils.User{
-				ID:       comment.User.ID,
-				Email:    comment.User.Email,
-				Username: comment.User.Username,
-			},
-			Photo: utils.Photo{
-				ID:       comment.Photo.ID,
-				Title:    comment.Photo.Title,
-				Caption:  comment.Photo.Caption,
-				PhotoUrl: comment.Photo.PhotoUrl,
-				UserID:   comment.Photo.UserID,
-			},
-		})
-	}
-
-	ctx.JSON(http.StatusOK, fetchedComments)
+	ctx.JSON(http.StatusOK, comments)
 }
 
 func (route *commentRoute) Store(ctx *gin.Context) {

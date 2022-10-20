@@ -42,7 +42,25 @@ func (route *photoRoute) Fetch(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, photos)
+	fetchedPhotos := []*utils.Photo{}
+
+	for _, photo := range photos {
+		fetchedPhotos = append(fetchedPhotos, &utils.Photo{
+			ID:        photo.ID,
+			Title:     photo.Title,
+			Caption:   photo.Caption,
+			PhotoUrl:  photo.PhotoUrl,
+			UserID:    photo.UserID,
+			CreatedAt: photo.CreatedAt,
+			UpdatedAt: photo.UpdatedAt,
+			User: &utils.User{
+				Email:    photo.User.Email,
+				Username: photo.User.Username,
+			},
+		})
+	}
+
+	ctx.JSON(http.StatusOK, fetchedPhotos)
 }
 
 func (route *photoRoute) Store(ctx *gin.Context) {

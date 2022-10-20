@@ -11,12 +11,12 @@ import (
 type Comment struct {
 	ID        string     `gorm:"primaryKey;type:VARCHAR(50)" json:"id"`
 	UserID    string     `gorm:"type:VARCHAR(50);not null" json:"userId"`
-	User      *User      `gorm:"foreignKey:UserID;constraint:opUpdate:CASCADE,onDelete:CASCADE"`
 	PhotoID   string     `gorm:"type:VARCHAR(50);not null" form:"photoId" json:"photoId"`
-	Photo     *Photo     `gorm:"foreignKey:PhotoID;constraint:opUpdate:CASCADE,onDelete:CASCADE"`
 	Message   string     `gorm:"not null" valid:"required" form:"message" json:"message" example:"A comment"`
 	CreatedAt *time.Time `gorm:"not null;autoCreateTime" json:"createdAt,omitempty"`
 	UpdatedAt *time.Time `gorm:"not null;autoCreateTime" json:"updatedAt,omitempty"`
+	User      *User      `gorm:"foreignKey:UserID;constraint:opUpdate:CASCADE,onDelete:CASCADE" json:"user"`
+	Photo     *Photo     `gorm:"foreignKey:PhotoID;constraint:opUpdate:CASCADE,onDelete:CASCADE" json:"photo"`
 }
 
 func (c *Comment) BeforeCreate(db *gorm.DB) (err error) {

@@ -24,9 +24,9 @@ func (commentRepository *commentRepository) Fetch(ctx context.Context, comments 
 	defer cancel()
 
 	if err = commentRepository.db.Debug().WithContext(ctx).Where("user_id = ?", userID).Preload("User", func(db *gorm.DB) *gorm.DB {
-		return db.Select("ID", "Email", "Username", "ProfileImageUrl")
+		return db.Select("id", "email", "username", "profile_image_url")
 	}).Preload("Photo", func(db *gorm.DB) *gorm.DB {
-		return db.Select("ID", "UserID", "Title", "PhotoUrl", "Caption")
+		return db.Select("id", "user_id", "title", "photo_url", "caption")
 	}).Find(&comments).Error; err != nil {
 		return err
 	}
