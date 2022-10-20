@@ -24,7 +24,7 @@ func (commentRepository *commentRepository) Fetch(ctx context.Context, comments 
 	defer cancel()
 
 	if err = commentRepository.db.Debug().WithContext(ctx).Where("user_id = ?", userID).Preload("User", func(db *gorm.DB) *gorm.DB {
-		return db.Select("ID", "Email", "Username")
+		return db.Select("ID", "Email", "Username", "ProfileImageUrl")
 	}).Preload("Photo", func(db *gorm.DB) *gorm.DB {
 		return db.Select("ID", "UserID", "Title", "PhotoUrl", "Caption")
 	}).Find(&comments).Error; err != nil {
@@ -90,7 +90,7 @@ func (commentRepository *commentRepository) Delete(ctx context.Context, id strin
 
 	defer cancel()
 
-	if err = commentRepository.db.Debug().WithContext(ctx).First(&domain.Comment{}).Error; err != nil {
+	if err = commentRepository.db.Debug().WithContext(ctx).Where("id = ?", id).First(&domain.Comment{}).Error; err != nil {
 		return err
 	}
 

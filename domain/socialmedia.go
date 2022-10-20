@@ -11,11 +11,11 @@ import (
 type SocialMedia struct {
 	ID             string     `gorm:"primaryKey;type:VARCHAR(50)" json:"id"`
 	Name           string     `gorm:"type:VARCHAR(50);not null" valid:"required" form:"name" json:"name" example:"Social Media"`
-	SocialMediaURL string     `gorm:"not null" valid:"required" form:"socialMediaUrl" json:"socialMediaUrl" example:"https://www.example.com/social-media"`
+	SocialMediaUrl string     `gorm:"not null" valid:"required" form:"socialMediaUrl" json:"socialMediaUrl" example:"https://www.example.com/social-media"`
 	UserID         string     `gorm:"type:VARCHAR(50);not null" json:"userId"`
-	User           User       `gorm:"foreignKey:UserID;constraint:opUpdate:CASCADE,onDelete:CASCADE"`
 	CreatedAt      *time.Time `gorm:"not null;autoCreateTime" json:"createdAt,omitempty"`
 	UpdatedAt      *time.Time `gorm:"not null;autoCreateTime" json:"updatedAt,omitempty"`
+	User           *User      `gorm:"foreignKey:UserID;constraint:opUpdate:CASCADE,onDelete:CASCADE" json:"user"`
 }
 
 func (s *SocialMedia) BeforeCreate(db *gorm.DB) (err error) {
@@ -36,6 +36,7 @@ func (s *SocialMedia) BeforeUpdate(db *gorm.DB) (err error) {
 type SocialMediaUseCase interface {
 	Fetch(context.Context, *[]SocialMedia, string) error
 	Store(context.Context, *SocialMedia) error
+	GetByID(context.Context, *SocialMedia, string) error
 	Update(context.Context, SocialMedia, string) (SocialMedia, error)
 	Delete(context.Context, string) error
 }
@@ -43,6 +44,7 @@ type SocialMediaUseCase interface {
 type SocialMediaRepository interface {
 	Fetch(context.Context, *[]SocialMedia, string) error
 	Store(context.Context, *SocialMedia) error
+	GetByID(context.Context, *SocialMedia, string) error
 	Update(context.Context, SocialMedia, string) (SocialMedia, error)
 	Delete(context.Context, string) error
 }

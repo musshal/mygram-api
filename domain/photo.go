@@ -37,16 +37,16 @@ func (p *Photo) BeforeUpdate(db *gorm.DB) (err error) {
 
 type PhotoUseCase interface {
 	Fetch(context.Context, *[]Photo) error
-	GetByID(context.Context, *Photo, string) error
 	Store(context.Context, *Photo) error
+	GetByID(context.Context, *Photo, string) error
 	Update(context.Context, Photo, string) (Photo, error)
 	Delete(context.Context, string) error
 }
 
 type PhotoRepository interface {
 	Fetch(context.Context, *[]Photo) error
-	GetByID(context.Context, *Photo, string) error
 	Store(context.Context, *Photo) error
+	GetByID(context.Context, *Photo, string) error
 	Update(context.Context, Photo, string) (Photo, error)
 	Delete(context.Context, string) error
 }
