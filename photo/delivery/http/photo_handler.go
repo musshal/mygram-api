@@ -116,15 +116,6 @@ func (route *photoRoute) Update(ctx *gin.Context) {
 		return
 	}
 
-	if err = route.photoUseCase.GetByID(ctx.Request.Context(), &photo, photoID); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
-		})
-
-		return
-	}
-
 	ctx.JSON(http.StatusOK, utils.UpdatedPhoto{
 		ID:        photo.ID,
 		UserID:    photo.UserID,

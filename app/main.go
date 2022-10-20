@@ -2,6 +2,9 @@ package main
 
 import (
 	"log"
+	commentDelivery "mygram-api/comment/delivery/http"
+	commentRepository "mygram-api/comment/repository/postgres"
+	commentUseCase "mygram-api/comment/usecase"
 	"mygram-api/config/database"
 	photoDelivery "mygram-api/photo/delivery/http"
 	photoRepository "mygram-api/photo/repository/postgres"
@@ -42,6 +45,10 @@ func main() {
 	photoRepository := photoRepository.NewPhotoRepository(db)
 	photoUseCase := photoUseCase.NewPhotoUsecase(photoRepository)
 	photoDelivery.NewPhotoRoute(routers, photoUseCase)
+
+	commentRepository := commentRepository.NewCommentRepository(db)
+	commentUseCase := commentUseCase.NewCommentUseCase(commentRepository)
+	commentDelivery.NewCommentRoute(routers, commentUseCase, photoUseCase)
 
 	if err := godotenv.Load(); err != nil {
 		log.Fatal("Error loading .env file: ", err)

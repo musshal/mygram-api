@@ -77,6 +77,10 @@ func (userRepository *userRepository) Delete(ctx context.Context, id string) (er
 
 	defer cancel()
 
+	if err = userRepository.db.Debug().WithContext(ctx).First(&domain.User{}).Error; err != nil {
+		return err
+	}
+
 	if err = userRepository.db.Debug().WithContext(ctx).Where("id = ?", id).Delete(&domain.User{}).Error; err != nil {
 		return err
 	}

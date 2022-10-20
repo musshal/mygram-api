@@ -38,7 +38,7 @@ func (photoUseCase *photoUseCase) GetByID(ctx context.Context, photo *domain.Pho
 }
 
 func (photoUseCase *photoUseCase) Update(ctx context.Context, photo domain.Photo, id string) (p domain.Photo, err error) {
-	if p, err := photoUseCase.photoRepository.Update(ctx, photo, id); err != nil {
+	if p, err = photoUseCase.photoRepository.Update(ctx, photo, id); err != nil {
 		return p, err
 	}
 
