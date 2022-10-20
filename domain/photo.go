@@ -14,10 +14,10 @@ type Photo struct {
 	Caption   string     `form:"caption" json:"caption"`
 	PhotoUrl  string     `gorm:"not null" valid:"required" form:"photoUrl" json:"photoUrl" example:"https://www.example.com/image.jpg"`
 	UserID    string     `gorm:"type:VARCHAR(50);not null" json:"userId"`
-	User      User       `gorm:"foreignKey:UserID;constraint:onUpdate:CASCADE,onDelete:CASCADE"`
 	CreatedAt *time.Time `gorm:"not null;autoCreateTime" json:"createdAt,omitempty"`
 	UpdatedAt *time.Time `gorm:"not null;autoCreateTime" json:"updatedAt,omitempty"`
-	Comments  *[]Comment `json:"comments"`
+	User      *User      `gorm:"foreignKey:UserID;constraint:onUpdate:CASCADE,onDelete:CASCADE" json:"user"`
+	Comment   *Comment   `json:"-"`
 }
 
 func (p *Photo) BeforeCreate(db *gorm.DB) (err error) {
@@ -37,18 +37,16 @@ func (p *Photo) BeforeUpdate(db *gorm.DB) (err error) {
 
 type PhotoUseCase interface {
 	Fetch(context.Context, *[]Photo) error
-	Store(context.Context, *Photo) error
 	GetByID(context.Context, *Photo, string) error
-	GetByUserID(context.Context, *Photo, string) error
+	Store(context.Context, *Photo) error
 	Update(context.Context, Photo, string) (Photo, error)
 	Delete(context.Context, string) error
 }
 
 type PhotoRepository interface {
 	Fetch(context.Context, *[]Photo) error
-	Store(context.Context, *Photo) error
 	GetByID(context.Context, *Photo, string) error
-	GetByUserID(context.Context, *Photo, string) error
+	Store(context.Context, *Photo) error
 	Update(context.Context, Photo, string) (Photo, error)
 	Delete(context.Context, string) error
 }

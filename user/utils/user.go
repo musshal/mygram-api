@@ -2,7 +2,7 @@ package utils
 
 import "time"
 
-type User struct {
+type UpdatedUser struct {
 	ID        string     `json:"id"`
 	Email     string     `json:"email"`
 	Username  string     `json:"username"`

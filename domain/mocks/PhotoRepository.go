@@ -56,20 +56,6 @@ func (_m *PhotoRepository) GetByID(_a0 context.Context, _a1 *domain.Photo, _a2 s
 	return r0
 }
 
-// GetByUserID provides a mock function with given fields: _a0, _a1, _a2
-func (_m *PhotoRepository) GetByUserID(_a0 context.Context, _a1 *domain.Photo, _a2 string) error {
-	ret := _m.Called(_a0, _a1, _a2)
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.Photo, string) error); ok {
-		r0 = rf(_a0, _a1, _a2)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
 // Store provides a mock function with given fields: _a0, _a1
 func (_m *PhotoRepository) Store(_a0 context.Context, _a1 *domain.Photo) error {
 	ret := _m.Called(_a0, _a1)

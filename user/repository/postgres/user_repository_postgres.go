@@ -65,7 +65,7 @@ func (userRepository *userRepository) Update(ctx context.Context, user domain.Us
 		return u, err
 	}
 
-	if err = userRepository.db.Debug().WithContext(ctx).Model(&u).Where("id = ?", id).Updates(user).Error; err != nil {
+	if err = userRepository.db.Debug().WithContext(ctx).Model(&u).Updates(user).Error; err != nil {
 		return u, err
 	}
 

@@ -156,7 +156,7 @@ func (route *userRoute) Update(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, utils.User{
+	ctx.JSON(http.StatusOK, utils.UpdatedUser{
 		ID:        user.ID,
 		Email:     user.Email,
 		Username:  user.Username,

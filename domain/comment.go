@@ -37,7 +37,6 @@ func (c *Comment) BeforeUpdate(db *gorm.DB) (err error) {
 type CommentUseCase interface {
 	Fetch(context.Context, *[]Comment, string) error
 	Store(context.Context, *Comment) error
-	GetByUserID(context.Context, *Comment, string) error
 	Update(context.Context, Comment, string) (Comment, error)
 	Delete(context.Context, string) error
 }
@@ -45,7 +44,6 @@ type CommentUseCase interface {
 type CommentRepository interface {
 	Fetch(context.Context, *[]Comment, string) error
 	Store(context.Context, *Comment) error
-	GetByUserID(context.Context, *Comment, string) error
 	Update(context.Context, Comment, string) (Comment, error)
 	Delete(context.Context, string) error
 }

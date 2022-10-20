@@ -3,9 +3,12 @@ package main
 import (
 	"log"
 	"mygram-api/config/database"
-	delivery "mygram-api/user/delivery/http"
-	repository "mygram-api/user/repository/postgres"
-	"mygram-api/user/usecase"
+	photoDelivery "mygram-api/photo/delivery/http"
+	photoRepository "mygram-api/photo/repository/postgres"
+	photoUseCase "mygram-api/photo/usecase"
+	userDelivery "mygram-api/user/delivery/http"
+	userRepository "mygram-api/user/repository/postgres"
+	userUseCase "mygram-api/user/usecase"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -32,9 +35,13 @@ func main() {
 		}
 	})
 
-	userRepository := repository.NewUserRepository(db)
-	userUseCase := usecase.NewUserUseCase(userRepository)
-	delivery.NewUserRoute(routers, userUseCase)
+	userRepository := userRepository.NewUserRepository(db)
+	userUseCase := userUseCase.NewUserUseCase(userRepository)
+	userDelivery.NewUserRoute(routers, userUseCase)
+
+	photoRepository := photoRepository.NewPhotoRepository(db)
+	photoUseCase := photoUseCase.NewPhotoUsecase(photoRepository)
+	photoDelivery.NewPhotoRoute(routers, photoUseCase)
 
 	if err := godotenv.Load(); err != nil {
 		log.Fatal("Error loading .env file: ", err)
