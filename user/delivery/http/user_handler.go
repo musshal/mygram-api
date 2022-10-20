@@ -56,7 +56,7 @@ func (route *userRoute) Register(ctx *gin.Context) {
 		if strings.Contains(err.Error(), "idx_users_email") {
 			ctx.AbortWithStatusJSON(http.StatusConflict, gin.H{
 				"error":   "Conflict",
-				"message": "the Email you entered has been used",
+				"message": "the email you entered has been used",
 			})
 
 			return
@@ -71,10 +71,10 @@ func (route *userRoute) Register(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusCreated, gin.H{
-		"id":       user.ID,
-		"email":    user.Email,
-		"username": user.Username,
 		"age":      user.Age,
+		"email":    user.Email,
+		"id":       user.ID,
+		"username": user.Username,
 	})
 }
 
@@ -131,7 +131,7 @@ func (route *userRoute) Update(ctx *gin.Context) {
 	)
 
 	userData := ctx.MustGet("userData").(jwt.MapClaims)
-	userID := string(userData["id"].(string))
+	_ = string(userData["id"].(string))
 
 	if err = ctx.ShouldBindJSON(&user); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -147,7 +147,7 @@ func (route *userRoute) Update(ctx *gin.Context) {
 		Email:    user.Email,
 	}
 
-	if user, err = route.userUseCase.Update(ctx.Request.Context(), updatedUser, userID); err != nil {
+	if user, err = route.userUseCase.Update(ctx.Request.Context(), updatedUser); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),

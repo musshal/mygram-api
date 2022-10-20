@@ -54,14 +54,14 @@ func (userRepository *userRepository) Login(ctx context.Context, user *domain.Us
 	return
 }
 
-func (userRepository *userRepository) Update(ctx context.Context, user domain.User, id string) (u domain.User, err error) {
+func (userRepository *userRepository) Update(ctx context.Context, user domain.User) (u domain.User, err error) {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 
 	defer cancel()
 
 	u = domain.User{}
 
-	if err = userRepository.db.Debug().WithContext(ctx).First(&u).Where("id = ?", id).Error; err != nil {
+	if err = userRepository.db.Debug().WithContext(ctx).First(&u).Error; err != nil {
 		return u, err
 	}
 
@@ -81,7 +81,7 @@ func (userRepository *userRepository) Delete(ctx context.Context, id string) (er
 		return err
 	}
 
-	if err = userRepository.db.Debug().WithContext(ctx).Where("id = ?", id).Delete(&domain.User{}).Error; err != nil {
+	if err = userRepository.db.Debug().WithContext(ctx).Delete(&domain.User{}, &id).Error; err != nil {
 		return err
 	}
 

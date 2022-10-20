@@ -53,7 +53,7 @@ func (photoRepository *photoRepository) GetByID(ctx context.Context, photo *doma
 
 	defer cancel()
 
-	if err = photoRepository.db.Debug().WithContext(ctx).Where("id = ?", id).First(&photo).Error; err != nil {
+	if err = photoRepository.db.Debug().WithContext(ctx).First(&photo, &id).Error; err != nil {
 		return err
 	}
 
@@ -67,7 +67,7 @@ func (photoRepository *photoRepository) Update(ctx context.Context, photo domain
 
 	p = domain.Photo{}
 
-	if err = photoRepository.db.Debug().WithContext(ctx).First(&p).Where("id = ?", id).Error; err != nil {
+	if err = photoRepository.db.Debug().WithContext(ctx).First(&p, &id).Error; err != nil {
 		return p, err
 	}
 
@@ -87,7 +87,7 @@ func (photoRepository *photoRepository) Delete(ctx context.Context, id string) (
 		return err
 	}
 
-	if err = photoRepository.db.Debug().WithContext(ctx).Where("id = ?", id).Delete(&domain.Photo{}).Error; err != nil {
+	if err = photoRepository.db.Debug().WithContext(ctx).Delete(&domain.Photo{}, &id).Error; err != nil {
 		return err
 	}
 

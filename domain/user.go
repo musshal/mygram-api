@@ -43,13 +43,13 @@ func (user *User) BeforeUpdate(db *gorm.DB) (err error) {
 type UserUseCase interface {
 	Register(context.Context, *User) error
 	Login(context.Context, *User) error
-	Update(context.Context, User, string) (User, error)
+	Update(context.Context, User) (User, error)
 	Delete(context.Context, string) error
 }
 
 type UserRepository interface {
 	Register(context.Context, *User) error
 	Login(context.Context, *User) error
-	Update(context.Context, User, string) (User, error)
+	Update(context.Context, User) (User, error)
 	Delete(context.Context, string) error
 }
