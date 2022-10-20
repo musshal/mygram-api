@@ -53,7 +53,7 @@ func (socialMediaRepository *socialMediaRepository) GetByID(ctx context.Context,
 
 	defer cancel()
 
-	if err = socialMediaRepository.db.Debug().WithContext(ctx).Where("id = ?", id).First(&socialMedia).Error; err != nil {
+	if err = socialMediaRepository.db.Debug().WithContext(ctx).First(&socialMedia, &id).Error; err != nil {
 		return err
 	}
 
@@ -67,11 +67,11 @@ func (socialMediaRepository *socialMediaRepository) Update(ctx context.Context, 
 
 	socmed = domain.SocialMedia{}
 
-	if err = socialMediaRepository.db.Debug().WithContext(ctx).First(&socmed).Where("id = ?", id).Error; err != nil {
+	if err = socialMediaRepository.db.Debug().WithContext(ctx).First(&socmed, &id).Error; err != nil {
 		return socmed, err
 	}
 
-	if err = socialMediaRepository.db.Debug().WithContext(ctx).Model(&socmed).Where("id = ?", id).Updates(socialMedia).Error; err != nil {
+	if err = socialMediaRepository.db.Debug().WithContext(ctx).Model(&socmed).Updates(socialMedia).Error; err != nil {
 		return socmed, err
 	}
 
@@ -83,11 +83,11 @@ func (socialMediaRepository *socialMediaRepository) Delete(ctx context.Context, 
 
 	defer cancel()
 
-	if err = socialMediaRepository.db.Debug().WithContext(ctx).Where("id = ?", id).First(&domain.SocialMedia{}).Error; err != nil {
+	if err = socialMediaRepository.db.Debug().WithContext(ctx).First(&domain.SocialMedia{}).Error; err != nil {
 		return err
 	}
 
-	if err = socialMediaRepository.db.Debug().WithContext(ctx).Where("id = ?", id).Delete(&domain.SocialMedia{}).Error; err != nil {
+	if err = socialMediaRepository.db.Debug().WithContext(ctx).Delete(&domain.SocialMedia{}, &id).Error; err != nil {
 		return err
 	}
 

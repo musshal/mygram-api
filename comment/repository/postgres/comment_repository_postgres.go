@@ -55,7 +55,7 @@ func (commentRepository *commentRepository) GetByID(ctx context.Context, comment
 
 	defer cancel()
 
-	if err = commentRepository.db.Debug().WithContext(ctx).Where("id = ?", id).First(&comment).Error; err != nil {
+	if err = commentRepository.db.Debug().WithContext(ctx).First(&comment, &id).Error; err != nil {
 		return err
 	}
 
@@ -68,13 +68,14 @@ func (commentRepository *commentRepository) Update(ctx context.Context, comment 
 	defer cancel()
 
 	c := domain.Comment{}
+
 	photo = domain.Photo{}
 
-	if err = commentRepository.db.Debug().WithContext(ctx).First(&c).Where("id = ?", id).Error; err != nil {
+	if err = commentRepository.db.Debug().WithContext(ctx).First(&c, &id).Error; err != nil {
 		return photo, err
 	}
 
-	if err = commentRepository.db.Debug().WithContext(ctx).Model(&c).Where("id = ?", id).Updates(comment).Error; err != nil {
+	if err = commentRepository.db.Debug().WithContext(ctx).Model(&c).Updates(comment).Error; err != nil {
 		return photo, err
 	}
 
@@ -90,11 +91,11 @@ func (commentRepository *commentRepository) Delete(ctx context.Context, id strin
 
 	defer cancel()
 
-	if err = commentRepository.db.Debug().WithContext(ctx).Where("id = ?", id).First(&domain.Comment{}).Error; err != nil {
+	if err = commentRepository.db.Debug().WithContext(ctx).First(&domain.Comment{}).Error; err != nil {
 		return err
 	}
 
-	if err = commentRepository.db.Debug().WithContext(ctx).Where("id = ?", id).Delete(&domain.Comment{}).Error; err != nil {
+	if err = commentRepository.db.Debug().WithContext(ctx).Delete(&domain.Comment{}, &id).Error; err != nil {
 		return err
 	}
 

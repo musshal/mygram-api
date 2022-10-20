@@ -157,6 +157,6 @@ func (route *photoRoute) Delete(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "Your photo has been successfully deleted",
+		"message": "your photo has been successfully deleted",
 	})
 }
