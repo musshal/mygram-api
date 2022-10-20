@@ -11,13 +11,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type commentRoute struct {
+type commentHandler struct {
 	commentUseCase domain.CommentUseCase
 	photoUseCase   domain.PhotoUseCase
 }
 
-func NewCommentRoute(handlers *gin.Engine, commentUseCase domain.CommentUseCase, photoUseCase domain.PhotoUseCase) {
-	route := &commentRoute{commentUseCase, photoUseCase}
+func NewCommentHandler(handlers *gin.Engine, commentUseCase domain.CommentUseCase, photoUseCase domain.PhotoUseCase) {
+	route := &commentHandler{commentUseCase, photoUseCase}
 
 	handler := handlers.Group("/comments")
 	{
@@ -29,7 +29,7 @@ func NewCommentRoute(handlers *gin.Engine, commentUseCase domain.CommentUseCase,
 	}
 }
 
-func (route *commentRoute) Fetch(ctx *gin.Context) {
+func (route *commentHandler) Fetch(ctx *gin.Context) {
 	var (
 		comments []domain.Comment
 
@@ -51,7 +51,7 @@ func (route *commentRoute) Fetch(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, comments)
 }
 
-func (route *commentRoute) Store(ctx *gin.Context) {
+func (route *commentHandler) Store(ctx *gin.Context) {
 	var (
 		comment domain.Comment
 		photo   domain.Photo
@@ -101,7 +101,7 @@ func (route *commentRoute) Store(ctx *gin.Context) {
 	})
 }
 
-func (route *commentRoute) Update(ctx *gin.Context) {
+func (route *commentHandler) Update(ctx *gin.Context) {
 	var (
 		comment domain.Comment
 		photo   domain.Photo
@@ -145,7 +145,7 @@ func (route *commentRoute) Update(ctx *gin.Context) {
 	})
 }
 
-func (route *commentRoute) Delete(ctx *gin.Context) {
+func (route *commentHandler) Delete(ctx *gin.Context) {
 	commentID := ctx.Param("commentId")
 
 	if err := route.commentUseCase.Delete(ctx.Request.Context(), commentID); err != nil {

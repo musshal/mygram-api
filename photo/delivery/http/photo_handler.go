@@ -10,12 +10,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type photoRoute struct {
+type photoHandler struct {
 	photoUseCase domain.PhotoUseCase
 }
 
-func NewPhotoRoute(handlers *gin.Engine, photoUseCase domain.PhotoUseCase) {
-	route := &photoRoute{photoUseCase}
+func NewPhotoHandler(handlers *gin.Engine, photoUseCase domain.PhotoUseCase) {
+	route := &photoHandler{photoUseCase}
 
 	handler := handlers.Group("/photos")
 	{
@@ -27,7 +27,7 @@ func NewPhotoRoute(handlers *gin.Engine, photoUseCase domain.PhotoUseCase) {
 	}
 }
 
-func (route *photoRoute) Fetch(ctx *gin.Context) {
+func (route *photoHandler) Fetch(ctx *gin.Context) {
 	var (
 		photos []domain.Photo
 		err    error
@@ -63,7 +63,7 @@ func (route *photoRoute) Fetch(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, fetchedPhotos)
 }
 
-func (route *photoRoute) Store(ctx *gin.Context) {
+func (route *photoHandler) Store(ctx *gin.Context) {
 	var (
 		photo domain.Photo
 		err   error
@@ -102,7 +102,7 @@ func (route *photoRoute) Store(ctx *gin.Context) {
 	})
 }
 
-func (route *photoRoute) Update(ctx *gin.Context) {
+func (route *photoHandler) Update(ctx *gin.Context) {
 	var (
 		photo domain.Photo
 		err   error
@@ -144,7 +144,7 @@ func (route *photoRoute) Update(ctx *gin.Context) {
 	})
 }
 
-func (route *photoRoute) Delete(ctx *gin.Context) {
+func (route *photoHandler) Delete(ctx *gin.Context) {
 	photoID := ctx.Param("photoId")
 
 	if err := route.photoUseCase.Delete(ctx.Request.Context(), photoID); err != nil {

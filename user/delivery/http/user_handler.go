@@ -12,12 +12,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type userRoute struct {
+type userHandler struct {
 	userUseCase domain.UserUseCase
 }
 
-func NewUserRoute(handlers *gin.Engine, userUseCase domain.UserUseCase) {
-	route := &userRoute{userUseCase}
+func NewUserHandler(handlers *gin.Engine, userUseCase domain.UserUseCase) {
+	route := &userHandler{userUseCase}
 
 	handler := handlers.Group("/users")
 	{
@@ -28,7 +28,7 @@ func NewUserRoute(handlers *gin.Engine, userUseCase domain.UserUseCase) {
 	}
 }
 
-func (route *userRoute) Register(ctx *gin.Context) {
+func (route *userHandler) Register(ctx *gin.Context) {
 	var (
 		user domain.User
 		err  error
@@ -78,7 +78,7 @@ func (route *userRoute) Register(ctx *gin.Context) {
 	})
 }
 
-func (route *userRoute) Login(ctx *gin.Context) {
+func (route *userHandler) Login(ctx *gin.Context) {
 	var (
 		user  domain.User
 		err   error
@@ -124,7 +124,7 @@ func (route *userRoute) Login(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"token": token})
 }
 
-func (route *userRoute) Update(ctx *gin.Context) {
+func (route *userHandler) Update(ctx *gin.Context) {
 	var (
 		user domain.User
 		err  error
@@ -165,7 +165,7 @@ func (route *userRoute) Update(ctx *gin.Context) {
 	})
 }
 
-func (route *userRoute) Delete(ctx *gin.Context) {
+func (route *userHandler) Delete(ctx *gin.Context) {
 	userData := ctx.MustGet("userData").(jwt.MapClaims)
 	userID := string(userData["id"].(string))
 

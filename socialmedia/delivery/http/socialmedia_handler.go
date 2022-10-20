@@ -10,12 +10,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type socialMediaRoute struct {
+type socialMediaHandler struct {
 	socialMediaUseCase domain.SocialMediaUseCase
 }
 
-func NewSocialMediaRoute(handlers *gin.Engine, socialMediaUseCase domain.SocialMediaUseCase) {
-	route := &socialMediaRoute{socialMediaUseCase}
+func NewSocialMediaHandler(handlers *gin.Engine, socialMediaUseCase domain.SocialMediaUseCase) {
+	route := &socialMediaHandler{socialMediaUseCase}
 
 	handler := handlers.Group("/socialmedias")
 	{
@@ -27,7 +27,7 @@ func NewSocialMediaRoute(handlers *gin.Engine, socialMediaUseCase domain.SocialM
 	}
 }
 
-func (route *socialMediaRoute) Fetch(ctx *gin.Context) {
+func (route *socialMediaHandler) Fetch(ctx *gin.Context) {
 	var (
 		socialMedias []domain.SocialMedia
 		err          error
@@ -49,7 +49,7 @@ func (route *socialMediaRoute) Fetch(ctx *gin.Context) {
 		"socialMedia": socialMedias,
 	})
 }
-func (route *socialMediaRoute) Store(ctx *gin.Context) {
+func (route *socialMediaHandler) Store(ctx *gin.Context) {
 	var (
 		socialMedia domain.SocialMedia
 		err         error
@@ -87,7 +87,7 @@ func (route *socialMediaRoute) Store(ctx *gin.Context) {
 	})
 }
 
-func (route *socialMediaRoute) Update(ctx *gin.Context) {
+func (route *socialMediaHandler) Update(ctx *gin.Context) {
 	var (
 		socialMedia domain.SocialMedia
 		err         error
@@ -130,7 +130,7 @@ func (route *socialMediaRoute) Update(ctx *gin.Context) {
 	})
 }
 
-func (route *socialMediaRoute) Delete(ctx *gin.Context) {
+func (route *socialMediaHandler) Delete(ctx *gin.Context) {
 	socialMediaID := ctx.Param("socialMediaId")
 
 	if err := route.socialMediaUseCase.Delete(ctx.Request.Context(), socialMediaID); err != nil {

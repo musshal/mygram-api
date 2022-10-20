@@ -43,19 +43,19 @@ func main() {
 
 	userRepository := userRepository.NewUserRepository(db)
 	userUseCase := userUseCase.NewUserUseCase(userRepository)
-	userDelivery.NewUserRoute(routers, userUseCase)
+	userDelivery.NewUserHandler(routers, userUseCase)
 
 	photoRepository := photoRepository.NewPhotoRepository(db)
 	photoUseCase := photoUseCase.NewPhotoUsecase(photoRepository)
-	photoDelivery.NewPhotoRoute(routers, photoUseCase)
+	photoDelivery.NewPhotoHandler(routers, photoUseCase)
 
 	commentRepository := commentRepository.NewCommentRepository(db)
 	commentUseCase := commentUseCase.NewCommentUseCase(commentRepository)
-	commentDelivery.NewCommentRoute(routers, commentUseCase, photoUseCase)
+	commentDelivery.NewCommentHandler(routers, commentUseCase, photoUseCase)
 
 	socialMediaRepository := socialMediaRepository.NewSocialMediaRepository(db)
 	socialMediaUseCase := socialMediaUseCase.NewSocialMediaUseCase(socialMediaRepository)
-	socialMediaDelivery.NewSocialMediaRoute(routers, socialMediaUseCase)
+	socialMediaDelivery.NewSocialMediaHandler(routers, socialMediaUseCase)
 
 	if err := godotenv.Load(); err != nil {
 		log.Fatal("Error loading .env file: ", err)
