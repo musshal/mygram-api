@@ -23,7 +23,7 @@ func (commentRepository *commentRepository) Fetch(ctx context.Context, comments 
 
 	defer cancel()
 
-	if err = commentRepository.db.Debug().WithContext(ctx).Where("user_id = ?", userID).Preload("User", func(db *gorm.DB) *gorm.DB {
+	if err = commentRepository.db.WithContext(ctx).Where("user_id = ?", userID).Preload("User", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id", "email", "username", "profile_image_url")
 	}).Preload("Photo", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id", "user_id", "title", "photo_url", "caption")
@@ -43,7 +43,7 @@ func (commentRepository *commentRepository) Store(ctx context.Context, comment *
 
 	comment.ID = fmt.Sprintf("comment-%s", ID)
 
-	if err = commentRepository.db.Debug().WithContext(ctx).Create(&comment).Error; err != nil {
+	if err = commentRepository.db.WithContext(ctx).Create(&comment).Error; err != nil {
 		return err
 	}
 
@@ -55,7 +55,7 @@ func (commentRepository *commentRepository) GetByID(ctx context.Context, comment
 
 	defer cancel()
 
-	if err = commentRepository.db.Debug().WithContext(ctx).First(&comment, &id).Error; err != nil {
+	if err = commentRepository.db.WithContext(ctx).First(&comment, &id).Error; err != nil {
 		return err
 	}
 
@@ -71,15 +71,15 @@ func (commentRepository *commentRepository) Update(ctx context.Context, comment 
 
 	photo = domain.Photo{}
 
-	if err = commentRepository.db.Debug().WithContext(ctx).First(&c, &id).Error; err != nil {
+	if err = commentRepository.db.WithContext(ctx).First(&c, &id).Error; err != nil {
 		return photo, err
 	}
 
-	if err = commentRepository.db.Debug().WithContext(ctx).Model(&c).Updates(comment).Error; err != nil {
+	if err = commentRepository.db.WithContext(ctx).Model(&c).Updates(comment).Error; err != nil {
 		return photo, err
 	}
 
-	if err = commentRepository.db.Debug().WithContext(ctx).First(&photo, comment.PhotoID).Error; err != nil {
+	if err = commentRepository.db.WithContext(ctx).First(&photo, comment.PhotoID).Error; err != nil {
 		return photo, err
 	}
 
@@ -91,11 +91,11 @@ func (commentRepository *commentRepository) Delete(ctx context.Context, id strin
 
 	defer cancel()
 
-	if err = commentRepository.db.Debug().WithContext(ctx).First(&domain.Comment{}).Error; err != nil {
+	if err = commentRepository.db.WithContext(ctx).First(&domain.Comment{}).Error; err != nil {
 		return err
 	}
 
-	if err = commentRepository.db.Debug().WithContext(ctx).Delete(&domain.Comment{}, &id).Error; err != nil {
+	if err = commentRepository.db.WithContext(ctx).Delete(&domain.Comment{}, &id).Error; err != nil {
 		return err
 	}
 

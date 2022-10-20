@@ -23,7 +23,7 @@ func (photoRepository *photoRepository) Fetch(ctx context.Context, photos *[]dom
 
 	defer cancel()
 
-	if err = photoRepository.db.Debug().WithContext(ctx).Preload("User", func(db *gorm.DB) *gorm.DB {
+	if err = photoRepository.db.WithContext(ctx).Preload("User", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id", "username", "email")
 	}).Find(&photos).Error; err != nil {
 		return err
@@ -41,7 +41,7 @@ func (photoRepository *photoRepository) Store(ctx context.Context, photo *domain
 
 	photo.ID = fmt.Sprintf("photo-%s", ID)
 
-	if err := photoRepository.db.Debug().WithContext(ctx).Create(&photo).Error; err != nil {
+	if err := photoRepository.db.WithContext(ctx).Create(&photo).Error; err != nil {
 		return err
 	}
 
@@ -53,7 +53,7 @@ func (photoRepository *photoRepository) GetByID(ctx context.Context, photo *doma
 
 	defer cancel()
 
-	if err = photoRepository.db.Debug().WithContext(ctx).First(&photo, &id).Error; err != nil {
+	if err = photoRepository.db.WithContext(ctx).First(&photo, &id).Error; err != nil {
 		return err
 	}
 
@@ -67,11 +67,11 @@ func (photoRepository *photoRepository) Update(ctx context.Context, photo domain
 
 	p = domain.Photo{}
 
-	if err = photoRepository.db.Debug().WithContext(ctx).First(&p, &id).Error; err != nil {
+	if err = photoRepository.db.WithContext(ctx).First(&p, &id).Error; err != nil {
 		return p, err
 	}
 
-	if err = photoRepository.db.Debug().WithContext(ctx).Model(&p).Updates(photo).Error; err != nil {
+	if err = photoRepository.db.WithContext(ctx).Model(&p).Updates(photo).Error; err != nil {
 		return p, err
 	}
 
@@ -83,11 +83,11 @@ func (photoRepository *photoRepository) Delete(ctx context.Context, id string) (
 
 	defer cancel()
 
-	if err = photoRepository.db.Debug().WithContext(ctx).First(&domain.Photo{}).Error; err != nil {
+	if err = photoRepository.db.WithContext(ctx).First(&domain.Photo{}).Error; err != nil {
 		return err
 	}
 
-	if err = photoRepository.db.Debug().WithContext(ctx).Delete(&domain.Photo{}, &id).Error; err != nil {
+	if err = photoRepository.db.WithContext(ctx).Delete(&domain.Photo{}, &id).Error; err != nil {
 		return err
 	}
 

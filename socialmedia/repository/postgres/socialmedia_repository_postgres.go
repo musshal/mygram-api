@@ -23,7 +23,7 @@ func (socialMediaRepository *socialMediaRepository) Fetch(ctx context.Context, s
 
 	defer cancel()
 
-	if err = socialMediaRepository.db.Debug().WithContext(ctx).Where("user_id = ?", userID).Preload("User", func(db *gorm.DB) *gorm.DB {
+	if err = socialMediaRepository.db.WithContext(ctx).Where("user_id = ?", userID).Preload("User", func(db *gorm.DB) *gorm.DB {
 		return db.Select("ID", "Email", "Username", "ProfileImageUrl")
 	}).Find(&socialMedias).Error; err != nil {
 		return err
@@ -41,7 +41,7 @@ func (socialMediaRepository *socialMediaRepository) Store(ctx context.Context, s
 
 	socialMedia.ID = fmt.Sprintf("socialmedia-%s", ID)
 
-	if err = socialMediaRepository.db.Debug().WithContext(ctx).Create(&socialMedia).Error; err != nil {
+	if err = socialMediaRepository.db.WithContext(ctx).Create(&socialMedia).Error; err != nil {
 		return err
 	}
 
@@ -53,7 +53,7 @@ func (socialMediaRepository *socialMediaRepository) GetByID(ctx context.Context,
 
 	defer cancel()
 
-	if err = socialMediaRepository.db.Debug().WithContext(ctx).First(&socialMedia, &id).Error; err != nil {
+	if err = socialMediaRepository.db.WithContext(ctx).First(&socialMedia, &id).Error; err != nil {
 		return err
 	}
 
@@ -67,11 +67,11 @@ func (socialMediaRepository *socialMediaRepository) Update(ctx context.Context, 
 
 	socmed = domain.SocialMedia{}
 
-	if err = socialMediaRepository.db.Debug().WithContext(ctx).First(&socmed, &id).Error; err != nil {
+	if err = socialMediaRepository.db.WithContext(ctx).First(&socmed, &id).Error; err != nil {
 		return socmed, err
 	}
 
-	if err = socialMediaRepository.db.Debug().WithContext(ctx).Model(&socmed).Updates(socialMedia).Error; err != nil {
+	if err = socialMediaRepository.db.WithContext(ctx).Model(&socmed).Updates(socialMedia).Error; err != nil {
 		return socmed, err
 	}
 
@@ -83,11 +83,11 @@ func (socialMediaRepository *socialMediaRepository) Delete(ctx context.Context, 
 
 	defer cancel()
 
-	if err = socialMediaRepository.db.Debug().WithContext(ctx).First(&domain.SocialMedia{}).Error; err != nil {
+	if err = socialMediaRepository.db.WithContext(ctx).First(&domain.SocialMedia{}).Error; err != nil {
 		return err
 	}
 
-	if err = socialMediaRepository.db.Debug().WithContext(ctx).Delete(&domain.SocialMedia{}, &id).Error; err != nil {
+	if err = socialMediaRepository.db.WithContext(ctx).Delete(&domain.SocialMedia{}, &id).Error; err != nil {
 		return err
 	}
 

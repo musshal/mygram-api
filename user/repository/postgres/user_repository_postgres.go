@@ -29,7 +29,7 @@ func (userRepository *userRepository) Register(ctx context.Context, user *domain
 
 	user.ID = fmt.Sprintf("user-%s", ID)
 
-	if err = userRepository.db.Debug().WithContext(ctx).Create(&user).Error; err != nil {
+	if err = userRepository.db.WithContext(ctx).Create(&user).Error; err != nil {
 		return err
 	}
 
@@ -43,7 +43,7 @@ func (userRepository *userRepository) Login(ctx context.Context, user *domain.Us
 
 	password := user.Password
 
-	if err = userRepository.db.Debug().WithContext(ctx).Where("email = ?", user.Email).Take(&user).Error; err != nil {
+	if err = userRepository.db.WithContext(ctx).Where("email = ?", user.Email).Take(&user).Error; err != nil {
 		return errors.New("the email you entered are not found")
 	}
 
@@ -61,11 +61,11 @@ func (userRepository *userRepository) Update(ctx context.Context, user domain.Us
 
 	u = domain.User{}
 
-	if err = userRepository.db.Debug().WithContext(ctx).First(&u).Error; err != nil {
+	if err = userRepository.db.WithContext(ctx).First(&u).Error; err != nil {
 		return u, err
 	}
 
-	if err = userRepository.db.Debug().WithContext(ctx).Model(&u).Updates(user).Error; err != nil {
+	if err = userRepository.db.WithContext(ctx).Model(&u).Updates(user).Error; err != nil {
 		return u, err
 	}
 
@@ -77,11 +77,11 @@ func (userRepository *userRepository) Delete(ctx context.Context, id string) (er
 
 	defer cancel()
 
-	if err = userRepository.db.Debug().WithContext(ctx).First(&domain.User{}).Error; err != nil {
+	if err = userRepository.db.WithContext(ctx).First(&domain.User{}).Error; err != nil {
 		return err
 	}
 
-	if err = userRepository.db.Debug().WithContext(ctx).Delete(&domain.User{}, &id).Error; err != nil {
+	if err = userRepository.db.WithContext(ctx).Delete(&domain.User{}, &id).Error; err != nil {
 		return err
 	}
 
