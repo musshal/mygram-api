@@ -16,20 +16,20 @@ type commentHandler struct {
 	photoUseCase   domain.PhotoUseCase
 }
 
-func NewCommentHandler(handlers *gin.Engine, commentUseCase domain.CommentUseCase, photoUseCase domain.PhotoUseCase) {
-	route := &commentHandler{commentUseCase, photoUseCase}
+func NewCommentHandler(routers *gin.Engine, commentUseCase domain.CommentUseCase, photoUseCase domain.PhotoUseCase) {
+	handler := &commentHandler{commentUseCase, photoUseCase}
 
-	handler := handlers.Group("/comments")
+	router := routers.Group("/comments")
 	{
-		handler.Use(middleware.Authentication())
-		handler.GET("", route.Fetch)
-		handler.POST("", route.Store)
-		handler.PUT("/:commentId", middleware.Authorization(route.commentUseCase), route.Update)
-		handler.DELETE("/:commentId", middleware.Authorization(route.commentUseCase), route.Delete)
+		router.Use(middleware.Authentication())
+		router.GET("", handler.Fetch)
+		router.POST("", handler.Store)
+		router.PUT("/:commentId", middleware.Authorization(handler.commentUseCase), handler.Update)
+		router.DELETE("/:commentId", middleware.Authorization(handler.commentUseCase), handler.Delete)
 	}
 }
 
-func (route *commentHandler) Fetch(ctx *gin.Context) {
+func (handler *commentHandler) Fetch(ctx *gin.Context) {
 	var (
 		comments []domain.Comment
 
@@ -39,7 +39,7 @@ func (route *commentHandler) Fetch(ctx *gin.Context) {
 	userData := ctx.MustGet("userData").(jwt.MapClaims)
 	userID := string(userData["id"].(string))
 
-	if err = route.commentUseCase.Fetch(ctx.Request.Context(), &comments, userID); err != nil {
+	if err = handler.commentUseCase.Fetch(ctx.Request.Context(), &comments, userID); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
@@ -51,7 +51,7 @@ func (route *commentHandler) Fetch(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, comments)
 }
 
-func (route *commentHandler) Store(ctx *gin.Context) {
+func (handler *commentHandler) Store(ctx *gin.Context) {
 	var (
 		comment domain.Comment
 		photo   domain.Photo
@@ -72,7 +72,7 @@ func (route *commentHandler) Store(ctx *gin.Context) {
 
 	photoID := comment.PhotoID
 
-	if err = route.photoUseCase.GetByID(ctx.Request.Context(), &photo, photoID); err != nil {
+	if err = handler.photoUseCase.GetByID(ctx.Request.Context(), &photo, photoID); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Not Found",
 			"message": fmt.Sprintf("photo with id %s doesn't exist", photoID),
@@ -83,7 +83,7 @@ func (route *commentHandler) Store(ctx *gin.Context) {
 
 	comment.UserID = userID
 
-	if err = route.commentUseCase.Store(ctx.Request.Context(), &comment); err != nil {
+	if err = handler.commentUseCase.Store(ctx.Request.Context(), &comment); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
@@ -101,7 +101,7 @@ func (route *commentHandler) Store(ctx *gin.Context) {
 	})
 }
 
-func (route *commentHandler) Update(ctx *gin.Context) {
+func (handler *commentHandler) Update(ctx *gin.Context) {
 	var (
 		comment domain.Comment
 		photo   domain.Photo
@@ -126,7 +126,7 @@ func (route *commentHandler) Update(ctx *gin.Context) {
 		Message: comment.Message,
 	}
 
-	if photo, err = route.commentUseCase.Update(ctx.Request.Context(), updatedComment, commentID); err != nil {
+	if photo, err = handler.commentUseCase.Update(ctx.Request.Context(), updatedComment, commentID); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
@@ -145,10 +145,10 @@ func (route *commentHandler) Update(ctx *gin.Context) {
 	})
 }
 
-func (route *commentHandler) Delete(ctx *gin.Context) {
+func (handler *commentHandler) Delete(ctx *gin.Context) {
 	commentID := ctx.Param("commentId")
 
-	if err := route.commentUseCase.Delete(ctx.Request.Context(), commentID); err != nil {
+	if err := handler.commentUseCase.Delete(ctx.Request.Context(), commentID); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),

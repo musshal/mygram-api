@@ -14,26 +14,26 @@ type photoHandler struct {
 	photoUseCase domain.PhotoUseCase
 }
 
-func NewPhotoHandler(handlers *gin.Engine, photoUseCase domain.PhotoUseCase) {
-	route := &photoHandler{photoUseCase}
+func NewPhotoHandler(routers *gin.Engine, photoUseCase domain.PhotoUseCase) {
+	handler := &photoHandler{photoUseCase}
 
-	handler := handlers.Group("/photos")
+	router := routers.Group("/photos")
 	{
-		handler.Use(middleware.Authentication())
-		handler.GET("", route.Fetch)
-		handler.POST("", route.Store)
-		handler.PUT("/:photoId", middleware.Authorization(route.photoUseCase), route.Update)
-		handler.DELETE("/:photoId", middleware.Authorization(route.photoUseCase), route.Delete)
+		router.Use(middleware.Authentication())
+		router.GET("", handler.Fetch)
+		router.POST("", handler.Store)
+		router.PUT("/:photoId", middleware.Authorization(handler.photoUseCase), handler.Update)
+		router.DELETE("/:photoId", middleware.Authorization(handler.photoUseCase), handler.Delete)
 	}
 }
 
-func (route *photoHandler) Fetch(ctx *gin.Context) {
+func (handler *photoHandler) Fetch(ctx *gin.Context) {
 	var (
 		photos []domain.Photo
 		err    error
 	)
 
-	if err = route.photoUseCase.Fetch(ctx.Request.Context(), &photos); err != nil {
+	if err = handler.photoUseCase.Fetch(ctx.Request.Context(), &photos); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
@@ -63,7 +63,7 @@ func (route *photoHandler) Fetch(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, fetchedPhotos)
 }
 
-func (route *photoHandler) Store(ctx *gin.Context) {
+func (handler *photoHandler) Store(ctx *gin.Context) {
 	var (
 		photo domain.Photo
 		err   error
@@ -83,7 +83,7 @@ func (route *photoHandler) Store(ctx *gin.Context) {
 
 	photo.UserID = userID
 
-	if err = route.photoUseCase.Store(ctx.Request.Context(), &photo); err != nil {
+	if err = handler.photoUseCase.Store(ctx.Request.Context(), &photo); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
@@ -102,7 +102,7 @@ func (route *photoHandler) Store(ctx *gin.Context) {
 	})
 }
 
-func (route *photoHandler) Update(ctx *gin.Context) {
+func (handler *photoHandler) Update(ctx *gin.Context) {
 	var (
 		photo domain.Photo
 		err   error
@@ -125,7 +125,7 @@ func (route *photoHandler) Update(ctx *gin.Context) {
 
 	photoID := ctx.Param("photoId")
 
-	if photo, err = route.photoUseCase.Update(ctx.Request.Context(), updatedPhoto, photoID); err != nil {
+	if photo, err = handler.photoUseCase.Update(ctx.Request.Context(), updatedPhoto, photoID); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
@@ -144,10 +144,10 @@ func (route *photoHandler) Update(ctx *gin.Context) {
 	})
 }
 
-func (route *photoHandler) Delete(ctx *gin.Context) {
+func (handler *photoHandler) Delete(ctx *gin.Context) {
 	photoID := ctx.Param("photoId")
 
-	if err := route.photoUseCase.Delete(ctx.Request.Context(), photoID); err != nil {
+	if err := handler.photoUseCase.Delete(ctx.Request.Context(), photoID); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),

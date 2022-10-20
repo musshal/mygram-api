@@ -16,19 +16,19 @@ type userHandler struct {
 	userUseCase domain.UserUseCase
 }
 
-func NewUserHandler(handlers *gin.Engine, userUseCase domain.UserUseCase) {
-	route := &userHandler{userUseCase}
+func NewUserHandler(routers *gin.Engine, userUseCase domain.UserUseCase) {
+	handler := &userHandler{userUseCase}
 
-	handler := handlers.Group("/users")
+	router := routers.Group("/users")
 	{
-		handler.POST("/register", route.Register)
-		handler.POST("/login", route.Login)
-		handler.PUT("", middleware.Authentication(), route.Update)
-		handler.DELETE("", middleware.Authentication(), route.Delete)
+		router.POST("/register", handler.Register)
+		router.POST("/login", handler.Login)
+		router.PUT("", middleware.Authentication(), handler.Update)
+		router.DELETE("", middleware.Authentication(), handler.Delete)
 	}
 }
 
-func (route *userHandler) Register(ctx *gin.Context) {
+func (handler *userHandler) Register(ctx *gin.Context) {
 	var (
 		user domain.User
 		err  error
@@ -43,7 +43,7 @@ func (route *userHandler) Register(ctx *gin.Context) {
 		return
 	}
 
-	if err = route.userUseCase.Register(ctx.Request.Context(), &user); err != nil {
+	if err = handler.userUseCase.Register(ctx.Request.Context(), &user); err != nil {
 		if strings.Contains(err.Error(), "idx_users_username") {
 			ctx.AbortWithStatusJSON(http.StatusConflict, gin.H{
 				"error":   "Conflict",
@@ -78,7 +78,7 @@ func (route *userHandler) Register(ctx *gin.Context) {
 	})
 }
 
-func (route *userHandler) Login(ctx *gin.Context) {
+func (handler *userHandler) Login(ctx *gin.Context) {
 	var (
 		user  domain.User
 		err   error
@@ -94,7 +94,7 @@ func (route *userHandler) Login(ctx *gin.Context) {
 		return
 	}
 
-	if err = route.userUseCase.Login(ctx.Request.Context(), &user); err != nil {
+	if err = handler.userUseCase.Login(ctx.Request.Context(), &user); err != nil {
 		if strings.Contains(err.Error(), "the credential you entered are wrong") {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"error":   "Unauthorized",
@@ -124,7 +124,7 @@ func (route *userHandler) Login(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"token": token})
 }
 
-func (route *userHandler) Update(ctx *gin.Context) {
+func (handler *userHandler) Update(ctx *gin.Context) {
 	var (
 		user domain.User
 		err  error
@@ -147,7 +147,7 @@ func (route *userHandler) Update(ctx *gin.Context) {
 		Email:    user.Email,
 	}
 
-	if user, err = route.userUseCase.Update(ctx.Request.Context(), updatedUser); err != nil {
+	if user, err = handler.userUseCase.Update(ctx.Request.Context(), updatedUser); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
@@ -165,11 +165,11 @@ func (route *userHandler) Update(ctx *gin.Context) {
 	})
 }
 
-func (route *userHandler) Delete(ctx *gin.Context) {
+func (handler *userHandler) Delete(ctx *gin.Context) {
 	userData := ctx.MustGet("userData").(jwt.MapClaims)
 	userID := string(userData["id"].(string))
 
-	if err := route.userUseCase.Delete(ctx, userID); err != nil {
+	if err := handler.userUseCase.Delete(ctx, userID); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),

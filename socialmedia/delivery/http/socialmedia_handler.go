@@ -14,20 +14,20 @@ type socialMediaHandler struct {
 	socialMediaUseCase domain.SocialMediaUseCase
 }
 
-func NewSocialMediaHandler(handlers *gin.Engine, socialMediaUseCase domain.SocialMediaUseCase) {
-	route := &socialMediaHandler{socialMediaUseCase}
+func NewSocialMediaHandler(routers *gin.Engine, socialMediaUseCase domain.SocialMediaUseCase) {
+	handler := &socialMediaHandler{socialMediaUseCase}
 
-	handler := handlers.Group("/socialmedias")
+	router := routers.Group("/socialmedias")
 	{
-		handler.Use(middleware.Authentication())
-		handler.GET("", route.Fetch)
-		handler.POST("", route.Store)
-		handler.PUT("/:socialMediaId", middleware.Authorization(route.socialMediaUseCase), route.Update)
-		handler.DELETE("/:socialMediaId", middleware.Authorization(route.socialMediaUseCase), route.Delete)
+		router.Use(middleware.Authentication())
+		router.GET("", handler.Fetch)
+		router.POST("", handler.Store)
+		router.PUT("/:socialMediaId", middleware.Authorization(handler.socialMediaUseCase), handler.Update)
+		router.DELETE("/:socialMediaId", middleware.Authorization(handler.socialMediaUseCase), handler.Delete)
 	}
 }
 
-func (route *socialMediaHandler) Fetch(ctx *gin.Context) {
+func (handler *socialMediaHandler) Fetch(ctx *gin.Context) {
 	var (
 		socialMedias []domain.SocialMedia
 		err          error
@@ -36,7 +36,7 @@ func (route *socialMediaHandler) Fetch(ctx *gin.Context) {
 	userData := ctx.MustGet("userData").(jwt.MapClaims)
 	userID := string(userData["id"].(string))
 
-	if err = route.socialMediaUseCase.Fetch(ctx.Request.Context(), &socialMedias, userID); err != nil {
+	if err = handler.socialMediaUseCase.Fetch(ctx.Request.Context(), &socialMedias, userID); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
@@ -49,7 +49,7 @@ func (route *socialMediaHandler) Fetch(ctx *gin.Context) {
 		"socialMedia": socialMedias,
 	})
 }
-func (route *socialMediaHandler) Store(ctx *gin.Context) {
+func (handler *socialMediaHandler) Store(ctx *gin.Context) {
 	var (
 		socialMedia domain.SocialMedia
 		err         error
@@ -69,7 +69,7 @@ func (route *socialMediaHandler) Store(ctx *gin.Context) {
 
 	socialMedia.UserID = userID
 
-	if err = route.socialMediaUseCase.Store(ctx.Request.Context(), &socialMedia); err != nil {
+	if err = handler.socialMediaUseCase.Store(ctx.Request.Context(), &socialMedia); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
@@ -87,7 +87,7 @@ func (route *socialMediaHandler) Store(ctx *gin.Context) {
 	})
 }
 
-func (route *socialMediaHandler) Update(ctx *gin.Context) {
+func (handler *socialMediaHandler) Update(ctx *gin.Context) {
 	var (
 		socialMedia domain.SocialMedia
 		err         error
@@ -112,7 +112,7 @@ func (route *socialMediaHandler) Update(ctx *gin.Context) {
 		SocialMediaUrl: socialMedia.SocialMediaUrl,
 	}
 
-	if socialMedia, err = route.socialMediaUseCase.Update(ctx.Request.Context(), updatedSocialMedia, socialMediaID); err != nil {
+	if socialMedia, err = handler.socialMediaUseCase.Update(ctx.Request.Context(), updatedSocialMedia, socialMediaID); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
@@ -130,10 +130,10 @@ func (route *socialMediaHandler) Update(ctx *gin.Context) {
 	})
 }
 
-func (route *socialMediaHandler) Delete(ctx *gin.Context) {
+func (handler *socialMediaHandler) Delete(ctx *gin.Context) {
 	socialMediaID := ctx.Param("socialMediaId")
 
-	if err := route.socialMediaUseCase.Delete(ctx.Request.Context(), socialMediaID); err != nil {
+	if err := handler.socialMediaUseCase.Delete(ctx.Request.Context(), socialMediaID); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
