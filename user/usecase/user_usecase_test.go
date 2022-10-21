@@ -6,6 +6,7 @@ import (
 	"mygram-api/domain/mocks"
 	"mygram-api/helpers"
 	"testing"
+	"time"
 
 	userUseCase "mygram-api/user/usecase"
 
@@ -172,7 +173,7 @@ func TestLogin(t *testing.T) {
 
 		isValid := helpers.Compare([]byte(mockRegisteredUser.Password), []byte(tempMockLoginUser.Password))
 
-		assert.True(t, isValid, "the credential you entered are wrong")
+		assert.True(t, isValid)
 		mockUserRepository.AssertExpectations(t)
 	})
 
@@ -192,7 +193,7 @@ func TestLogin(t *testing.T) {
 
 		isValid := helpers.Compare([]byte(mockRegisteredUser.Password), []byte(tempMockLoginUser.Password))
 
-		assert.True(t, isValid, "the credential you entered are wrong")
+		assert.True(t, isValid)
 		mockUserRepository.AssertExpectations(t)
 	})
 
@@ -212,7 +213,47 @@ func TestLogin(t *testing.T) {
 
 		isValid := helpers.Compare([]byte(mockRegisteredUser.Password), []byte(tempMockLoginUser.Password))
 
-		assert.False(t, isValid, "the credential you entered are wrong")
+		assert.False(t, isValid)
+		mockUserRepository.AssertExpectations(t)
+	})
+}
+
+func TestUpdate(t *testing.T) {
+	date := time.Now()
+	mockUpdatedUser := domain.User{
+		ID:        "user-123",
+		Email:     "newjohndoe@example.com",
+		Username:  "newjohndoe",
+		Age:       8,
+		UpdatedAt: &date,
+	}
+
+	mockUserRepository := new(mocks.UserRepository)
+	userUseCase := userUseCase.NewUserUseCase(mockUserRepository)
+
+	t.Run("updated user correctly", func(t *testing.T) {
+		tempMockUpdateUser := domain.User{
+			Email:    "newjohndoe@example.com",
+			Username: "newjohndoe",
+		}
+
+		mockUserRepository.On("Update", mock.Anything, mock.AnythingOfType("domain.User")).Return(mockUpdatedUser, nil).Once()
+
+		user, err := userUseCase.Update(context.Background(), tempMockUpdateUser)
+
+		tempMockUpdatedUser := domain.User{
+			ID:        "user-123",
+			Email:     tempMockUpdateUser.Email,
+			Username:  tempMockUpdateUser.Username,
+			Age:       8,
+			UpdatedAt: &date,
+		}
+
+		assert.NoError(t, err)
+		assert.Equal(t, tempMockUpdatedUser, user)
+		assert.NoError(t, err)
+		assert.Equal(t, tempMockUpdateUser.Email, mockUpdatedUser.Email)
+		assert.Equal(t, tempMockUpdatedUser.Username, mockUpdatedUser.Username)
 		mockUserRepository.AssertExpectations(t)
 	})
 }
