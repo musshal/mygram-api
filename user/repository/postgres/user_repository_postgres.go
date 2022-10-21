@@ -77,7 +77,11 @@ func (userRepository *userRepository) Delete(ctx context.Context, id string) (er
 
 	defer cancel()
 
-	if err = userRepository.db.WithContext(ctx).First(&domain.User{}, &id).Error; err != nil {
+	if err = userRepository.db.WithContext(ctx).First(&domain.User{}).Error; err != nil {
+		return err
+	}
+
+	if err = userRepository.db.WithContext(ctx).Where("user_id = ?", id).Delete(&domain.SocialMedia{}).Error; err != nil {
 		return err
 	}
 
