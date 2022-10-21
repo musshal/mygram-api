@@ -34,9 +34,9 @@ func (handler *photoHandler) Fetch(ctx *gin.Context) {
 	)
 
 	if err = handler.photoUseCase.Fetch(ctx.Request.Context(), &photos); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+			Status:  "fail",
+			Message: err.Error(),
 		})
 
 		return
@@ -60,7 +60,10 @@ func (handler *photoHandler) Fetch(ctx *gin.Context) {
 		})
 	}
 
-	ctx.JSON(http.StatusOK, fetchedPhotos)
+	ctx.JSON(http.StatusOK, utils.ResponseData{
+		Status: "success",
+		Data:   fetchedPhotos,
+	})
 }
 
 func (handler *photoHandler) Store(ctx *gin.Context) {
@@ -73,9 +76,9 @@ func (handler *photoHandler) Store(ctx *gin.Context) {
 	userID := string(userData["id"].(string))
 
 	if err = ctx.ShouldBindJSON(&photo); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+			Status:  "fail",
+			Message: err.Error(),
 		})
 
 		return
@@ -84,21 +87,24 @@ func (handler *photoHandler) Store(ctx *gin.Context) {
 	photo.UserID = userID
 
 	if err = handler.photoUseCase.Store(ctx.Request.Context(), &photo); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+			Status:  "fail",
+			Message: err.Error(),
 		})
 
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, utils.NewPhoto{
-		ID:        photo.ID,
-		Title:     photo.Title,
-		Caption:   photo.Caption,
-		PhotoUrl:  photo.PhotoUrl,
-		UserID:    photo.UserID,
-		CreatedAt: photo.CreatedAt,
+	ctx.JSON(http.StatusCreated, utils.ResponseData{
+		Status: "success",
+		Data: utils.NewPhoto{
+			ID:        photo.ID,
+			Title:     photo.Title,
+			Caption:   photo.Caption,
+			PhotoUrl:  photo.PhotoUrl,
+			UserID:    photo.UserID,
+			CreatedAt: photo.CreatedAt,
+		},
 	})
 }
 
@@ -109,9 +115,9 @@ func (handler *photoHandler) Update(ctx *gin.Context) {
 	)
 
 	if err = ctx.ShouldBindJSON(&photo); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+			Status:  "fail",
+			Message: err.Error(),
 		})
 
 		return
@@ -126,21 +132,24 @@ func (handler *photoHandler) Update(ctx *gin.Context) {
 	photoID := ctx.Param("photoId")
 
 	if photo, err = handler.photoUseCase.Update(ctx.Request.Context(), updatedPhoto, photoID); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+			Status:  "fail",
+			Message: err.Error(),
 		})
 
 		return
 	}
 
-	ctx.JSON(http.StatusOK, utils.UpdatedPhoto{
-		ID:        photo.ID,
-		UserID:    photo.UserID,
-		Title:     photo.Title,
-		PhotoUrl:  photo.PhotoUrl,
-		Caption:   photo.Caption,
-		UpdatedAt: photo.UpdatedAt,
+	ctx.JSON(http.StatusOK, utils.ResponseData{
+		Status: "success",
+		Data: utils.UpdatedPhoto{
+			ID:        photo.ID,
+			UserID:    photo.UserID,
+			Title:     photo.Title,
+			PhotoUrl:  photo.PhotoUrl,
+			Caption:   photo.Caption,
+			UpdatedAt: photo.UpdatedAt,
+		},
 	})
 }
 

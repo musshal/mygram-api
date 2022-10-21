@@ -99,7 +99,7 @@ func (handler *userHandler) Login(ctx *gin.Context) {
 
 	if err = handler.userUseCase.Login(ctx.Request.Context(), &user); err != nil {
 		if strings.Contains(err.Error(), "the credential you entered are wrong") {
-			ctx.AbortWithStatusJSON(http.StatusUnauthorized, utils.ResponseMessage{
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
 				Status:  "unauthenticated",
 				Message: err.Error(),
 			})

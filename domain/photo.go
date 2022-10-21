@@ -20,16 +20,16 @@ type Photo struct {
 	Comment   *Comment   `json:"-"`
 }
 
-func (p *Photo) BeforeCreate(db *gorm.DB) (err error) {
-	if _, err := govalidator.ValidateStruct(p); err != nil {
+func (photo *Photo) BeforeCreate(db *gorm.DB) (err error) {
+	if _, err := govalidator.ValidateStruct(photo); err != nil {
 		return err
 	}
 
 	return
 }
 
-func (p *Photo) BeforeUpdate(db *gorm.DB) (err error) {
-	if _, err := govalidator.ValidateStruct(p); err != nil {
+func (photo *Photo) BeforeUpdate(db *gorm.DB) (err error) {
+	if _, err := govalidator.ValidateStruct(photo); err != nil {
 		return err
 	}
 	return

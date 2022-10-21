@@ -3,6 +3,7 @@ package middleware
 import (
 	"fmt"
 	"mygram-api/domain"
+	"mygram-api/photo/utils"
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
@@ -20,19 +21,19 @@ func Authorization(photoUseCase domain.PhotoUseCase) gin.HandlerFunc {
 		userData := ctx.MustGet("userData").(jwt.MapClaims)
 		userID := string(userData["id"].(string))
 
-		if photoUseCase.GetByID(ctx.Request.Context(), &photo, photoID); err != nil {
-			ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{
-				"error":   "Not Found",
-				"message": fmt.Sprintf("photo with id %s doesn't exist", photoID),
+		if err = photoUseCase.GetByID(ctx.Request.Context(), &photo, photoID); err != nil {
+			ctx.AbortWithStatusJSON(http.StatusNotFound, utils.ResponseMessage{
+				Status:  "fail",
+				Message: fmt.Sprintf("photo with id %s doesn't exist", photoID),
 			})
 
 			return
 		}
 
 		if photo.UserID != userID {
-			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"error":   "Unauthorized",
-				"message": "You don't have permission to view or edit this photo",
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, utils.ResponseMessage{
+				Status:  "unauthorized",
+				Message: "you don't have permission to view or edit this photo",
 			})
 
 			return
