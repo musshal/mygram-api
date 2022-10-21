@@ -92,7 +92,7 @@ func (handler *commentHandler) Store(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, utils.NewComment{
+	ctx.JSON(http.StatusCreated, utils.NewComment{
 		ID:        comment.ID,
 		UserID:    comment.UserID,
 		PhotoID:   comment.PhotoID,

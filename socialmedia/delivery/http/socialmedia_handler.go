@@ -78,7 +78,7 @@ func (handler *socialMediaHandler) Store(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, utils.NewSocialMedia{
+	ctx.JSON(http.StatusCreated, utils.NewSocialMedia{
 		ID:             socialMedia.ID,
 		UserID:         socialMedia.UserID,
 		Name:           socialMedia.Name,
