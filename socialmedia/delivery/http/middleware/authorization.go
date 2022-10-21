@@ -3,6 +3,7 @@ package middleware
 import (
 	"fmt"
 	"mygram-api/domain"
+	"mygram-api/helpers"
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
@@ -21,18 +22,18 @@ func Authorization(socialMediaUseCase domain.SocialMediaUseCase) gin.HandlerFunc
 		userID := string(userData["id"].(string))
 
 		if err = socialMediaUseCase.GetByID(ctx.Request.Context(), &socialMedia, socialMediaID); err != nil {
-			ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{
-				"error":   "Not Found",
-				"message": fmt.Sprintf("social media with id %s doesn't exist", socialMediaID),
+			ctx.AbortWithStatusJSON(http.StatusNotFound, helpers.ResponseMessage{
+				Status:  "fail",
+				Message: fmt.Sprintf("social media with id %s doesn't exist", socialMediaID),
 			})
 
 			return
 		}
 
 		if socialMedia.UserID != userID {
-			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"error":   "Unauthorized",
-				"message": "you don't have permission to view or edit this social media",
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, helpers.ResponseMessage{
+				Status:  "unauthorized",
+				Message: "you don't have permission to view or edit this social media",
 			})
 
 			return

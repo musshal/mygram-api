@@ -8,10 +8,10 @@ type Photo struct {
 	ID        string     `json:"id"`
 	Title     string     `json:"title,"`
 	Caption   string     `json:"caption"`
-	PhotoUrl  string     `json:"photoUrl"`
-	UserID    string     `json:"userId"`
-	CreatedAt *time.Time `json:"createdAt"`
-	UpdatedAt *time.Time `json:"updatedAt"`
+	PhotoUrl  string     `json:"photo_url"`
+	UserID    string     `json:"user_id"`
+	CreatedAt *time.Time `json:"created_at"`
+	UpdatedAt *time.Time `json:"updated_at"`
 	User      *User      `json:"user"`
 }
 
@@ -24,16 +24,16 @@ type NewPhoto struct {
 	ID        string     `json:"id"`
 	Title     string     `json:"title"`
 	Caption   string     `json:"caption"`
-	PhotoUrl  string     `json:"photoUrl"`
-	UserID    string     `json:"userId"`
-	CreatedAt *time.Time `json:"createdAt"`
+	PhotoUrl  string     `json:"photo_url"`
+	UserID    string     `json:"user_id"`
+	CreatedAt *time.Time `json:"created_at"`
 }
 
 type UpdatedPhoto struct {
 	ID        string     `json:"id"`
 	Title     string     `json:"title"`
 	Caption   string     `json:"caption"`
-	PhotoUrl  string     `json:"photoUrl"`
-	UserID    string     `json:"userId"`
-	UpdatedAt *time.Time `json:"updatedAt"`
+	PhotoUrl  string     `json:"photo_url"`
+	UserID    string     `json:"user_id"`
+	UpdatedAt *time.Time `json:"updated_at"`
 }

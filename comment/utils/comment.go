@@ -4,17 +4,17 @@ import "time"
 
 type NewComment struct {
 	ID        string     `json:"id"`
-	UserID    string     `json:"userId"`
-	PhotoID   string     `json:"photoId"`
+	UserID    string     `json:"user_id"`
+	PhotoID   string     `json:"photo_id"`
 	Message   string     `json:"message"`
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"created_at"`
 }
 
 type UpdatedComment struct {
 	ID        string     `json:"id"`
 	Title     string     `json:"title"`
 	Caption   string     `json:"caption"`
-	PhotoUrl  string     `json:"photoUrl"`
-	UserID    string     `json:"userId"`
-	UpdatedAt *time.Time `json:"updatedAt"`
+	PhotoUrl  string     `json:"photo_url"`
+	UserID    string     `json:"user_id"`
+	UpdatedAt *time.Time `json:"updated_at"`
 }

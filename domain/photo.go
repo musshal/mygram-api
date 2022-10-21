@@ -12,11 +12,11 @@ type Photo struct {
 	ID        string     `gorm:"primaryKey;type:VARCHAR(50)" json:"id"`
 	Title     string     `gorm:"type:VARCHAR(50);not null" valid:"required" form:"title" json:"title" example:"A Photo Title"`
 	Caption   string     `form:"caption" json:"caption"`
-	PhotoUrl  string     `gorm:"not null" valid:"required" form:"photoUrl" json:"photoUrl" example:"https://www.example.com/image.jpg"`
-	UserID    string     `gorm:"type:VARCHAR(50);not null" json:"userId"`
+	PhotoUrl  string     `gorm:"not null" valid:"required" form:"photo_url" json:"photo_url" example:"https://www.example.com/image.jpg"`
+	UserID    string     `gorm:"type:VARCHAR(50);not null" json:"user_id"`
 	User      *User      `gorm:"foreignKey:UserID;constraint:onUpdate:CASCADE,onDelete:CASCADE" json:"-"`
-	CreatedAt *time.Time `gorm:"not null;autoCreateTime" json:"createdAt,omitempty"`
-	UpdatedAt *time.Time `gorm:"not null;autoCreateTime" json:"updatedAt,omitempty"`
+	CreatedAt *time.Time `gorm:"not null;autoCreateTime" json:"created_at,omitempty"`
+	UpdatedAt *time.Time `gorm:"not null;autoCreateTime" json:"updated_at,omitempty"`
 	Comment   *Comment   `json:"-"`
 }
 

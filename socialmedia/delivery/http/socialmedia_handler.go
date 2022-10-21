@@ -2,6 +2,7 @@ package delivery
 
 import (
 	"mygram-api/domain"
+	"mygram-api/helpers"
 	"mygram-api/socialmedia/delivery/http/middleware"
 	"mygram-api/socialmedia/utils"
 	"net/http"
@@ -45,8 +46,11 @@ func (handler *socialMediaHandler) Fetch(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"socialMedia": socialMedias,
+	ctx.JSON(http.StatusOK, helpers.ResponseData{
+		Status: "success",
+		Data: utils.SocialMedias{
+			SocialMedias: socialMedias,
+		},
 	})
 }
 func (handler *socialMediaHandler) Store(ctx *gin.Context) {
@@ -78,12 +82,15 @@ func (handler *socialMediaHandler) Store(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, utils.NewSocialMedia{
-		ID:             socialMedia.ID,
-		UserID:         socialMedia.UserID,
-		Name:           socialMedia.Name,
-		SocialMediaUrl: socialMedia.SocialMediaUrl,
-		CreatedAt:      socialMedia.CreatedAt,
+	ctx.JSON(http.StatusCreated, helpers.ResponseData{
+		Status: "success",
+		Data: utils.NewSocialMedia{
+			ID:             socialMedia.ID,
+			UserID:         socialMedia.UserID,
+			Name:           socialMedia.Name,
+			SocialMediaUrl: socialMedia.SocialMediaUrl,
+			CreatedAt:      socialMedia.CreatedAt,
+		},
 	})
 }
 
@@ -98,9 +105,9 @@ func (handler *socialMediaHandler) Update(ctx *gin.Context) {
 	userID := string(userData["id"].(string))
 
 	if err = ctx.ShouldBindJSON(&socialMedia); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
+			Status:  "Bad Request",
+			Message: err.Error(),
 		})
 
 		return
@@ -113,9 +120,9 @@ func (handler *socialMediaHandler) Update(ctx *gin.Context) {
 	}
 
 	if socialMedia, err = handler.socialMediaUseCase.Update(ctx.Request.Context(), updatedSocialMedia, socialMediaID); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
+			Status:  "Bad Request",
+			Message: err.Error(),
 		})
 
 		return

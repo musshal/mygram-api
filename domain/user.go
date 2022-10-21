@@ -16,8 +16,8 @@ type User struct {
 	Password        string         `gorm:"not null" valid:"required,minstringlength(6)" form:"password" json:"password,omitempty" example:"secret"`
 	Age             uint           `gorm:"not null" valid:"required,range(8|63)" form:"age" json:"age,omitempty" example:"8"`
 	ProfileImageUrl string         `json:"profileImageUrl,omitempty" example:"https://www.example.com/image.jpg"`
-	CreatedAt       *time.Time     `gorm:"not null;autoCreateTime" json:"createdAt,omitempty"`
-	UpdatedAt       *time.Time     `gorm:"not null;autocreateTime" json:"updatedAt,omitempty"`
+	CreatedAt       *time.Time     `gorm:"not null;autoCreateTime" json:"created_at,omitempty"`
+	UpdatedAt       *time.Time     `gorm:"not null;autocreateTime" json:"updated_at,omitempty"`
 	Photos          *[]Photo       `json:"-"`
 	SocialMedias    *[]SocialMedia `json:"-"`
 }

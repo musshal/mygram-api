@@ -11,10 +11,10 @@ import (
 type SocialMedia struct {
 	ID             string     `gorm:"primaryKey;type:VARCHAR(50)" json:"id"`
 	Name           string     `gorm:"type:VARCHAR(50);not null" valid:"required" form:"name" json:"name" example:"Social Media"`
-	SocialMediaUrl string     `gorm:"not null" valid:"required" form:"socialMediaUrl" json:"socialMediaUrl" example:"https://www.example.com/social-media"`
-	UserID         string     `gorm:"type:VARCHAR(50);not null" json:"userId"`
-	CreatedAt      *time.Time `gorm:"not null;autoCreateTime" json:"createdAt,omitempty"`
-	UpdatedAt      *time.Time `gorm:"not null;autoCreateTime" json:"updatedAt,omitempty"`
+	SocialMediaUrl string     `gorm:"not null" valid:"required" form:"social_media_url" json:"social_media_url" example:"https://www.example.com/social-media"`
+	UserID         string     `gorm:"type:VARCHAR(50);not null" json:"user_id"`
+	CreatedAt      *time.Time `gorm:"not null;autoCreateTime" json:"created_at,omitempty"`
+	UpdatedAt      *time.Time `gorm:"not null;autoCreateTime" json:"updated_at,omitempty"`
 	User           *User      `gorm:"foreignKey:UserID;constraint:onUpdate:CASCADE,onDelete:CASCADE" json:"user"`
 }
 
