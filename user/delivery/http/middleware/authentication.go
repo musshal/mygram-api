@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"mygram-api/helpers"
+	"mygram-api/user/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -12,9 +13,9 @@ func Authentication() gin.HandlerFunc {
 		verifyToken, err := helpers.VerifyToken(ctx)
 
 		if err != nil {
-			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"error":   "Unauthenticated",
-				"message": err.Error(),
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, utils.ResponseMessage{
+				Status:  "unauthenticated",
+				Message: err.Error(),
 			})
 
 			return
