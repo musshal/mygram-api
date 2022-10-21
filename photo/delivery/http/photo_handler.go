@@ -2,6 +2,7 @@ package delivery
 
 import (
 	"mygram-api/domain"
+	"mygram-api/helpers"
 	"mygram-api/photo/delivery/http/middleware"
 	"mygram-api/photo/utils"
 	"net/http"
@@ -34,7 +35,7 @@ func (handler *photoHandler) Fetch(ctx *gin.Context) {
 	)
 
 	if err = handler.photoUseCase.Fetch(ctx.Request.Context(), &photos); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
 			Status:  "fail",
 			Message: err.Error(),
 		})
@@ -60,7 +61,7 @@ func (handler *photoHandler) Fetch(ctx *gin.Context) {
 		})
 	}
 
-	ctx.JSON(http.StatusOK, utils.ResponseData{
+	ctx.JSON(http.StatusOK, helpers.ResponseData{
 		Status: "success",
 		Data:   fetchedPhotos,
 	})
@@ -76,7 +77,7 @@ func (handler *photoHandler) Store(ctx *gin.Context) {
 	userID := string(userData["id"].(string))
 
 	if err = ctx.ShouldBindJSON(&photo); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
 			Status:  "fail",
 			Message: err.Error(),
 		})
@@ -87,7 +88,7 @@ func (handler *photoHandler) Store(ctx *gin.Context) {
 	photo.UserID = userID
 
 	if err = handler.photoUseCase.Store(ctx.Request.Context(), &photo); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
 			Status:  "fail",
 			Message: err.Error(),
 		})
@@ -95,7 +96,7 @@ func (handler *photoHandler) Store(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, utils.ResponseData{
+	ctx.JSON(http.StatusCreated, helpers.ResponseData{
 		Status: "success",
 		Data: utils.NewPhoto{
 			ID:        photo.ID,
@@ -115,7 +116,7 @@ func (handler *photoHandler) Update(ctx *gin.Context) {
 	)
 
 	if err = ctx.ShouldBindJSON(&photo); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
 			Status:  "fail",
 			Message: err.Error(),
 		})
@@ -132,7 +133,7 @@ func (handler *photoHandler) Update(ctx *gin.Context) {
 	photoID := ctx.Param("photoId")
 
 	if photo, err = handler.photoUseCase.Update(ctx.Request.Context(), updatedPhoto, photoID); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
 			Status:  "fail",
 			Message: err.Error(),
 		})
@@ -140,7 +141,7 @@ func (handler *photoHandler) Update(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, utils.ResponseData{
+	ctx.JSON(http.StatusOK, helpers.ResponseData{
 		Status: "success",
 		Data: utils.UpdatedPhoto{
 			ID:        photo.ID,

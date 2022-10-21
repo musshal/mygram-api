@@ -2,16 +2,6 @@ package utils
 
 import "time"
 
-type ResponseData struct {
-	Status string      `json:"status"`
-	Data   interface{} `json:"data"`
-}
-
-type ResponseMessage struct {
-	Status  string `json:"status"`
-	Message string `json:"message"`
-}
-
 type NewUser struct {
 	Age      uint   `json:"age"`
 	Email    string `json:"email"`

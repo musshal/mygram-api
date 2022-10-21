@@ -5,6 +5,7 @@ import (
 	"mygram-api/comment/delivery/http/middleware"
 	"mygram-api/comment/utils"
 	"mygram-api/domain"
+	"mygram-api/helpers"
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
@@ -40,15 +41,18 @@ func (handler *commentHandler) Fetch(ctx *gin.Context) {
 	userID := string(userData["id"].(string))
 
 	if err = handler.commentUseCase.Fetch(ctx.Request.Context(), &comments, userID); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
+			Status:  "fail",
+			Message: err.Error(),
 		})
 
 		return
 	}
 
-	ctx.JSON(http.StatusOK, comments)
+	ctx.JSON(http.StatusOK, helpers.ResponseData{
+		Status: "success",
+		Data:   comments,
+	})
 }
 
 func (handler *commentHandler) Store(ctx *gin.Context) {
@@ -62,9 +66,9 @@ func (handler *commentHandler) Store(ctx *gin.Context) {
 	userID := string(userData["id"].(string))
 
 	if err = ctx.ShouldBindJSON(&comment); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
+			Status:  "fail",
+			Message: err.Error(),
 		})
 
 		return
@@ -73,9 +77,9 @@ func (handler *commentHandler) Store(ctx *gin.Context) {
 	photoID := comment.PhotoID
 
 	if err = handler.photoUseCase.GetByID(ctx.Request.Context(), &photo, photoID); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Not Found",
-			"message": fmt.Sprintf("photo with id %s doesn't exist", photoID),
+		ctx.AbortWithStatusJSON(http.StatusNotFound, helpers.ResponseMessage{
+			Status:  "fail",
+			Message: fmt.Sprintf("photo with id %s doesn't exist", photoID),
 		})
 
 		return
@@ -84,20 +88,23 @@ func (handler *commentHandler) Store(ctx *gin.Context) {
 	comment.UserID = userID
 
 	if err = handler.commentUseCase.Store(ctx.Request.Context(), &comment); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
+			Status:  "fail",
+			Message: err.Error(),
 		})
 
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, utils.NewComment{
-		ID:        comment.ID,
-		UserID:    comment.UserID,
-		PhotoID:   comment.PhotoID,
-		Message:   comment.Message,
-		CreatedAt: comment.CreatedAt,
+	ctx.JSON(http.StatusCreated, helpers.ResponseData{
+		Status: "success",
+		Data: utils.NewComment{
+			ID:        comment.ID,
+			UserID:    comment.UserID,
+			PhotoID:   comment.PhotoID,
+			Message:   comment.Message,
+			CreatedAt: comment.CreatedAt,
+		},
 	})
 }
 
@@ -113,9 +120,9 @@ func (handler *commentHandler) Update(ctx *gin.Context) {
 	userID := string(userData["id"].(string))
 
 	if err = ctx.ShouldBindJSON(&comment); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
+			Status:  "fail",
+			Message: err.Error(),
 		})
 
 		return
@@ -127,21 +134,24 @@ func (handler *commentHandler) Update(ctx *gin.Context) {
 	}
 
 	if photo, err = handler.commentUseCase.Update(ctx.Request.Context(), updatedComment, commentID); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
+			Status:  "fail",
+			Message: err.Error(),
 		})
 
 		return
 	}
 
-	ctx.JSON(http.StatusOK, utils.UpdatedComment{
-		ID:        photo.ID,
-		UserID:    photo.UserID,
-		Title:     photo.Title,
-		PhotoUrl:  photo.PhotoUrl,
-		Caption:   photo.Caption,
-		UpdatedAt: photo.UpdatedAt,
+	ctx.JSON(http.StatusOK, helpers.ResponseData{
+		Status: "success",
+		Data: utils.UpdatedComment{
+			ID:        photo.ID,
+			UserID:    photo.UserID,
+			Title:     photo.Title,
+			PhotoUrl:  photo.PhotoUrl,
+			Caption:   photo.Caption,
+			UpdatedAt: photo.UpdatedAt,
+		},
 	})
 }
 

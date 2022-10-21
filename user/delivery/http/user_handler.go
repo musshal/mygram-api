@@ -35,7 +35,7 @@ func (handler *userHandler) Register(ctx *gin.Context) {
 	)
 
 	if err = ctx.ShouldBindJSON(&user); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
 			Status:  "fail",
 			Message: err.Error(),
 		})
@@ -45,7 +45,7 @@ func (handler *userHandler) Register(ctx *gin.Context) {
 
 	if err = handler.userUseCase.Register(ctx.Request.Context(), &user); err != nil {
 		if strings.Contains(err.Error(), "idx_users_username") {
-			ctx.AbortWithStatusJSON(http.StatusConflict, utils.ResponseMessage{
+			ctx.AbortWithStatusJSON(http.StatusConflict, helpers.ResponseMessage{
 				Status:  "fail",
 				Message: "the username you entered has been used",
 			})
@@ -54,7 +54,7 @@ func (handler *userHandler) Register(ctx *gin.Context) {
 		}
 
 		if strings.Contains(err.Error(), "idx_users_email") {
-			ctx.AbortWithStatusJSON(http.StatusConflict, utils.ResponseMessage{
+			ctx.AbortWithStatusJSON(http.StatusConflict, helpers.ResponseMessage{
 				Status:  "fail",
 				Message: "the email you entered has been used",
 			})
@@ -62,7 +62,7 @@ func (handler *userHandler) Register(ctx *gin.Context) {
 			return
 		}
 
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
 			Status:  "fail",
 			Message: err.Error(),
 		})
@@ -70,7 +70,7 @@ func (handler *userHandler) Register(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, utils.ResponseData{
+	ctx.JSON(http.StatusCreated, helpers.ResponseData{
 		Status: "success",
 		Data: utils.NewUser{
 			Age:      user.Age,
@@ -89,7 +89,7 @@ func (handler *userHandler) Login(ctx *gin.Context) {
 	)
 
 	if err = ctx.ShouldBindJSON(&user); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
 			Status:  "fail",
 			Message: err.Error(),
 		})
@@ -99,7 +99,7 @@ func (handler *userHandler) Login(ctx *gin.Context) {
 
 	if err = handler.userUseCase.Login(ctx.Request.Context(), &user); err != nil {
 		if strings.Contains(err.Error(), "the credential you entered are wrong") {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
 				Status:  "unauthenticated",
 				Message: err.Error(),
 			})
@@ -107,7 +107,7 @@ func (handler *userHandler) Login(ctx *gin.Context) {
 			return
 		}
 
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
 			Status:  "unauthenticated",
 			Message: err.Error(),
 		})
@@ -124,7 +124,7 @@ func (handler *userHandler) Login(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, utils.ResponseData{
+	ctx.JSON(http.StatusOK, helpers.ResponseData{
 		Status: "success",
 		Data: utils.NewToken{
 			Token: token,
@@ -142,7 +142,7 @@ func (handler *userHandler) Update(ctx *gin.Context) {
 	_ = string(userData["id"].(string))
 
 	if err = ctx.ShouldBindJSON(&user); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
 			Status:  "fail",
 			Message: err.Error(),
 		})
@@ -156,7 +156,7 @@ func (handler *userHandler) Update(ctx *gin.Context) {
 	}
 
 	if user, err = handler.userUseCase.Update(ctx.Request.Context(), updatedUser); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
 			Status:  "fail",
 			Message: err.Error(),
 		})
@@ -164,7 +164,7 @@ func (handler *userHandler) Update(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, utils.ResponseData{
+	ctx.JSON(http.StatusOK, helpers.ResponseData{
 		Status: "success",
 		Data: utils.UpdatedUser{
 			ID:        user.ID,
@@ -181,16 +181,17 @@ func (handler *userHandler) Delete(ctx *gin.Context) {
 	userID := string(userData["id"].(string))
 
 	if err := handler.userUseCase.Delete(ctx, userID); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, utils.ResponseMessage{
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
 			Status:  "fail",
 			Message: "account not found",
 		})
+
 		return
 	}
 
 	ctx.JSON(
 		http.StatusOK,
-		utils.ResponseMessage{
+		helpers.ResponseMessage{
 			Status:  "success",
 			Message: "your account has been successfully deleted",
 		},
