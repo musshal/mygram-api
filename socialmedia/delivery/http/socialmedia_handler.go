@@ -38,9 +38,9 @@ func (handler *socialMediaHandler) Fetch(ctx *gin.Context) {
 	userID := string(userData["id"].(string))
 
 	if err = handler.socialMediaUseCase.Fetch(ctx.Request.Context(), &socialMedias, userID); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
+			Status:  "fail",
+			Message: err.Error(),
 		})
 
 		return
@@ -63,9 +63,9 @@ func (handler *socialMediaHandler) Store(ctx *gin.Context) {
 	userID := string(userData["id"].(string))
 
 	if err = ctx.ShouldBindJSON(&socialMedia); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
+			Status:  "fail",
+			Message: err.Error(),
 		})
 
 		return
@@ -74,9 +74,9 @@ func (handler *socialMediaHandler) Store(ctx *gin.Context) {
 	socialMedia.UserID = userID
 
 	if err = handler.socialMediaUseCase.Store(ctx.Request.Context(), &socialMedia); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
+			Status:  "fail",
+			Message: err.Error(),
 		})
 
 		return
@@ -106,7 +106,7 @@ func (handler *socialMediaHandler) Update(ctx *gin.Context) {
 
 	if err = ctx.ShouldBindJSON(&socialMedia); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
-			Status:  "Bad Request",
+			Status:  "fail",
 			Message: err.Error(),
 		})
 
@@ -121,7 +121,7 @@ func (handler *socialMediaHandler) Update(ctx *gin.Context) {
 
 	if socialMedia, err = handler.socialMediaUseCase.Update(ctx.Request.Context(), updatedSocialMedia, socialMediaID); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
-			Status:  "Bad Request",
+			Status:  "fail",
 			Message: err.Error(),
 		})
 
@@ -141,9 +141,9 @@ func (handler *socialMediaHandler) Delete(ctx *gin.Context) {
 	socialMediaID := ctx.Param("socialMediaId")
 
 	if err := handler.socialMediaUseCase.Delete(ctx.Request.Context(), socialMediaID); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
+			Status:  "fail",
+			Message: err.Error(),
 		})
 
 		return

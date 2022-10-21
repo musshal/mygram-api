@@ -159,9 +159,9 @@ func (handler *commentHandler) Delete(ctx *gin.Context) {
 	commentID := ctx.Param("commentId")
 
 	if err := handler.commentUseCase.Delete(ctx.Request.Context(), commentID); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
+			Status:  "fail",
+			Message: err.Error(),
 		})
 
 		return

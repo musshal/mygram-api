@@ -91,7 +91,7 @@ func (commentRepository *commentRepository) Delete(ctx context.Context, id strin
 
 	defer cancel()
 
-	if err = commentRepository.db.WithContext(ctx).First(&domain.Comment{}).Error; err != nil {
+	if err = commentRepository.db.WithContext(ctx).First(&domain.Comment{}, &id).Error; err != nil {
 		return err
 	}
 

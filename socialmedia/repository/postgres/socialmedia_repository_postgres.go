@@ -83,7 +83,7 @@ func (socialMediaRepository *socialMediaRepository) Delete(ctx context.Context, 
 
 	defer cancel()
 
-	if err = socialMediaRepository.db.WithContext(ctx).First(&domain.SocialMedia{}).Error; err != nil {
+	if err = socialMediaRepository.db.WithContext(ctx).First(&domain.SocialMedia{}, &id).Error; err != nil {
 		return err
 	}
 

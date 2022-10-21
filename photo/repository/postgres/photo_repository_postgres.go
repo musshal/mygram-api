@@ -83,7 +83,7 @@ func (photoRepository *photoRepository) Delete(ctx context.Context, id string) (
 
 	defer cancel()
 
-	if err = photoRepository.db.WithContext(ctx).First(&domain.Photo{}).Error; err != nil {
+	if err = photoRepository.db.WithContext(ctx).First(&domain.Photo{}, &id).Error; err != nil {
 		return err
 	}
 

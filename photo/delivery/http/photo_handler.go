@@ -158,9 +158,9 @@ func (handler *photoHandler) Delete(ctx *gin.Context) {
 	photoID := ctx.Param("photoId")
 
 	if err := handler.photoUseCase.Delete(ctx.Request.Context(), photoID); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.ResponseMessage{
+			Status:  "fail",
+			Message: err.Error(),
 		})
 
 		return
