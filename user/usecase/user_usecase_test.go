@@ -234,6 +234,11 @@ func TestRegister(t *testing.T) {
 		_, err = govalidator.ValidateStruct(tempMockRegisterUser)
 
 		assert.Error(t, err)
+		assert.Equal(t, mockRegisteredUser.ID, tempMockRegisterUser.ID)
+		assert.Equal(t, mockRegisteredUser.Age, tempMockRegisterUser.Age)
+		assert.Equal(t, mockRegisteredUser.Email, tempMockRegisterUser.Email)
+		assert.NotEqual(t, mockRegisteredUser.Password, tempMockRegisterUser.Password)
+		assert.NotEqual(t, mockRegisteredUser.Username, tempMockRegisterUser.Username)
 
 		mockUserRepository.AssertExpectations(t)
 	})
