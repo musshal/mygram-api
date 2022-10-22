@@ -2,6 +2,7 @@ package usecase_test
 
 import (
 	"context"
+	"errors"
 	"mygram-api/domain"
 	"mygram-api/domain/mocks"
 	"mygram-api/helpers"
@@ -516,6 +517,37 @@ func TestUpdate(t *testing.T) {
 		assert.NotEqual(t, user, tempMockUpdatedUser)
 		assert.NotEqual(t, mockUpdatedUser.Email, tempMockUpdatedUser.Email)
 		assert.Equal(t, mockUpdatedUser.Username, tempMockUpdatedUser.Username)
+		mockUserRepository.AssertExpectations(t)
+	})
+}
+
+func TestDelete(t *testing.T) {
+	mockUser := domain.User{
+		ID:       "user-123",
+		Age:      8,
+		Email:    "johndoe@example.com",
+		Password: "secret",
+		Username: "johndoe",
+	}
+
+	mockUserRepository := new(mocks.UserRepository)
+	userUseCase := userUseCase.NewUserUseCase(mockUserRepository)
+
+	t.Run("delete user correctly", func(t *testing.T) {
+		mockUserRepository.On("Delete", mock.Anything, mock.AnythingOfType("string")).Return(nil).Once()
+
+		err := userUseCase.Delete(context.Background(), mockUser.ID)
+
+		assert.NoError(t, err)
+		mockUserRepository.AssertExpectations(t)
+	})
+
+	t.Run("delete user with not found user", func(t *testing.T) {
+		mockUserRepository.On("Delete", mock.Anything, mock.AnythingOfType("string")).Return(errors.New("fail")).Once()
+
+		err := userUseCase.Delete(context.Background(), "user-234")
+
+		assert.Error(t, err)
 		mockUserRepository.AssertExpectations(t)
 	})
 }
