@@ -23,6 +23,212 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/comments": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all comments with authentication user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comments"
+                ],
+                "summary": "Fetch all comments",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseDataFetchedComment"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseMessage"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "create and store a comment with authentication user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comments"
+                ],
+                "summary": "Create a comment",
+                "parameters": [
+                    {
+                        "description": "Add Comment",
+                        "name": "json",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/utils.AddComment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseDataAddedComment"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseMessage"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/comments/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "update a comment by id with authentication user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comments"
+                ],
+                "summary": "Update a comment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Comment ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update Comment",
+                        "name": "json",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/utils.UpdateComment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseDataUpdatedComment"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseMessage"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a comment by id with authentication user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comments"
+                ],
+                "summary": "Delete a comment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Comment ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseMessageDeletedComment"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseMessage"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
         "/photos": {
             "get": {
                 "security": [
@@ -51,13 +257,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     }
                 }
@@ -100,13 +306,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     }
                 }
@@ -158,19 +364,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     }
                 }
@@ -211,19 +417,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     }
                 }
@@ -268,19 +474,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     },
                     "409": {
                         "description": "Conflict",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     }
                 }
@@ -312,19 +518,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     }
                 }
@@ -364,13 +570,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     }
                 }
@@ -410,13 +616,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     },
                     "409": {
                         "description": "Conflict",
                         "schema": {
-                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
+                            "$ref": "#/definitions/utils.ResponseMessage"
                         }
                     }
                 }
@@ -424,29 +630,41 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "mygram-api_photo_utils.ResponseMessage": {
+        "mygram-api_comment_utils.User": {
             "type": "object",
             "properties": {
-                "data": {
-                    "type": "string",
-                    "example": "the error explained here"
+                "email": {
+                    "type": "string"
                 },
-                "status": {
-                    "type": "string",
-                    "example": "fail"
+                "id": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
                 }
             }
         },
-        "mygram-api_user_utils.ResponseMessage": {
+        "mygram-api_photo_utils.User": {
             "type": "object",
             "properties": {
-                "data": {
-                    "type": "string",
-                    "example": "the error explained here"
+                "email": {
+                    "type": "string"
                 },
-                "status": {
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "utils.AddComment": {
+            "type": "object",
+            "properties": {
+                "message": {
                     "type": "string",
-                    "example": "fail"
+                    "example": "A comment"
+                },
+                "photo_id": {
+                    "type": "string",
+                    "example": "photo-123"
                 }
             }
         },
@@ -467,6 +685,31 @@ const docTemplate = `{
                 }
             }
         },
+        "utils.AddedComment": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "the created at generated here"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "here is the generated comment id"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "A comment"
+                },
+                "photo_id": {
+                    "type": "string",
+                    "example": "here is the generated photo id"
+                },
+                "user_id": {
+                    "type": "string",
+                    "example": "here is the generated user id"
+                }
+            }
+        },
         "utils.AddedPhoto": {
             "type": "object",
             "properties": {
@@ -484,6 +727,35 @@ const docTemplate = `{
                 },
                 "title": {
                     "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "utils.FetchedComment": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "photo": {
+                    "$ref": "#/definitions/utils.Photo"
+                },
+                "photo_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/mygram-api_comment_utils.User"
                 },
                 "user_id": {
                     "type": "string"
@@ -512,7 +784,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user": {
-                    "$ref": "#/definitions/utils.User"
+                    "$ref": "#/definitions/mygram-api_photo_utils.User"
                 },
                 "user_id": {
                     "type": "string"
@@ -538,6 +810,26 @@ const docTemplate = `{
                 "password": {
                     "type": "string",
                     "example": "secret"
+                }
+            }
+        },
+        "utils.Photo": {
+            "type": "object",
+            "properties": {
+                "caption": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "photo_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
                 }
             }
         },
@@ -583,11 +875,38 @@ const docTemplate = `{
                 }
             }
         },
+        "utils.ResponseDataAddedComment": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/utils.AddedComment"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
         "utils.ResponseDataAddedPhoto": {
             "type": "object",
             "properties": {
                 "data": {
                     "$ref": "#/definitions/utils.AddedPhoto"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "utils.ResponseDataFetchedComment": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/utils.FetchedComment"
+                    }
                 },
                 "status": {
                     "type": "string",
@@ -646,6 +965,18 @@ const docTemplate = `{
                 }
             }
         },
+        "utils.ResponseDataUpdatedComment": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/utils.UpdatedComment"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
         "utils.ResponseDataUpdatedPhoto": {
             "type": "object",
             "properties": {
@@ -658,12 +989,38 @@ const docTemplate = `{
                 }
             }
         },
+        "utils.ResponseMessage": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "string",
+                    "example": "the error explained here"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "fail"
+                }
+            }
+        },
         "utils.ResponseMessageDelete": {
             "type": "object",
             "properties": {
                 "message": {
                     "type": "string",
                     "example": "your account has been successfully deleted"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "utils.ResponseMessageDeletedComment": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "your comment has been successfully deleted"
                 },
                 "status": {
                     "type": "string",
@@ -681,6 +1038,15 @@ const docTemplate = `{
                 "status": {
                     "type": "string",
                     "example": "success"
+                }
+            }
+        },
+        "utils.UpdateComment": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "A new comment"
                 }
             }
         },
@@ -711,6 +1077,29 @@ const docTemplate = `{
                 "username": {
                     "type": "string",
                     "example": "newjohndoe"
+                }
+            }
+        },
+        "utils.UpdatedComment": {
+            "type": "object",
+            "properties": {
+                "caption": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "photo_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
                 }
             }
         },
@@ -759,17 +1148,6 @@ const docTemplate = `{
                 "username": {
                     "type": "string",
                     "example": "newjohndoe"
-                }
-            }
-        },
-        "utils.User": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
                 }
             }
         }
