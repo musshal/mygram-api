@@ -28,6 +28,17 @@ func NewUserHandler(routers *gin.Engine, userUseCase domain.UserUseCase) {
 	}
 }
 
+// Register godoc
+// @Summary      Create an user
+// @Description  create and store an user
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param        user  body   utils.NewUser true "User"
+// @Success      201  {object}   utils.NewUser
+// @Failure      400  {object}	 ErrorResponse
+// @Failure      409  {object}	 ErrorResponse
+// @Router       /users/register [post]
 func (handler *userHandler) Register(ctx *gin.Context) {
 	var (
 		user domain.User

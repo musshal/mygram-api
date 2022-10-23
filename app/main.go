@@ -17,10 +17,29 @@ import (
 	userUseCase "mygram-api/user/usecase"
 	"os"
 
+	_ "mygram-api/docs"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// @title MyGram API
+// @version 1.0
+// @description MyGram is a free photo sharing app written in Go. People can share, view, and comment photos by everyone. Anyone can create an account by registering an email address and selecting a username.
+// @termOfService http://swagger.io/terms/
+// @contact.name musshal
+// @contact.email musthafafaishal@gmail.com
+// @license.name MIT License
+// @license.url https://opensource.org/licenses/MIT
+// @host localhost:8080
+// @BasePath /app
+
+// @securityDefinitions.apikey  Bearer
+// @in                          header
+// @name                        Authorization
+// @description					        Description for what is this security definition being used
 func main() {
 	db := database.StartDB()
 
@@ -56,6 +75,8 @@ func main() {
 	socialMediaRepository := socialMediaRepository.NewSocialMediaRepository(db)
 	socialMediaUseCase := socialMediaUseCase.NewSocialMediaUseCase(socialMediaRepository)
 	socialMediaDelivery.NewSocialMediaHandler(routers, socialMediaUseCase)
+
+	routers.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	if err := godotenv.Load(); err != nil {
 		log.Fatal("Error loading .env file: ", err)

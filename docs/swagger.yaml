@@ -1,0 +1,21 @@
+basePath: /app
+host: localhost:8080
+info:
+  contact:
+    email: musthafafaishal@gmail.com
+    name: musshal
+  description: MyGram is a free photo sharing app written in Go. People can share,
+    view, and comment photos by everyone. Anyone can create an account by registering
+    an email address and selecting a username.
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  title: MyGram API
+  version: "1.0"
+paths: {}
+securityDefinitions:
+  Bearer:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
