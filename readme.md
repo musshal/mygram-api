@@ -21,7 +21,7 @@ cd mygram-api && go mod tidy
 Copy the example env file and adjust the env file
 
 ```
-cp env.example .env
+cp .env.example .env
 ```
 
 Start the server
