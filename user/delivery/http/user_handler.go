@@ -29,16 +29,16 @@ func NewUserHandler(routers *gin.Engine, userUseCase domain.UserUseCase) {
 }
 
 // Register godoc
-// @Summary      Create an user
-// @Description  create and store an user
-// @Tags         users
-// @Accept       json
-// @Produce      json
-// @Param        user  body   utils.NewUser true "User"
-// @Success      201  {object}   utils.NewUser
-// @Failure      400  {object}	 ErrorResponse
-// @Failure      409  {object}	 ErrorResponse
-// @Router       /users/register [post]
+// @Summary			Register a user
+// @Description	create and store a user
+// @Tags				users
+// @Accept			json
+// @Produce			json
+// @Param				json	body			utils.RegisterUser	true	"Register User"
+// @Success			201		{object}	utils.ResponseDataRegister
+// @Failure			400  	{object}	utils.ResponseMessage
+// @Failure			409  	{object}	utils.ResponseMessage
+// @Router			/users/register	[post]
 func (handler *userHandler) Register(ctx *gin.Context) {
 	var (
 		user domain.User
@@ -83,7 +83,7 @@ func (handler *userHandler) Register(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, helpers.ResponseData{
 		Status: "success",
-		Data: utils.NewUser{
+		Data: utils.RegisteredUser{
 			Age:      user.Age,
 			Email:    user.Email,
 			ID:       user.ID,
@@ -92,6 +92,17 @@ func (handler *userHandler) Register(ctx *gin.Context) {
 	})
 }
 
+// Login godoc
+// @Summary			Login a user
+// @Description	Authentication a user and retrieve a token
+// @Tags				users
+// @Accept			json
+// @Produce			json
+// @Param				json	body			utils.LoginUser	true	"Login User"
+// @Success			200		{object}	utils.ResponseDataLogin
+// @Failure			400		{object}	utils.ResponseMessage
+// @Failure			401		{object}	utils.ResponseMessage
+// @Router			/users/login		[post]
 func (handler *userHandler) Login(ctx *gin.Context) {
 	var (
 		user  domain.User
@@ -143,6 +154,19 @@ func (handler *userHandler) Login(ctx *gin.Context) {
 	})
 }
 
+// Update godoc
+// @Summary			Update a user
+// @Description	Update a user with authentication user
+// @Tags				users
+// @Accept			json
+// @Produce			json
+// @Param				json		body			utils.UpdateUser   true  "Update User"
+// @Success			200			{object}  utils.ResponseDataUpdate
+// @Failure			400			{object}	utils.ResponseMessage
+// @Failure			401			{object}	utils.ResponseMessage
+// @Failure			409			{object}	utils.ResponseMessage
+// @Security		Bearer
+// @Router			/users	[put]
 func (handler *userHandler) Update(ctx *gin.Context) {
 	var (
 		user domain.User
@@ -187,6 +211,18 @@ func (handler *userHandler) Update(ctx *gin.Context) {
 	})
 }
 
+// Delete godoc
+// @Summary			Delete a user
+// @Description	Delete a user with authentication user
+// @Tags				users
+// @Accept			json
+// @Produce			json
+// @Success			200			{object}	utils.DeletedUser
+// @Failure			400			{object}	utils.ResponseMessage
+// @Failure			401			{object}	utils.ResponseMessage
+// @Failure			404			{object}	utils.ResponseMessage
+// @Security		Bearer
+// @Router			/users	[delete]
 func (handler *userHandler) Delete(ctx *gin.Context) {
 	userData := ctx.MustGet("userData").(jwt.MapClaims)
 	userID := string(userData["id"].(string))

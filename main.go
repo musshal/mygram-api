@@ -27,14 +27,14 @@ import (
 
 // @title MyGram API
 // @version 1.0
-// @description MyGram is a free photo sharing app written in Go. People can share, view, and comment photos by everyone. Anyone can create an account by registering an email address and selecting a username.
+// @description MyGram is a free photo sharing app written in Go. People can share, view, and comment photos by everyone. Anyone can create an account by registering an email address and creating a username.
 // @termOfService http://swagger.io/terms/
 // @contact.name musshal
 // @contact.email musthafafaishal@gmail.com
 // @license.name MIT License
 // @license.url https://opensource.org/licenses/MIT
 // @host localhost:8080
-// @BasePath /app
+// @BasePath /
 
 // @securityDefinitions.apikey  Bearer
 // @in                          header

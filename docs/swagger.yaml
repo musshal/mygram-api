@@ -1,4 +1,119 @@
-basePath: /app
+basePath: /
+definitions:
+  utils.DeletedUser:
+    properties:
+      message:
+        example: your account has been successfully deleted
+        type: string
+      status:
+        example: success
+        type: string
+    type: object
+  utils.LoggedinUser:
+    properties:
+      token:
+        example: the token generated here
+        type: string
+    type: object
+  utils.LoginUser:
+    properties:
+      email:
+        example: johndoe@example.com
+        type: string
+      password:
+        example: secret
+        type: string
+    type: object
+  utils.RegisterUser:
+    properties:
+      age:
+        example: 8
+        type: integer
+      email:
+        example: johndoe@example.com
+        type: string
+      password:
+        example: secret
+        type: string
+      username:
+        example: johndoe
+        type: string
+    type: object
+  utils.RegisteredUser:
+    properties:
+      age:
+        example: 8
+        type: integer
+      email:
+        example: johndoe@example.com
+        type: string
+      id:
+        example: the user id generated here
+        type: string
+      username:
+        example: johndoe
+        type: string
+    type: object
+  utils.ResponseDataLogin:
+    properties:
+      data:
+        $ref: '#/definitions/utils.LoggedinUser'
+      status:
+        example: success
+        type: string
+    type: object
+  utils.ResponseDataRegister:
+    properties:
+      data:
+        $ref: '#/definitions/utils.RegisteredUser'
+      status:
+        example: success
+        type: string
+    type: object
+  utils.ResponseDataUpdate:
+    properties:
+      data:
+        $ref: '#/definitions/utils.UpdatedUser'
+      status:
+        example: success
+        type: string
+    type: object
+  utils.ResponseMessage:
+    properties:
+      data:
+        example: the error explained here
+        type: string
+      status:
+        example: fail
+        type: string
+    type: object
+  utils.UpdateUser:
+    properties:
+      email:
+        example: newjohndoe@example.com
+        type: string
+      username:
+        example: newjohndoe
+        type: string
+    type: object
+  utils.UpdatedUser:
+    properties:
+      age:
+        example: 8
+        type: integer
+      email:
+        example: newjohndoe@example.com
+        type: string
+      id:
+        example: here is the generated user id
+        type: string
+      updated_at:
+        example: the updated at generated here
+        type: string
+      username:
+        example: newjohndoe
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -6,13 +121,137 @@ info:
     name: musshal
   description: MyGram is a free photo sharing app written in Go. People can share,
     view, and comment photos by everyone. Anyone can create an account by registering
-    an email address and selecting a username.
+    an email address and creating a username.
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
   title: MyGram API
   version: "1.0"
-paths: {}
+paths:
+  /users:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a user with authentication user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.DeletedUser'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ResponseMessage'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.ResponseMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.ResponseMessage'
+      security:
+      - Bearer: []
+      summary: Delete a user
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update a user with authentication user
+      parameters:
+      - description: Update User
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/utils.UpdateUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseDataUpdate'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ResponseMessage'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.ResponseMessage'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/utils.ResponseMessage'
+      security:
+      - Bearer: []
+      summary: Update a user
+      tags:
+      - users
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      description: Authentication a user and retrieve a token
+      parameters:
+      - description: Login User
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/utils.LoginUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseDataLogin'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ResponseMessage'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.ResponseMessage'
+      summary: Login a user
+      tags:
+      - users
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      description: create and store a user
+      parameters:
+      - description: Register User
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/utils.RegisterUser'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.ResponseDataRegister'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ResponseMessage'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/utils.ResponseMessage'
+      summary: Register a user
+      tags:
+      - users
 securityDefinitions:
   Bearer:
     in: header
