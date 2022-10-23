@@ -36,7 +36,7 @@ import (
 // @host localhost:8080
 // @BasePath /
 
-// @securityDefinitions.apikey	Bearer
+// @securityDefinitions.apikey  Bearer
 // @in                          header
 // @name                        Authorization
 // @description					        Description for what is this security definition being used

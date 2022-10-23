@@ -484,10 +484,13 @@ definitions:
   utils.User:
     properties:
       email:
+        example: johndoe@example.com
         type: string
       id:
+        example: here is the generated user id
         type: string
       username:
+        example: johndoe
         type: string
     type: object
 host: localhost:8080
@@ -1021,4 +1024,9 @@ paths:
       summary: Register a user
       tags:
       - users
+securityDefinitions:
+  Bearer:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
