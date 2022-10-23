@@ -28,6 +28,17 @@ func NewSocialMediaHandler(routers *gin.Engine, socialMediaUseCase domain.Social
 	}
 }
 
+// Fetch godoc
+// @Summary      Fetch all social media
+// @Description  get all social media with authentication user
+// @Tags         socialmedias
+// @Accept       json
+// @Produce      json
+// @Success      200	{object}	utils.ResponseDataFetchedSocialMedia
+// @Failure      400	{object}	utils.ResponseMessage
+// @Failure      401	{object}	utils.ResponseMessage
+// @Security     Bearer
+// @Router       /socialmedias  [get]
 func (handler *socialMediaHandler) Fetch(ctx *gin.Context) {
 	var (
 		socialMedias []domain.SocialMedia
@@ -48,11 +59,24 @@ func (handler *socialMediaHandler) Fetch(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, helpers.ResponseData{
 		Status: "success",
-		Data: utils.SocialMedias{
+		Data: utils.FetchedSocialMedia{
 			SocialMedias: socialMedias,
 		},
 	})
 }
+
+// Store godoc
+// @Summary      Create a social media
+// @Description  Create and store a social media with authentication user
+// @Tags         socialmedias
+// @Accept       json
+// @Produce      json
+// @Param        json  body  utils.AddSocialMedia true  "SocialMedia"
+// @Success      201  {object}  utils.ResponseDataAddedSocialMedia
+// @Failure      400	{object}	utils.ResponseMessage
+// @Failure      401	{object}	utils.ResponseMessage
+// @Security     Bearer
+// @Router       /socialmedias  [post]
 func (handler *socialMediaHandler) Store(ctx *gin.Context) {
 	var (
 		socialMedia domain.SocialMedia
@@ -84,7 +108,7 @@ func (handler *socialMediaHandler) Store(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, helpers.ResponseData{
 		Status: "success",
-		Data: utils.NewSocialMedia{
+		Data: utils.AddedSocialMedia{
 			ID:             socialMedia.ID,
 			UserID:         socialMedia.UserID,
 			Name:           socialMedia.Name,
@@ -94,6 +118,20 @@ func (handler *socialMediaHandler) Store(ctx *gin.Context) {
 	})
 }
 
+// Update godoc
+// @Summary      Update a social media
+// @Description  Update a social media by id with authentication user
+// @Tags         socialmedias
+// @Accept       json
+// @Produce      json
+// @Param        id   path      string  true  "SocialMedia ID"
+// @Param       json	body			utils.UpdateSocialMedia	true	"Update Social Media"
+// @Success      200  {object}  utils.ResponseDataUpdatedSocialMedia
+// @Failure      400  {object}	utils.ResponseMessage
+// @Failure      401  {object}	utils.ResponseMessage
+// @Failure      404  {object}	utils.ResponseMessage
+// @Security     Bearer
+// @Router       /socialmedias/{id} [put]
 func (handler *socialMediaHandler) Update(ctx *gin.Context) {
 	var (
 		socialMedia domain.SocialMedia
@@ -137,6 +175,19 @@ func (handler *socialMediaHandler) Update(ctx *gin.Context) {
 	})
 }
 
+// Delete godoc
+// @Summary      Delete a social media
+// @Description  Delete an social media by id with authentication user
+// @Tags         socialmedias
+// @Accept       json
+// @Produce      json
+// @Param        id   path      string  true  "SocialMedia ID"
+// @Success      200  {object}  utils.ResponseMessageDeletedSocialMedia
+// @Failure      400  {object}	utils.ResponseMessage
+// @Failure      401  {object}	utils.ResponseMessage
+// @Failure      404  {object}	utils.ResponseMessage
+// @Security     Bearer
+// @Router       /socialMedias/{id} [delete]
 func (handler *socialMediaHandler) Delete(ctx *gin.Context) {
 	socialMediaID := ctx.Param("socialMediaId")
 

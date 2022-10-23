@@ -1,19 +1,39 @@
 basePath: /
 definitions:
-  mygram-api_comment_utils.User:
+  mygram-api_comment_utils.ResponseMessage:
     properties:
-      email:
+      data:
+        example: the error explained here
         type: string
-      id:
-        type: string
-      username:
+      status:
+        example: fail
         type: string
     type: object
-  mygram-api_photo_utils.User:
+  mygram-api_photo_utils.ResponseMessage:
     properties:
-      email:
+      data:
+        example: the error explained here
         type: string
-      username:
+      status:
+        example: fail
+        type: string
+    type: object
+  mygram-api_socialmedia_utils.ResponseMessage:
+    properties:
+      data:
+        example: the error explained here
+        type: string
+      status:
+        example: fail
+        type: string
+    type: object
+  mygram-api_user_utils.ResponseMessage:
+    properties:
+      data:
+        example: the error explained here
+        type: string
+      status:
+        example: fail
         type: string
     type: object
   utils.AddComment:
@@ -35,6 +55,15 @@ definitions:
         type: string
       title:
         example: A Title
+        type: string
+    type: object
+  utils.AddSocialMedia:
+    properties:
+      name:
+        example: Example
+        type: string
+      social_media_url:
+        example: https://www.example.com/johndoe
         type: string
     type: object
   utils.AddedComment:
@@ -70,6 +99,24 @@ definitions:
       user_id:
         type: string
     type: object
+  utils.AddedSocialMedia:
+    properties:
+      created_at:
+        example: the created at generated here
+        type: string
+      id:
+        example: the social media id generated here
+        type: string
+      name:
+        example: Example
+        type: string
+      social_media_url:
+        example: https://www.example.com/johndoe
+        type: string
+      user_id:
+        example: here is the generated user id
+        type: string
+    type: object
   utils.FetchedComment:
     properties:
       created_at:
@@ -85,7 +132,7 @@ definitions:
       updated_at:
         type: string
       user:
-        $ref: '#/definitions/mygram-api_comment_utils.User'
+        $ref: '#/definitions/utils.User'
       user_id:
         type: string
     type: object
@@ -104,7 +151,7 @@ definitions:
       updated_at:
         type: string
       user:
-        $ref: '#/definitions/mygram-api_photo_utils.User'
+        $ref: '#/definitions/utils.User'
       user_id:
         type: string
     type: object
@@ -182,6 +229,14 @@ definitions:
         example: success
         type: string
     type: object
+  utils.ResponseDataAddedSocialMedia:
+    properties:
+      data:
+        $ref: '#/definitions/utils.AddedSocialMedia'
+      status:
+        example: success
+        type: string
+    type: object
   utils.ResponseDataFetchedComment:
     properties:
       data:
@@ -198,6 +253,14 @@ definitions:
         items:
           $ref: '#/definitions/utils.FetchedPhoto'
         type: array
+      status:
+        example: success
+        type: string
+    type: object
+  utils.ResponseDataFetchedSocialMedia:
+    properties:
+      data:
+        $ref: '#/definitions/utils.SocialMedias'
       status:
         example: success
         type: string
@@ -242,13 +305,12 @@ definitions:
         example: success
         type: string
     type: object
-  utils.ResponseMessage:
+  utils.ResponseDataUpdatedSocialMedia:
     properties:
       data:
-        example: the error explained here
-        type: string
+        $ref: '#/definitions/utils.UpdatedSocialMedia'
       status:
-        example: fail
+        example: success
         type: string
     type: object
   utils.ResponseMessageDelete:
@@ -278,6 +340,45 @@ definitions:
         example: success
         type: string
     type: object
+  utils.ResponseMessageDeletedSocialMedia:
+    properties:
+      message:
+        example: your social media has been successfully deleted
+        type: string
+      status:
+        example: success
+        type: string
+    type: object
+  utils.SocialMedia:
+    properties:
+      created_at:
+        example: here is the generated created at
+        type: string
+      id:
+        example: here is the generated social media id
+        type: string
+      name:
+        example: Example
+        type: string
+      social_media_url:
+        example: https://www.example.com/johndoe
+        type: string
+      updated_at:
+        example: here is the generated updated at
+        type: string
+      user:
+        $ref: '#/definitions/utils.User'
+      user_id:
+        example: here is the generated user id
+        type: string
+    type: object
+  utils.SocialMedias:
+    properties:
+      social_medias:
+        items:
+          $ref: '#/definitions/utils.SocialMedia'
+        type: array
+    type: object
   utils.UpdateComment:
     properties:
       message:
@@ -294,6 +395,15 @@ definitions:
         type: string
       title:
         example: A new title
+        type: string
+    type: object
+  utils.UpdateSocialMedia:
+    properties:
+      name:
+        example: New Example
+        type: string
+      social_media_url:
+        example: https://www.newexample.com/johndoe
         type: string
     type: object
   utils.UpdateUser:
@@ -335,6 +445,24 @@ definitions:
       user_id:
         type: string
     type: object
+  utils.UpdatedSocialMedia:
+    properties:
+      id:
+        example: here is the generated social media id
+        type: string
+      name:
+        example: New Example
+        type: string
+      social_media_url:
+        example: https://www.newexample.com/johndoe
+        type: string
+      updated_at:
+        example: the updated at generated here
+        type: string
+      user_id:
+        example: here is the generated user id
+        type: string
+    type: object
   utils.UpdatedUser:
     properties:
       age:
@@ -351,6 +479,18 @@ definitions:
         type: string
       username:
         example: newjohndoe
+        type: string
+    type: object
+  utils.User:
+    properties:
+      email:
+        example: johndoe@example.com
+        type: string
+      id:
+        example: here is the generated user id
+        type: string
+      username:
+        example: johndoe
         type: string
     type: object
 host: localhost:8080
@@ -382,11 +522,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_comment_utils.ResponseMessage'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_comment_utils.ResponseMessage'
       security:
       - Bearer: []
       summary: Fetch all comments
@@ -413,11 +553,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_comment_utils.ResponseMessage'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_comment_utils.ResponseMessage'
       security:
       - Bearer: []
       summary: Create a comment
@@ -444,15 +584,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_comment_utils.ResponseMessage'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_comment_utils.ResponseMessage'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_comment_utils.ResponseMessage'
       security:
       - Bearer: []
       summary: Delete a comment
@@ -484,15 +624,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_comment_utils.ResponseMessage'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_comment_utils.ResponseMessage'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_comment_utils.ResponseMessage'
       security:
       - Bearer: []
       summary: Update a comment
@@ -513,11 +653,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
       security:
       - Bearer: []
       summary: Fetch all photos
@@ -544,11 +684,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
       security:
       - Bearer: []
       summary: Store a photo
@@ -575,15 +715,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
       security:
       - Bearer: []
       summary: Delete a photo
@@ -615,20 +755,152 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
       security:
       - Bearer: []
       summary: Update a photo
       tags:
       - photos
+  /socialMedias/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an social media by id with authentication user
+      parameters:
+      - description: SocialMedia ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseMessageDeletedSocialMedia'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
+      security:
+      - Bearer: []
+      summary: Delete a social media
+      tags:
+      - socialmedias
+  /socialmedias:
+    get:
+      consumes:
+      - application/json
+      description: get all social media with authentication user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseDataFetchedSocialMedia'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
+      security:
+      - Bearer: []
+      summary: Fetch all social media
+      tags:
+      - socialmedias
+    post:
+      consumes:
+      - application/json
+      description: Create and store a social media with authentication user
+      parameters:
+      - description: SocialMedia
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/utils.AddSocialMedia'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.ResponseDataAddedSocialMedia'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
+      security:
+      - Bearer: []
+      summary: Create a social media
+      tags:
+      - socialmedias
+  /socialmedias/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update a social media by id with authentication user
+      parameters:
+      - description: SocialMedia ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Social Media
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/utils.UpdateSocialMedia'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseDataUpdatedSocialMedia'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
+      security:
+      - Bearer: []
+      summary: Update a social media
+      tags:
+      - socialmedias
   /users:
     delete:
       consumes:
@@ -644,15 +916,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
       security:
       - Bearer: []
       summary: Delete a user
@@ -679,15 +951,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
         "409":
           description: Conflict
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
       security:
       - Bearer: []
       summary: Update a user
@@ -715,11 +987,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
       summary: Login a user
       tags:
       - users
@@ -745,11 +1017,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
         "409":
           description: Conflict
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
       summary: Register a user
       tags:
       - users

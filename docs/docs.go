@@ -51,13 +51,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_comment_utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_comment_utils.ResponseMessage"
                         }
                     }
                 }
@@ -100,13 +100,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_comment_utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_comment_utils.ResponseMessage"
                         }
                     }
                 }
@@ -158,19 +158,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_comment_utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_comment_utils.ResponseMessage"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_comment_utils.ResponseMessage"
                         }
                     }
                 }
@@ -211,19 +211,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_comment_utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_comment_utils.ResponseMessage"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_comment_utils.ResponseMessage"
                         }
                     }
                 }
@@ -257,13 +257,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
                         }
                     }
                 }
@@ -306,13 +306,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
                         }
                     }
                 }
@@ -364,19 +364,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
                         }
                     }
                 }
@@ -417,19 +417,227 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_photo_utils.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/socialMedias/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete an social media by id with authentication user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "socialmedias"
+                ],
+                "summary": "Delete a social media",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "SocialMedia ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseMessageDeletedSocialMedia"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/mygram-api_socialmedia_utils.ResponseMessage"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/mygram-api_socialmedia_utils.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/mygram-api_socialmedia_utils.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/socialmedias": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "get all social media with authentication user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "socialmedias"
+                ],
+                "summary": "Fetch all social media",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseDataFetchedSocialMedia"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/mygram-api_socialmedia_utils.ResponseMessage"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/mygram-api_socialmedia_utils.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create and store a social media with authentication user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "socialmedias"
+                ],
+                "summary": "Create a social media",
+                "parameters": [
+                    {
+                        "description": "SocialMedia",
+                        "name": "json",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/utils.AddSocialMedia"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseDataAddedSocialMedia"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/mygram-api_socialmedia_utils.ResponseMessage"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/mygram-api_socialmedia_utils.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/socialmedias/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update a social media by id with authentication user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "socialmedias"
+                ],
+                "summary": "Update a social media",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "SocialMedia ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update Social Media",
+                        "name": "json",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/utils.UpdateSocialMedia"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseDataUpdatedSocialMedia"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/mygram-api_socialmedia_utils.ResponseMessage"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/mygram-api_socialmedia_utils.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/mygram-api_socialmedia_utils.ResponseMessage"
                         }
                     }
                 }
@@ -474,19 +682,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
                         }
                     },
                     "409": {
                         "description": "Conflict",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
                         }
                     }
                 }
@@ -518,19 +726,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
                         }
                     }
                 }
@@ -570,13 +778,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
                         }
                     }
                 }
@@ -616,13 +824,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
                         }
                     },
                     "409": {
                         "description": "Conflict",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessage"
+                            "$ref": "#/definitions/mygram-api_user_utils.ResponseMessage"
                         }
                     }
                 }
@@ -630,28 +838,55 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "mygram-api_comment_utils.User": {
+        "mygram-api_comment_utils.ResponseMessage": {
             "type": "object",
             "properties": {
-                "email": {
-                    "type": "string"
+                "data": {
+                    "type": "string",
+                    "example": "the error explained here"
                 },
-                "id": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
+                "status": {
+                    "type": "string",
+                    "example": "fail"
                 }
             }
         },
-        "mygram-api_photo_utils.User": {
+        "mygram-api_photo_utils.ResponseMessage": {
             "type": "object",
             "properties": {
-                "email": {
-                    "type": "string"
+                "data": {
+                    "type": "string",
+                    "example": "the error explained here"
                 },
-                "username": {
-                    "type": "string"
+                "status": {
+                    "type": "string",
+                    "example": "fail"
+                }
+            }
+        },
+        "mygram-api_socialmedia_utils.ResponseMessage": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "string",
+                    "example": "the error explained here"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "fail"
+                }
+            }
+        },
+        "mygram-api_user_utils.ResponseMessage": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "string",
+                    "example": "the error explained here"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "fail"
                 }
             }
         },
@@ -682,6 +917,19 @@ const docTemplate = `{
                 "title": {
                     "type": "string",
                     "example": "A Title"
+                }
+            }
+        },
+        "utils.AddSocialMedia": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Example"
+                },
+                "social_media_url": {
+                    "type": "string",
+                    "example": "https://www.example.com/johndoe"
                 }
             }
         },
@@ -733,6 +981,31 @@ const docTemplate = `{
                 }
             }
         },
+        "utils.AddedSocialMedia": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "the created at generated here"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "the social media id generated here"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Example"
+                },
+                "social_media_url": {
+                    "type": "string",
+                    "example": "https://www.example.com/johndoe"
+                },
+                "user_id": {
+                    "type": "string",
+                    "example": "here is the generated user id"
+                }
+            }
+        },
         "utils.FetchedComment": {
             "type": "object",
             "properties": {
@@ -755,7 +1028,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user": {
-                    "$ref": "#/definitions/mygram-api_comment_utils.User"
+                    "$ref": "#/definitions/utils.User"
                 },
                 "user_id": {
                     "type": "string"
@@ -784,7 +1057,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user": {
-                    "$ref": "#/definitions/mygram-api_photo_utils.User"
+                    "$ref": "#/definitions/utils.User"
                 },
                 "user_id": {
                     "type": "string"
@@ -899,6 +1172,18 @@ const docTemplate = `{
                 }
             }
         },
+        "utils.ResponseDataAddedSocialMedia": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/utils.AddedSocialMedia"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
         "utils.ResponseDataFetchedComment": {
             "type": "object",
             "properties": {
@@ -922,6 +1207,18 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/utils.FetchedPhoto"
                     }
+                },
+                "status": {
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "utils.ResponseDataFetchedSocialMedia": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/utils.SocialMedias"
                 },
                 "status": {
                     "type": "string",
@@ -989,16 +1286,15 @@ const docTemplate = `{
                 }
             }
         },
-        "utils.ResponseMessage": {
+        "utils.ResponseDataUpdatedSocialMedia": {
             "type": "object",
             "properties": {
                 "data": {
-                    "type": "string",
-                    "example": "the error explained here"
+                    "$ref": "#/definitions/utils.UpdatedSocialMedia"
                 },
                 "status": {
                     "type": "string",
-                    "example": "fail"
+                    "example": "success"
                 }
             }
         },
@@ -1041,6 +1337,62 @@ const docTemplate = `{
                 }
             }
         },
+        "utils.ResponseMessageDeletedSocialMedia": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "your social media has been successfully deleted"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "utils.SocialMedia": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "here is the generated created at"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "here is the generated social media id"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Example"
+                },
+                "social_media_url": {
+                    "type": "string",
+                    "example": "https://www.example.com/johndoe"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "here is the generated updated at"
+                },
+                "user": {
+                    "$ref": "#/definitions/utils.User"
+                },
+                "user_id": {
+                    "type": "string",
+                    "example": "here is the generated user id"
+                }
+            }
+        },
+        "utils.SocialMedias": {
+            "type": "object",
+            "properties": {
+                "social_medias": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/utils.SocialMedia"
+                    }
+                }
+            }
+        },
         "utils.UpdateComment": {
             "type": "object",
             "properties": {
@@ -1064,6 +1416,19 @@ const docTemplate = `{
                 "title": {
                     "type": "string",
                     "example": "A new title"
+                }
+            }
+        },
+        "utils.UpdateSocialMedia": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "New Example"
+                },
+                "social_media_url": {
+                    "type": "string",
+                    "example": "https://www.newexample.com/johndoe"
                 }
             }
         },
@@ -1126,6 +1491,31 @@ const docTemplate = `{
                 }
             }
         },
+        "utils.UpdatedSocialMedia": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "here is the generated social media id"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "New Example"
+                },
+                "social_media_url": {
+                    "type": "string",
+                    "example": "https://www.newexample.com/johndoe"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "the updated at generated here"
+                },
+                "user_id": {
+                    "type": "string",
+                    "example": "here is the generated user id"
+                }
+            }
+        },
         "utils.UpdatedUser": {
             "type": "object",
             "properties": {
@@ -1148,6 +1538,23 @@ const docTemplate = `{
                 "username": {
                     "type": "string",
                     "example": "newjohndoe"
+                }
+            }
+        },
+        "utils.User": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "johndoe@example.com"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "here is the generated user id"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "johndoe"
                 }
             }
         }
