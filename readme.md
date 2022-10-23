@@ -1,4 +1,4 @@
-# Final Project - MyGram
+# Final Project - MyGram API
 
 Scalable Web Services with Go - Digitalent ✕ Hacktiv8
 
@@ -18,7 +18,14 @@ Open mygram-api folder and install all required dependencies
 cd mygram-api && go mod tidy
 ```
 
-Copy the example config file and adjust the config file
+Copy the example env file and adjust the env file
+
+```
+cp env.example .env
+```
+
+Start the server
+
 
 ```bash
 go run main.go
