@@ -67,7 +67,7 @@ func (handler *commentHandler) Fetch(ctx *gin.Context) {
 }
 
 // Store godoc
-// @Summary			Create a comment
+// @Summary			Add a comment
 // @Description	create and store a comment with authentication user
 // @Tags        comments
 // @Accept      json
@@ -133,7 +133,7 @@ func (handler *commentHandler) Store(ctx *gin.Context) {
 
 // Update godoc
 // @Summary			Update a comment
-// @Description	update a comment by id with authentication user
+// @Description	Update a comment by id with authentication user
 // @Tags        comments
 // @Accept      json
 // @Produce     json
@@ -144,7 +144,7 @@ func (handler *commentHandler) Store(ctx *gin.Context) {
 // @Failure     401		{object}	utils.ResponseMessage
 // @Failure     404		{object}	utils.ResponseMessage
 // @Security    Bearer
-// @Router      /comments/{id} [put]
+// @Router      /comments/{id}	[put]
 func (handler *commentHandler) Update(ctx *gin.Context) {
 	var (
 		comment domain.Comment

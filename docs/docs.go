@@ -78,7 +78,7 @@ const docTemplate = `{
                 "tags": [
                     "comments"
                 ],
-                "summary": "Create a comment",
+                "summary": "Add a comment",
                 "parameters": [
                     {
                         "description": "Add Comment",
@@ -119,7 +119,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "update a comment by id with authentication user",
+                "description": "Update a comment by id with authentication user",
                 "consumes": [
                     "application/json"
                 ],
@@ -1545,6 +1545,9 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "email": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "username": {

@@ -485,6 +485,8 @@ definitions:
     properties:
       email:
         type: string
+      id:
+        type: string
       username:
         type: string
     type: object
@@ -555,7 +557,7 @@ paths:
             $ref: '#/definitions/mygram-api_comment_utils.ResponseMessage'
       security:
       - Bearer: []
-      summary: Create a comment
+      summary: Add a comment
       tags:
       - comments
   /comments/{id}:
@@ -596,7 +598,7 @@ paths:
     put:
       consumes:
       - application/json
-      description: update a comment by id with authentication user
+      description: Update a comment by id with authentication user
       parameters:
       - description: Comment ID
         in: path
