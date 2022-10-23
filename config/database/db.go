@@ -34,7 +34,7 @@ func StartDB() *gorm.DB {
 		log.Fatal("Error connecting to database: ", err)
 	}
 
-	if err := db.AutoMigrate(&domain.User{}, &domain.Photo{}, &domain.Comment{}, &domain.SocialMedia{}); err != nil {
+	if err = db.AutoMigrate(&domain.User{}, &domain.Photo{}, &domain.Comment{}, &domain.SocialMedia{}); err != nil {
 		log.Fatal("Error migrating database: ", err.Error())
 	}
 
