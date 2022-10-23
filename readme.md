@@ -2,7 +2,7 @@
 
 ### Scalable Web Services with Go - Digitalent ✕ Hacktiv8
 
-MyGram is a free photo sharing app written in Go. People can share, view, and comment photos by everyone. Anyone can create an account by registering an email address and selecting a username.
+MyGram is a free photo sharing app written in Go. People can share, view, and comment photos by everyone. Anyone can create an account by registering an email address and creating a username.
 
 ## Getting Started
 
