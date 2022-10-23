@@ -1538,16 +1538,10 @@
             "type": "object",
             "properties": {
                 "email": {
-                    "type": "string",
-                    "example": "johndoe@example.com"
-                },
-                "id": {
-                    "type": "string",
-                    "example": "here is the generated user id"
+                    "type": "string"
                 },
                 "username": {
-                    "type": "string",
-                    "example": "johndoe"
+                    "type": "string"
                 }
             }
         }

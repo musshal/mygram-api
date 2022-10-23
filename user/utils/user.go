@@ -35,10 +35,6 @@ type ResponseDataLoggedinUser struct {
 	Data   LoggedinUser `json:"data"`
 }
 
-type NewToken struct {
-	Token string `json:"token"`
-}
-
 type UpdateUser struct {
 	Email    string `json:"email" example:"newjohndoe@example.com"`
 	Username string `json:"username" example:"newjohndoe"`

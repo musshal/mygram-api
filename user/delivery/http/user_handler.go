@@ -148,7 +148,7 @@ func (handler *userHandler) Login(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, helpers.ResponseData{
 		Status: "success",
-		Data: utils.NewToken{
+		Data: utils.LoggedinUser{
 			Token: token,
 		},
 	})
