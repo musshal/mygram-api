@@ -435,61 +435,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/socialMedias/{id}": {
-            "delete": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Delete an social media by id with authentication user",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "socialmedias"
-                ],
-                "summary": "Delete a social media",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "SocialMedia ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessageDeletedSocialMedia"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/mygram-api_socialmedia_utils.ResponseMessage"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/mygram-api_socialmedia_utils.ResponseMessage"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/mygram-api_socialmedia_utils.ResponseMessage"
-                        }
-                    }
-                }
-            }
-        },
         "/socialmedias": {
             "get": {
                 "security": [
@@ -497,7 +442,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "get all social media with authentication user",
+                "description": "Get all social media with authentication user",
                 "consumes": [
                     "application/json"
                 ],
@@ -545,10 +490,10 @@ const docTemplate = `{
                 "tags": [
                     "socialmedias"
                 ],
-                "summary": "Create a social media",
+                "summary": "Add a social media",
                 "parameters": [
                     {
-                        "description": "SocialMedia",
+                        "description": "Add Social Media",
                         "name": "json",
                         "in": "body",
                         "required": true,
@@ -620,6 +565,59 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/utils.ResponseDataUpdatedSocialMedia"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/mygram-api_socialmedia_utils.ResponseMessage"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/mygram-api_socialmedia_utils.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/mygram-api_socialmedia_utils.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a social media by id with authentication user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "socialmedias"
+                ],
+                "summary": "Delete a social media",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "SocialMedia ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseMessageDeletedSocialMedia"
                         }
                     },
                     "400": {

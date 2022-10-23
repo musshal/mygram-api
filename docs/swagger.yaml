@@ -766,11 +766,67 @@ paths:
       summary: Update a photo
       tags:
       - photos
-  /socialMedias/{id}:
+  /socialmedias:
+    get:
+      consumes:
+      - application/json
+      description: Get all social media with authentication user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseDataFetchedSocialMedia'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
+      security:
+      - Bearer: []
+      summary: Fetch all social media
+      tags:
+      - socialmedias
+    post:
+      consumes:
+      - application/json
+      description: Create and store a social media with authentication user
+      parameters:
+      - description: Add Social Media
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/utils.AddSocialMedia'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.ResponseDataAddedSocialMedia'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
+      security:
+      - Bearer: []
+      summary: Add a social media
+      tags:
+      - socialmedias
+  /socialmedias/{id}:
     delete:
       consumes:
       - application/json
-      description: Delete an social media by id with authentication user
+      description: Delete a social media by id with authentication user
       parameters:
       - description: SocialMedia ID
         in: path
@@ -801,63 +857,6 @@ paths:
       summary: Delete a social media
       tags:
       - socialmedias
-  /socialmedias:
-    get:
-      consumes:
-      - application/json
-      description: get all social media with authentication user
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/utils.ResponseDataFetchedSocialMedia'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
-      security:
-      - Bearer: []
-      summary: Fetch all social media
-      tags:
-      - socialmedias
-    post:
-      consumes:
-      - application/json
-      description: Create and store a social media with authentication user
-      parameters:
-      - description: SocialMedia
-        in: body
-        name: json
-        required: true
-        schema:
-          $ref: '#/definitions/utils.AddSocialMedia'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/utils.ResponseDataAddedSocialMedia'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/mygram-api_socialmedia_utils.ResponseMessage'
-      security:
-      - Bearer: []
-      summary: Create a social media
-      tags:
-      - socialmedias
-  /socialmedias/{id}:
     put:
       consumes:
       - application/json
