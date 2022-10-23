@@ -16,7 +16,7 @@ type RegisteredUser struct {
 	Username string `json:"username" example:"johndoe"`
 }
 
-type ResponseDataRegister struct {
+type ResponseDataRegisteredUser struct {
 	Status string         `json:"status" example:"success"`
 	Data   RegisteredUser `json:"data"`
 }
@@ -30,7 +30,7 @@ type LoggedinUser struct {
 	Token string `json:"token" example:"the token generated here"`
 }
 
-type ResponseDataLogin struct {
+type ResponseDataLoggedinUser struct {
 	Status string       `json:"status" example:"success"`
 	Data   LoggedinUser `json:"data"`
 }
@@ -52,12 +52,12 @@ type UpdatedUser struct {
 	UpdatedAt *time.Time `json:"updated_at" example:"the updated at generated here"`
 }
 
-type ResponseDataUpdate struct {
+type ResponseDataUpdatedUser struct {
 	Status string      `json:"status" example:"success"`
 	Data   UpdatedUser `json:"data"`
 }
 
-type ResponseMessageDelete struct {
+type ResponseMessageDeletedUser struct {
 	Status  string `json:"status" example:"success"`
 	Message string `json:"message" example:"your account has been successfully deleted"`
 }

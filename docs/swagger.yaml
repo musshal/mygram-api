@@ -265,7 +265,7 @@ definitions:
         example: success
         type: string
     type: object
-  utils.ResponseDataLogin:
+  utils.ResponseDataLoggedinUser:
     properties:
       data:
         $ref: '#/definitions/utils.LoggedinUser'
@@ -273,18 +273,10 @@ definitions:
         example: success
         type: string
     type: object
-  utils.ResponseDataRegister:
+  utils.ResponseDataRegisteredUser:
     properties:
       data:
         $ref: '#/definitions/utils.RegisteredUser'
-      status:
-        example: success
-        type: string
-    type: object
-  utils.ResponseDataUpdate:
-    properties:
-      data:
-        $ref: '#/definitions/utils.UpdatedUser'
       status:
         example: success
         type: string
@@ -313,11 +305,10 @@ definitions:
         example: success
         type: string
     type: object
-  utils.ResponseMessageDelete:
+  utils.ResponseDataUpdatedUser:
     properties:
-      message:
-        example: your account has been successfully deleted
-        type: string
+      data:
+        $ref: '#/definitions/utils.UpdatedUser'
       status:
         example: success
         type: string
@@ -344,6 +335,15 @@ definitions:
     properties:
       message:
         example: your social media has been successfully deleted
+        type: string
+      status:
+        example: success
+        type: string
+    type: object
+  utils.ResponseMessageDeletedUser:
+    properties:
+      message:
+        example: your account has been successfully deleted
         type: string
       status:
         example: success
@@ -912,7 +912,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/utils.ResponseMessageDelete'
+            $ref: '#/definitions/utils.ResponseMessageDeletedUser'
         "400":
           description: Bad Request
           schema:
@@ -947,7 +947,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/utils.ResponseDataUpdate'
+            $ref: '#/definitions/utils.ResponseDataUpdatedUser'
         "400":
           description: Bad Request
           schema:
@@ -983,7 +983,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/utils.ResponseDataLogin'
+            $ref: '#/definitions/utils.ResponseDataLoggedinUser'
         "400":
           description: Bad Request
           schema:
@@ -1013,7 +1013,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/utils.ResponseDataRegister'
+            $ref: '#/definitions/utils.ResponseDataRegisteredUser'
         "400":
           description: Bad Request
           schema:
@@ -1025,9 +1025,4 @@ paths:
       summary: Register a user
       tags:
       - users
-securityDefinitions:
-  Bearer:
-    in: header
-    name: Authorization
-    type: apiKey
 swagger: "2.0"

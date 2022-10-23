@@ -676,7 +676,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseDataUpdate"
+                            "$ref": "#/definitions/utils.ResponseDataUpdatedUser"
                         }
                     },
                     "400": {
@@ -720,7 +720,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseMessageDelete"
+                            "$ref": "#/definitions/utils.ResponseMessageDeletedUser"
                         }
                     },
                     "400": {
@@ -772,7 +772,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseDataLogin"
+                            "$ref": "#/definitions/utils.ResponseDataLoggedinUser"
                         }
                     },
                     "400": {
@@ -818,7 +818,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/utils.ResponseDataRegister"
+                            "$ref": "#/definitions/utils.ResponseDataRegisteredUser"
                         }
                     },
                     "400": {
@@ -1226,7 +1226,7 @@ const docTemplate = `{
                 }
             }
         },
-        "utils.ResponseDataLogin": {
+        "utils.ResponseDataLoggedinUser": {
             "type": "object",
             "properties": {
                 "data": {
@@ -1238,23 +1238,11 @@ const docTemplate = `{
                 }
             }
         },
-        "utils.ResponseDataRegister": {
+        "utils.ResponseDataRegisteredUser": {
             "type": "object",
             "properties": {
                 "data": {
                     "$ref": "#/definitions/utils.RegisteredUser"
-                },
-                "status": {
-                    "type": "string",
-                    "example": "success"
-                }
-            }
-        },
-        "utils.ResponseDataUpdate": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/utils.UpdatedUser"
                 },
                 "status": {
                     "type": "string",
@@ -1298,12 +1286,11 @@ const docTemplate = `{
                 }
             }
         },
-        "utils.ResponseMessageDelete": {
+        "utils.ResponseDataUpdatedUser": {
             "type": "object",
             "properties": {
-                "message": {
-                    "type": "string",
-                    "example": "your account has been successfully deleted"
+                "data": {
+                    "$ref": "#/definitions/utils.UpdatedUser"
                 },
                 "status": {
                     "type": "string",
@@ -1343,6 +1330,19 @@ const docTemplate = `{
                 "message": {
                     "type": "string",
                     "example": "your social media has been successfully deleted"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "utils.ResponseMessageDeletedUser": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "your account has been successfully deleted"
                 },
                 "status": {
                     "type": "string",
@@ -1557,13 +1557,6 @@ const docTemplate = `{
                     "example": "johndoe"
                 }
             }
-        }
-    },
-    "securityDefinitions": {
-        "Bearer": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
         }
     }
 }`

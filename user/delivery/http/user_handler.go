@@ -35,7 +35,7 @@ func NewUserHandler(routers *gin.Engine, userUseCase domain.UserUseCase) {
 // @Accept			json
 // @Produce			json
 // @Param				json	body			utils.RegisterUser	true	"Register User"
-// @Success			201		{object}	utils.ResponseDataRegister
+// @Success			201		{object}	utils.ResponseDataRegisteredUser
 // @Failure			400  	{object}	utils.ResponseMessage
 // @Failure			409  	{object}	utils.ResponseMessage
 // @Router			/users/register	[post]
@@ -99,7 +99,7 @@ func (handler *userHandler) Register(ctx *gin.Context) {
 // @Accept			json
 // @Produce			json
 // @Param				json	body			utils.LoginUser	true	"Login User"
-// @Success			200		{object}	utils.ResponseDataLogin
+// @Success			200		{object}	utils.ResponseDataLoggedinUser
 // @Failure			400		{object}	utils.ResponseMessage
 // @Failure			401		{object}	utils.ResponseMessage
 // @Router			/users/login		[post]
@@ -161,7 +161,7 @@ func (handler *userHandler) Login(ctx *gin.Context) {
 // @Accept			json
 // @Produce			json
 // @Param				json		body			utils.UpdateUser   true  "Update User"
-// @Success			200			{object}  utils.ResponseDataUpdate
+// @Success			200			{object}  utils.ResponseDataUpdatedUser
 // @Failure			400			{object}	utils.ResponseMessage
 // @Failure			401			{object}	utils.ResponseMessage
 // @Failure			409			{object}	utils.ResponseMessage
@@ -217,7 +217,7 @@ func (handler *userHandler) Update(ctx *gin.Context) {
 // @Tags				users
 // @Accept			json
 // @Produce			json
-// @Success			200			{object}	utils.ResponseMessageDelete
+// @Success			200			{object}	utils.ResponseMessageDeletedUser
 // @Failure			400			{object}	utils.ResponseMessage
 // @Failure			401			{object}	utils.ResponseMessage
 // @Failure			404			{object}	utils.ResponseMessage
