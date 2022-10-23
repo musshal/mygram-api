@@ -6,33 +6,31 @@ import (
 	"mygram-api/domain"
 	"os"
 
-	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func StartDB() *gorm.DB {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file: ", err)
-	}
-
-	env := os.Getenv("ENV")
-	host := os.Getenv("PGHOST")
-	user := os.Getenv("PGUSER")
-	password := os.Getenv("PGPASSWORD")
-	dbname := os.Getenv("PGDBNAME")
-	port := os.Getenv("PGPORT")
-	dsn := ""
+	var (
+		env      = os.Getenv("ENV")
+		host     = os.Getenv("PGHOST")
+		user     = os.Getenv("PGUSER")
+		password = os.Getenv("PGPASSWORD")
+		dbname   = os.Getenv("PGDBNAME")
+		port     = os.Getenv("PGPORT")
+		timeZone = os.Getenv("TIMEZONE")
+		dsn      = ""
+		db       *gorm.DB
+		err      error
+	)
 
 	if env == "production" {
-		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=require", host, user, password, dbname, port)
+		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=require TimeZone=%s", host, user, password, dbname, port, timeZone)
 	} else {
-		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", host, user, password, dbname, port)
+		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=%s", host, user, password, dbname, port, timeZone)
 	}
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-
-	if err != nil {
+	if db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{FullSaveAssociations: true}); err != nil {
 		log.Fatal("Error connecting to database: ", err)
 	}
 

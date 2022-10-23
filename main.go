@@ -41,6 +41,10 @@ import (
 // @name                        Authorization
 // @description					        Description for what is this security definition being used
 func main() {
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Error loading .env file: ", err)
+	}
+
 	db := database.StartDB()
 
 	routers := gin.Default()
