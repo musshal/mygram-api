@@ -28,6 +28,17 @@ func NewPhotoHandler(routers *gin.Engine, photoUseCase domain.PhotoUseCase) {
 	}
 }
 
+// Fetch godoc
+// @Summary    	Fetch all photos
+// @Description	Get all photos with authentication user
+// @Tags        photos
+// @Accept      json
+// @Produce     json
+// @Success     200			{object}	utils.ResponseDataFetchedPhoto
+// @Failure     400			{object}	utils.ResponseMessage
+// @Failure     401			{object}	utils.ResponseMessage
+// @Security    Bearer
+// @Router      /photos	[get]
 func (handler *photoHandler) Fetch(ctx *gin.Context) {
 	var (
 		photos []domain.Photo
@@ -43,10 +54,10 @@ func (handler *photoHandler) Fetch(ctx *gin.Context) {
 		return
 	}
 
-	fetchedPhotos := []*utils.Photo{}
+	fetchedPhotos := []*utils.FetchedPhoto{}
 
 	for _, photo := range photos {
-		fetchedPhotos = append(fetchedPhotos, &utils.Photo{
+		fetchedPhotos = append(fetchedPhotos, &utils.FetchedPhoto{
 			ID:        photo.ID,
 			Title:     photo.Title,
 			Caption:   photo.Caption,
@@ -67,6 +78,18 @@ func (handler *photoHandler) Fetch(ctx *gin.Context) {
 	})
 }
 
+// Store godoc
+// @Summary    	Store a photo
+// @Description	Create and store a photo with authentication user
+// @Tags        photos
+// @Accept      json
+// @Produce     json
+// @Param       json		body			utils.AddPhoto	true	"Add Photo"
+// @Success     201			{object}  utils.ResponseDataAddedPhoto
+// @Failure     400			{object}	utils.ResponseMessage
+// @Failure     401			{object}	utils.ResponseMessage
+// @Security    Bearer
+// @Router      /photos	[post]
 func (handler *photoHandler) Store(ctx *gin.Context) {
 	var (
 		photo domain.Photo
@@ -98,7 +121,7 @@ func (handler *photoHandler) Store(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, helpers.ResponseData{
 		Status: "success",
-		Data: utils.NewPhoto{
+		Data: utils.AddedPhoto{
 			ID:        photo.ID,
 			Title:     photo.Title,
 			Caption:   photo.Caption,
@@ -109,6 +132,20 @@ func (handler *photoHandler) Store(ctx *gin.Context) {
 	})
 }
 
+// Update godoc
+// @Summary     Update a photo
+// @Description	Update a photo by id with authentication user
+// @Tags        photos
+// @Accept      json
+// @Produce     json
+// @Param       id		path      string	true	"Photo ID"
+// @Param       json	body			utils.UpdatePhoto true  "Photo"
+// @Success     200		{object}  utils.ResponseDataUpdatedPhoto
+// @Failure     400		{object}	utils.ResponseMessage
+// @Failure     401		{object}	utils.ResponseMessage
+// @Failure     404		{object}	utils.ResponseMessage
+// @Security    Bearer
+// @Router      /photos/{id}		[put]
 func (handler *photoHandler) Update(ctx *gin.Context) {
 	var (
 		photo domain.Photo
@@ -154,6 +191,19 @@ func (handler *photoHandler) Update(ctx *gin.Context) {
 	})
 }
 
+// Delete godoc
+// @Summary     Delete a photo
+// @Description	Delete a photo by id with authentication user
+// @Tags        photos
+// @Accept      json
+// @Produce     json
+// @Param       id	path			string	true	"Photo ID"
+// @Success     200	{object}	utils.ResponseMessageDeletedPhoto
+// @Failure     400	{object}	utils.ResponseMessage
+// @Failure     401	{object}	utils.ResponseMessage
+// @Failure     404	{object}	utils.ResponseMessage
+// @Security    Bearer
+// @Router      /photos/{id}	[delete]
 func (handler *photoHandler) Delete(ctx *gin.Context) {
 	photoID := ctx.Param("photoId")
 

@@ -217,7 +217,7 @@ func (handler *userHandler) Update(ctx *gin.Context) {
 // @Tags				users
 // @Accept			json
 // @Produce			json
-// @Success			200			{object}	utils.DeletedUser
+// @Success			200			{object}	utils.ResponseMessageDelete
 // @Failure			400			{object}	utils.ResponseMessage
 // @Failure			401			{object}	utils.ResponseMessage
 // @Failure			404			{object}	utils.ResponseMessage

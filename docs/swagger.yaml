@@ -1,12 +1,67 @@
 basePath: /
 definitions:
-  utils.DeletedUser:
+  mygram-api_photo_utils.ResponseMessage:
     properties:
-      message:
-        example: your account has been successfully deleted
+      data:
+        example: the error explained here
         type: string
       status:
-        example: success
+        example: fail
+        type: string
+    type: object
+  mygram-api_user_utils.ResponseMessage:
+    properties:
+      data:
+        example: the error explained here
+        type: string
+      status:
+        example: fail
+        type: string
+    type: object
+  utils.AddPhoto:
+    properties:
+      caption:
+        example: A caption
+        type: string
+      photo_url:
+        example: https://www.example.com/image.jpg
+        type: string
+      title:
+        example: A Title
+        type: string
+    type: object
+  utils.AddedPhoto:
+    properties:
+      caption:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      photo_url:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: string
+    type: object
+  utils.FetchedPhoto:
+    properties:
+      caption:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      photo_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/utils.User'
+      user_id:
         type: string
     type: object
   utils.LoggedinUser:
@@ -54,6 +109,24 @@ definitions:
         example: johndoe
         type: string
     type: object
+  utils.ResponseDataAddedPhoto:
+    properties:
+      data:
+        $ref: '#/definitions/utils.AddedPhoto'
+      status:
+        example: success
+        type: string
+    type: object
+  utils.ResponseDataFetchedPhoto:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/utils.FetchedPhoto'
+        type: array
+      status:
+        example: success
+        type: string
+    type: object
   utils.ResponseDataLogin:
     properties:
       data:
@@ -78,13 +151,42 @@ definitions:
         example: success
         type: string
     type: object
-  utils.ResponseMessage:
+  utils.ResponseDataUpdatedPhoto:
     properties:
       data:
-        example: the error explained here
+        $ref: '#/definitions/utils.UpdatedPhoto'
+      status:
+        example: success
+        type: string
+    type: object
+  utils.ResponseMessageDelete:
+    properties:
+      message:
+        example: your account has been successfully deleted
         type: string
       status:
-        example: fail
+        example: success
+        type: string
+    type: object
+  utils.ResponseMessageDeletedPhoto:
+    properties:
+      message:
+        example: your photo has been successfully deleted
+        type: string
+      status:
+        example: success
+        type: string
+    type: object
+  utils.UpdatePhoto:
+    properties:
+      caption:
+        example: A new caption
+        type: string
+      photo_url:
+        example: https://www.example.com/new-image.jpg
+        type: string
+      title:
+        example: A new title
         type: string
     type: object
   utils.UpdateUser:
@@ -94,6 +196,21 @@ definitions:
         type: string
       username:
         example: newjohndoe
+        type: string
+    type: object
+  utils.UpdatedPhoto:
+    properties:
+      caption:
+        type: string
+      id:
+        type: string
+      photo_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      user_id:
         type: string
     type: object
   utils.UpdatedUser:
@@ -114,6 +231,13 @@ definitions:
         example: newjohndoe
         type: string
     type: object
+  utils.User:
+    properties:
+      email:
+        type: string
+      username:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -128,6 +252,137 @@ info:
   title: MyGram API
   version: "1.0"
 paths:
+  /photos:
+    get:
+      consumes:
+      - application/json
+      description: Get all photos with authentication user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseDataFetchedPhoto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
+      security:
+      - Bearer: []
+      summary: Fetch all photos
+      tags:
+      - photos
+    post:
+      consumes:
+      - application/json
+      description: Create and store a photo with authentication user
+      parameters:
+      - description: Add Photo
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/utils.AddPhoto'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.ResponseDataAddedPhoto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
+      security:
+      - Bearer: []
+      summary: Store a photo
+      tags:
+      - photos
+  /photos/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a photo by id with authentication user
+      parameters:
+      - description: Photo ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseMessageDeletedPhoto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
+      security:
+      - Bearer: []
+      summary: Delete a photo
+      tags:
+      - photos
+    put:
+      consumes:
+      - application/json
+      description: Update a photo by id with authentication user
+      parameters:
+      - description: Photo ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Photo
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/utils.UpdatePhoto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseDataUpdatedPhoto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/mygram-api_photo_utils.ResponseMessage'
+      security:
+      - Bearer: []
+      summary: Update a photo
+      tags:
+      - photos
   /users:
     delete:
       consumes:
@@ -139,19 +394,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/utils.DeletedUser'
+            $ref: '#/definitions/utils.ResponseMessageDelete'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
       security:
       - Bearer: []
       summary: Delete a user
@@ -178,15 +433,15 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
         "409":
           description: Conflict
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
       security:
       - Bearer: []
       summary: Update a user
@@ -214,11 +469,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
       summary: Login a user
       tags:
       - users
@@ -244,11 +499,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
         "409":
           description: Conflict
           schema:
-            $ref: '#/definitions/utils.ResponseMessage'
+            $ref: '#/definitions/mygram-api_user_utils.ResponseMessage'
       summary: Register a user
       tags:
       - users

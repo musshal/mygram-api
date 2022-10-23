@@ -57,7 +57,7 @@ type ResponseDataUpdate struct {
 	Data   UpdatedUser `json:"data"`
 }
 
-type DeletedUser struct {
+type ResponseMessageDelete struct {
 	Status  string `json:"status" example:"success"`
 	Message string `json:"message" example:"your account has been successfully deleted"`
 }
