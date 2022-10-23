@@ -36,7 +36,7 @@ import (
 // @host localhost:8080
 // @BasePath /
 
-// @securityDefinitions.apikey  Bearer
+// @securityDefinitions.apikey	Bearer
 // @in                          header
 // @name                        Authorization
 // @description					        Description for what is this security definition being used
@@ -62,18 +62,22 @@ func main() {
 
 	userRepository := userRepository.NewUserRepository(db)
 	userUseCase := userUseCase.NewUserUseCase(userRepository)
+
 	userDelivery.NewUserHandler(routers, userUseCase)
 
 	photoRepository := photoRepository.NewPhotoRepository(db)
 	photoUseCase := photoUseCase.NewPhotoUsecase(photoRepository)
+
 	photoDelivery.NewPhotoHandler(routers, photoUseCase)
 
 	commentRepository := commentRepository.NewCommentRepository(db)
 	commentUseCase := commentUseCase.NewCommentUseCase(commentRepository)
+
 	commentDelivery.NewCommentHandler(routers, commentUseCase, photoUseCase)
 
 	socialMediaRepository := socialMediaRepository.NewSocialMediaRepository(db)
 	socialMediaUseCase := socialMediaUseCase.NewSocialMediaUseCase(socialMediaRepository)
+
 	socialMediaDelivery.NewSocialMediaHandler(routers, socialMediaUseCase)
 
 	routers.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
