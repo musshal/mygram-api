@@ -29,7 +29,7 @@ func TestFetch(t *testing.T) {
 	mockPhotos = append(mockPhotos, mockPhoto)
 
 	mockPhotoRepository := new(mocks.PhotoRepository)
-	photoUseCase := photoUseCase.NewPhotoUsecase(mockPhotoRepository)
+	photoUseCase := photoUseCase.NewPhotoUseCase(mockPhotoRepository)
 
 	t.Run("fetch all photos correctly", func(t *testing.T) {
 		mockPhotoRepository.On("Fetch", mock.Anything, mock.AnythingOfType("*[]domain.Photo")).Return(nil).Once()
@@ -52,7 +52,7 @@ func TestStore(t *testing.T) {
 	}
 
 	mockPhotoRepository := new(mocks.PhotoRepository)
-	photoUseCase := photoUseCase.NewPhotoUsecase(mockPhotoRepository)
+	photoUseCase := photoUseCase.NewPhotoUseCase(mockPhotoRepository)
 
 	t.Run("add photo correctly", func(t *testing.T) {
 		tempMockAddPhoto := domain.Photo{
@@ -129,7 +129,7 @@ func TestStore(t *testing.T) {
 		mockPhotoRepository.AssertExpectations(t)
 	})
 
-	t.Run("add photo with not caontain needed property", func(t *testing.T) {
+	t.Run("add photo with not contain needed property", func(t *testing.T) {
 		tempMockAddPhoto := domain.Photo{
 			Title:   "A Title",
 			Caption: "A caption",
@@ -169,7 +169,7 @@ func TestGetBy(t *testing.T) {
 	}
 
 	mockPhotoRepository := new(mocks.PhotoRepository)
-	photoUseCase := photoUseCase.NewPhotoUsecase(mockPhotoRepository)
+	photoUseCase := photoUseCase.NewPhotoUseCase(mockPhotoRepository)
 
 	t.Run("get by id correctly", func(t *testing.T) {
 		mockPhotoID := "photo-123"
@@ -208,7 +208,7 @@ func TestUpdate(t *testing.T) {
 	}
 
 	mockPhotoRepository := new(mocks.PhotoRepository)
-	photoUseCase := photoUseCase.NewPhotoUsecase(mockPhotoRepository)
+	photoUseCase := photoUseCase.NewPhotoUseCase(mockPhotoRepository)
 
 	t.Run("update photo correctly", func(t *testing.T) {
 		tempMockPhotoID := "photo-123"
@@ -353,7 +353,7 @@ func TestDelete(t *testing.T) {
 	}
 
 	mockPhotoRepository := new(mocks.PhotoRepository)
-	photoUseCase := photoUseCase.NewPhotoUsecase(mockPhotoRepository)
+	photoUseCase := photoUseCase.NewPhotoUseCase(mockPhotoRepository)
 
 	t.Run("delete photo correctly", func(t *testing.T) {
 		mockPhotoRepository.On("Delete", mock.Anything, mock.AnythingOfType("string")).Return(nil).Once()

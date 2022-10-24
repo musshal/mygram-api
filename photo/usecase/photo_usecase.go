@@ -9,7 +9,7 @@ type photoUseCase struct {
 	photoRepository domain.PhotoRepository
 }
 
-func NewPhotoUsecase(photoRepository domain.PhotoRepository) *photoUseCase {
+func NewPhotoUseCase(photoRepository domain.PhotoRepository) *photoUseCase {
 	return &photoUseCase{photoRepository}
 }
 

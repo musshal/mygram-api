@@ -70,7 +70,7 @@ func main() {
 	userDelivery.NewUserHandler(routers, userUseCase)
 
 	photoRepository := photoRepository.NewPhotoRepository(db)
-	photoUseCase := photoUseCase.NewPhotoUsecase(photoRepository)
+	photoUseCase := photoUseCase.NewPhotoUseCase(photoRepository)
 
 	photoDelivery.NewPhotoHandler(routers, photoUseCase)
 
