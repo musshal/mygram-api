@@ -358,14 +358,14 @@ func TestLogin(t *testing.T) {
 }
 
 func TestUpdate(t *testing.T) {
-	date := time.Now()
+	now := time.Now()
 	mockUpdatedUser := domain.User{
 		ID:        "user-123",
 		Email:     "newjohndoe@example.com",
 		Username:  "newjohndoe",
 		Age:       8,
 		Password:  "secret",
-		UpdatedAt: &date,
+		UpdatedAt: &now,
 	}
 
 	mockUserRepository := new(mocks.UserRepository)
@@ -389,7 +389,7 @@ func TestUpdate(t *testing.T) {
 			Username:  tempMockUpdateUser.Username,
 			Age:       8,
 			Password:  "secret",
-			UpdatedAt: &date,
+			UpdatedAt: &now,
 		}
 
 		_, err = govalidator.ValidateStruct(tempMockUpdatedUser)
@@ -419,7 +419,7 @@ func TestUpdate(t *testing.T) {
 			Username:  tempMockUpdateUser.Username,
 			Age:       8,
 			Password:  "secret",
-			UpdatedAt: &date,
+			UpdatedAt: &now,
 		}
 
 		_, err = govalidator.ValidateStruct(tempMockUpdatedUser)
@@ -449,7 +449,7 @@ func TestUpdate(t *testing.T) {
 			Username:  tempMockUpdateUser.Username,
 			Age:       8,
 			Password:  "secret",
-			UpdatedAt: &date,
+			UpdatedAt: &now,
 		}
 
 		_, err = govalidator.ValidateStruct(tempMockUpdatedUser)
@@ -479,7 +479,7 @@ func TestUpdate(t *testing.T) {
 			Username:  tempMockUpdateUser.Username,
 			Age:       8,
 			Password:  "secret",
-			UpdatedAt: &date,
+			UpdatedAt: &now,
 		}
 
 		assert.NoError(t, err)
@@ -511,7 +511,7 @@ func TestUpdate(t *testing.T) {
 			Username:  tempMockUpdateUser.Username,
 			Age:       8,
 			Password:  "secret",
-			UpdatedAt: &date,
+			UpdatedAt: &now,
 		}
 
 		assert.NoError(t, err)
