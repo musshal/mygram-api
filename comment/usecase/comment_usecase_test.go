@@ -211,7 +211,7 @@ func TestUpdate(t *testing.T) {
 
 		mockCommentRepository.On("Update", mock.Anything, mock.AnythingOfType("domain.Comment"), mock.AnythingOfType("string")).Return(mockUpdatedComment, nil).Once()
 
-		Comment, err := commentUseCase.Update(context.Background(), tempMockUpdateComment, tempMockCommentID)
+		comment, err := commentUseCase.Update(context.Background(), tempMockUpdateComment, tempMockCommentID)
 
 		assert.NoError(t, err)
 
@@ -227,7 +227,7 @@ func TestUpdate(t *testing.T) {
 		_, err = govalidator.ValidateStruct(tempMockUpdateComment)
 
 		assert.NoError(t, err)
-		assert.Equal(t, Comment, tempMockUpdatedComment)
+		assert.Equal(t, comment, tempMockUpdatedComment)
 		assert.Equal(t, mockUpdatedComment.ID, tempMockUpdatedComment.ID)
 		assert.Equal(t, mockUpdatedComment.Title, tempMockUpdatedComment.Title)
 		assert.Equal(t, mockUpdatedComment.Caption, tempMockUpdatedComment.Caption)
@@ -245,7 +245,7 @@ func TestUpdate(t *testing.T) {
 
 		mockCommentRepository.On("Update", mock.Anything, mock.AnythingOfType("domain.Comment"), mock.AnythingOfType("string")).Return(mockUpdatedComment, nil).Once()
 
-		Comment, err := commentUseCase.Update(context.Background(), tempMockUpdateComment, tempMockCommentID)
+		comment, err := commentUseCase.Update(context.Background(), tempMockUpdateComment, tempMockCommentID)
 
 		assert.NoError(t, err)
 
@@ -261,7 +261,7 @@ func TestUpdate(t *testing.T) {
 		_, err = govalidator.ValidateStruct(tempMockUpdateComment)
 
 		assert.Error(t, err)
-		assert.Equal(t, Comment, tempMockUpdatedComment)
+		assert.Equal(t, comment, tempMockUpdatedComment)
 		assert.Equal(t, mockUpdatedComment.ID, tempMockUpdatedComment.ID)
 		assert.Equal(t, mockUpdatedComment.Title, tempMockUpdatedComment.Title)
 		assert.Equal(t, mockUpdatedComment.Caption, tempMockUpdatedComment.Caption)
@@ -277,7 +277,7 @@ func TestUpdate(t *testing.T) {
 
 		mockCommentRepository.On("Update", mock.Anything, mock.AnythingOfType("domain.Comment"), mock.AnythingOfType("string")).Return(mockUpdatedComment, nil).Once()
 
-		Comment, err := commentUseCase.Update(context.Background(), tempMockUpdateComment, tempMockCommentID)
+		comment, err := commentUseCase.Update(context.Background(), tempMockUpdateComment, tempMockCommentID)
 
 		assert.NoError(t, err)
 
@@ -293,7 +293,7 @@ func TestUpdate(t *testing.T) {
 		_, err = govalidator.ValidateStruct(tempMockUpdateComment)
 
 		assert.Error(t, err)
-		assert.Equal(t, Comment, tempMockUpdatedComment)
+		assert.Equal(t, comment, tempMockUpdatedComment)
 		assert.Equal(t, mockUpdatedComment.ID, tempMockUpdatedComment.ID)
 		assert.Equal(t, mockUpdatedComment.Title, tempMockUpdatedComment.Title)
 		assert.Equal(t, mockUpdatedComment.Caption, tempMockUpdatedComment.Caption)
